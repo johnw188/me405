@@ -19,7 +19,7 @@
 #include <stdlib.h>                         // Standard C library
                                             // User written headers included with " "
 #include "rs232.h"                          // Include header for serial port class
-#include "avr_adc.h"                        // Include header for the A/D class
+#include "adc_driver.h"                        // Include header for the A/D class
 
 /** This is the baud rate divisor for the serial port. It should give 9600 baud for the
  *  CPU crystal speed in use, for example 26 works for a 4MHz crystal on an ATmega8 
