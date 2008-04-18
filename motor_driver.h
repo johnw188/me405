@@ -1,9 +1,9 @@
 //======================================================================================
-/** \file  avr_adc.h
- *  This file needs a comment which describes what's in here. 
+/** \file  motor_driver.h
+ *  Header for motor_driver class
  *
  *  Revisions:
- *    \li  00-00-00  The Big Bang occurred, followed by the invention of waffles
+ *    \li  04-17-08  Created files
  *
  *  License:
  *    This file released under the Lesser GNU Public License. The program is intended
@@ -11,8 +11,8 @@
  */
 //======================================================================================
 
-#ifndef _AVR_ADC_H_                         // To prevent *.h file from being included
-#define _AVR_ADC_H_                         // in a source file more than once
+#ifndef _MOTOR_DRIVER_H_                         // To prevent *.h file from being included
+#define _MOTOR_DRIVER_H_                         // in a source file more than once
 
 
 //-------------------------------------------------------------------------------------
@@ -29,19 +29,22 @@ class avr_adc
     public:
         // The constructor just says hello at the moment, using the serial port which
         // is specified in the pointer given to it
-        avr_adc (base_text_serial*);
+        motor_controller (base_text_serial*);
 
-        // This could be a function to read one channel once, returning the result as
-        // an unsigned integer. The parameter is the channel number 
-        unsigned int read_once (unsigned char);
+	// Takes an int from -255 to 255 and sets the PWM accordingly
+        void set_power (int);
+
+	// Method which takes a char from -100 to 100 and sets the duty cycle of the
+	// PWM to that percentage
+	void set_power_pct (int);
     };
 
 
 //--------------------------------------------------------------------------------------
-/// This operator allows status information about the analog to digital converter to be 
-/// written to serial ports 'cout' style
+/// This operator allows status information about the motor to be written to serial
+/// ports easily
 
 base_text_serial& operator<< (base_text_serial&, avr_adc&);
 
 
-#endif // _AVR_ADC_H_
+#endif // _MOTOR_DRIVER_H_
