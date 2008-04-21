@@ -4,6 +4,7 @@
  *
  *  Revisions:
  *    \li  04-17-08  Created files
+ *    \li  04-21-08  Began implementing methods
  *
  *  License:
  *    This file released under the Lesser GNU Public License. The program is intended
@@ -16,27 +17,30 @@
 
 
 //-------------------------------------------------------------------------------------
-/** This class should run the A/D converter on an AVR processor. It should have some
- *  better comments. Handing in a Doxygen file with only this would not look good. 
+/** Header for the motor_driver class. This class controls the motor driver chip on the
+ *  ME405 board, by implementing a PWM via one of the ATMEGA128 timer channels
  */
 
 class avr_adc
     {
     protected:
-        // The ADC class needs a pointer to the serial port used to say hello
+        // Pointer to serial port
         base_text_serial* ptr_to_serial;
+	// Char to hold the current power level of the motor
+	unsigned char power_level;
+	// Bool to hold the current direction of the motor.
+	bool direction_of_motor;
 
     public:
-        // The constructor just says hello at the moment, using the serial port which
-        // is specified in the pointer given to it
+	// Initializes member variables
         motor_controller (base_text_serial*);
 
-	// Takes an int from -255 to 255 and sets the PWM accordingly
-        void set_power (int);
+	// Takes an int from -255 to 255 and sets the PWM and direction accordingly
+        bool set_power (int);
 
 	// Method which takes a char from -100 to 100 and sets the duty cycle of the
-	// PWM to that percentage
-	void set_power_pct (int);
+	// PWM to that percentage, as well as setting the direction of the motor
+	bool set_power_pct (int);
     };
 
 
