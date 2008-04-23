@@ -41,6 +41,9 @@ motor_driver::motor_driver (base_text_serial* p_serial_port)
 	*ptr_to_serial << "Setting up motor controller" << endl;
 	power_level = 0;
 	direction_of_motor = true;
+	TCCR2 = 0b01101001;
+	OCR2 = 0b01111111;
+	DDRD = 0b00000000;
 }
 
 
@@ -58,7 +61,7 @@ motor_driver::motor_driver (base_text_serial* p_serial_port)
 bool motor_driver::set_power (int power)
 {
 	bool negative_power;
-	unsigned char OCR2_value
+	unsigned char OCR2_value;
 
 	if(power < 0){
 		direction_of_motor = false;
@@ -80,7 +83,7 @@ bool motor_driver::set_power (int power)
 
 bool motor_driver::set_power_pct (int power)
 {
-	int power_value
+	int power_value;
 
 }
 
@@ -89,10 +92,10 @@ bool motor_driver::set_power_pct (int power)
  *  easily to the terminal
  */
 
-base_text_serial& operator<< (base_text_serial& serial, avr_adc& my_adc)
-{
+//base_text_serial& operator<< (base_text_serial& serial, motor_driver& my_motor)
+//{
 	// Outputs to the serial port
-	serial << 
+//	serial << "stuff goes here" << endl;
 
-	return (serial);
-}
+//	return (serial);
+//}

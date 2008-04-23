@@ -18,8 +18,8 @@
 # Stuff the user is expected to change is in this section
 
 # The name of the program you're building, and the list of object files
-TARGET = adc_test
-OBJS = $(TARGET).o base_text_serial.o rs232.o avr_adc.o
+TARGET = motor_test
+OBJS = $(TARGET).o base_text_serial.o rs232.o motor_driver.o
 
 # This specifies the type of CPU; both 'CHIP' and 'MCU' must be set
 #CHIP = 2313

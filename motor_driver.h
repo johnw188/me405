@@ -21,7 +21,7 @@
  *  ME405 board, by implementing a PWM via one of the ATMEGA128 timer channels
  */
 
-class avr_adc
+class motor_driver
     {
     protected:
         // Pointer to serial port
@@ -33,7 +33,7 @@ class avr_adc
 
     public:
 	// Initializes member variables
-        motor_controller (base_text_serial*);
+        motor_driver (base_text_serial*);
 
 	// Takes an int from -255 to 255 and sets the PWM and direction accordingly
         bool set_power (int);
@@ -48,7 +48,7 @@ class avr_adc
 /// This operator allows status information about the motor to be written to serial
 /// ports easily
 
-base_text_serial& operator<< (base_text_serial&, avr_adc&);
+//base_text_serial& operator<< (base_text_serial&, motor_driver&);
 
 
 #endif // _MOTOR_DRIVER_H_
