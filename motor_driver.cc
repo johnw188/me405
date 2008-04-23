@@ -42,8 +42,9 @@ motor_driver::motor_driver (base_text_serial* p_serial_port)
 	power_level = 0;
 	direction_of_motor = true;
 	TCCR2 = 0b01101001;
+	//Testing with a 50% duty cycle
 	OCR2 = 0b01111111;
-	DDRD = 0b00000000;
+	DDRB = 0b10000000;
 }
 
 
@@ -72,6 +73,7 @@ bool motor_driver::set_power (int power)
 		OCR2_value = (unsigned char)power;
 	}
 
+	OCR2 = OCR2_value;
 }
 
 //-------------------------------------------------------------------------------------

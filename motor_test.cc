@@ -20,6 +20,7 @@
                                             // User written headers included with " "
 #include "rs232.h"                          // Include header for serial port class
 #include "motor_driver.h"                        // Include header for the A/D class
+#include "adc_driver.h"
 
 /** This is the baud rate divisor for the serial port. It should give 9600 baud for the
  *  CPU crystal speed in use, for example 26 works for a 4MHz crystal on an ATmega8 
@@ -43,22 +44,29 @@ int main ()
 
     motor_driver motor(&the_serial_port);
 
+    adc_driver duty_cycle_input(&the_serial_port);
+
     // Say hello
     the_serial_port << "\r\nMotor Driver Test Application\r\n";
+
+    unsigned char power;
+    char input_char;
 
     // Run the main scheduling loop, in which the action to run is done repeatedly.
     // In the future, we'll run tasks here; for now, just do things in a simple loop
     while (true)
-        {
-        // The dummy counter is used to slow down the rate at which stuff is printed
-        // on the terminal
-        if (++dummy >= 1000000L)
-            {
-            dummy = 0;
-
-            the_serial_port << "running" << endl;
-            }
-        }
+    {
+	    if (the_serial_port.check_for_char ())
+	    {
+		    input_char = the_serial_port.getchar ();
+		    if (input_char == ' ')
+		    {
+			    power = (unsigned char)duty_cycle_input.read_once(0);
+			    the_serial_port << endl << "New power value: " << power << endl;
+			    motor.set_power(power);
+		    }
+	    }
+    }
 
     return (0);
     }

@@ -49,7 +49,7 @@ typedef union ADC_result
  *  
  */
 
-avr_adc::avr_adc (base_text_serial* p_serial_port)
+adc_driver::adc_driver (base_text_serial* p_serial_port)
 {
 	ptr_to_serial = p_serial_port;          // Store the serial port pointer locally
 
@@ -74,7 +74,7 @@ avr_adc::avr_adc (base_text_serial* p_serial_port)
  *  \return The result of the A/D conversion, or 0xFFFF if there was a timeout
  */
 
-unsigned int avr_adc::read_once (unsigned char channel)
+unsigned int adc_driver::read_once (unsigned char channel)
 {
 	ADMUX = ((ADMUX & 0b11100000) | channel);
 	sbi(ADCSRA,ADSC); // start a conversion by writing a one to the ADSC bit (bit 6)
@@ -97,7 +97,7 @@ unsigned int avr_adc::read_once (unsigned char channel)
  *  @param stamp A reference to the time stamp to be displayed
  */
 
-base_text_serial& operator<< (base_text_serial& serial, avr_adc& my_adc)
+base_text_serial& operator<< (base_text_serial& serial, adc_driver& my_adc)
 {
 	unsigned int channel0, channel1, channel2, channel3;
 	unsigned long vchannel0, vchannel1, vchannel2, vchannel3;

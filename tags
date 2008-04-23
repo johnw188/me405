@@ -5,14 +5,14 @@
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.7	//
 ADC_RETRIES	adc_driver.cc	23;"	d	file:
-ADC_RETRIES	motor_driver.cc	22;"	d	file:
 ADC_result	adc_driver.cc	/^typedef union ADC_result$/;"	u	file:
 ADC_result::bytes	adc_driver.cc	/^	char bytes[2];                          \/\/ The bytes in the number$/;"	m	union:ADC_result	file:	access:public
 ADC_result::word	adc_driver.cc	/^	int word;                               \/\/ The whole 16-bit number$/;"	m	union:ADC_result	file:	access:public
 AVARICE	Makefile	/^AVARICE = avarice                # Name of JTAG interface program$/;"	m
 BAUD_DIV	adc_test.cc	27;"	d	file:
+BAUD_DIV	motor_test.cc	28;"	d	file:
 BV	adc_driver.cc	29;"	d	file:
-BV	motor_driver.cc	28;"	d	file:
+BV	motor_driver.cc	27;"	d	file:
 CC	Makefile	/^CC = avr-gcc                     # Name of compiler program$/;"	m
 CHIP	Makefile	/^CHIP=m128$/;"	m
 DBCMFL	Makefile	/^DBCMFL = gdb.commands            # File containing debugger startup commands$/;"	m
@@ -26,7 +26,7 @@ JHWARE	Makefile	/^JHWARE = jtagice                 # Type of JTAG-ICE interface$
 JPORT	Makefile	/^JPORT = \/dev\/ttyUSB0             # Port to which JTAG-ICE is connected$/;"	m
 LINKMODE	Makefile	/^LINKMODE = -g                    # Linker mode string$/;"	m
 MCU	Makefile	/^MCU=atmega128$/;"	m
-OBJS	Makefile	/^OBJS = $(TARGET).o base_text_serial.o rs232.o avr_adc.o$/;"	m
+OBJS	Makefile	/^OBJS = $(TARGET).o base_text_serial.o rs232.o motor_driver.o$/;"	m
 OPTIM	Makefile	/^OPTIM = -O2                      # Optimization level for compiler (0, n, s)$/;"	m
 PORT	Makefile	/^PORT = \/dev\/parport0             # Port used by avrdude downloader program$/;"	m
 RXC_MASK	rs232.h	37;"	d
@@ -36,7 +36,7 @@ RXC_MASK	rs232.h	49;"	d
 RXC_MASK	rs232.h	53;"	d
 RXC_MASK	rs232.h	57;"	d
 STD	Makefile	/^STD = _GNU_SOURCE                # Standard compiler options$/;"	m
-TARGET	Makefile	/^TARGET = adc_test$/;"	m
+TARGET	Makefile	/^TARGET = motor_test$/;"	m
 UART_TX_TOUT	rs232.h	62;"	d
 UDRE_MASK	rs232.h	36;"	d
 UDRE_MASK	rs232.h	40;"	d
@@ -45,22 +45,17 @@ UDRE_MASK	rs232.h	48;"	d
 UDRE_MASK	rs232.h	52;"	d
 UDRE_MASK	rs232.h	56;"	d
 _AVR_ADC_H_	adc_driver.h	15;"	d
-_AVR_ADC_H_	motor_driver.h	15;"	d
 _BASE_TEXT_SERIAL_H_	base_text_serial.h	25;"	d
+_MOTOR_DRIVER_H_	motor_driver.h	16;"	d
 _RS232_H_	rs232.h	26;"	d
 avr_adc	adc_driver.cc	/^avr_adc::avr_adc (base_text_serial* p_serial_port)$/;"	f	class:avr_adc	signature:(base_text_serial* p_serial_port)
 avr_adc	adc_driver.h	/^        avr_adc (base_text_serial*);$/;"	p	class:avr_adc	access:public	signature:(base_text_serial*)
 avr_adc	adc_driver.h	/^class avr_adc$/;"	c
-avr_adc	motor_driver.h	/^        avr_adc (base_text_serial*);$/;"	p	class:avr_adc	access:public	signature:(base_text_serial*)
-avr_adc	motor_driver.h	/^class avr_adc$/;"	c
 avr_adc::avr_adc	adc_driver.cc	/^avr_adc::avr_adc (base_text_serial* p_serial_port)$/;"	f	class:avr_adc	signature:(base_text_serial* p_serial_port)
 avr_adc::avr_adc	adc_driver.h	/^        avr_adc (base_text_serial*);$/;"	p	class:avr_adc	access:public	signature:(base_text_serial*)
-avr_adc::avr_adc	motor_driver.h	/^        avr_adc (base_text_serial*);$/;"	p	class:avr_adc	access:public	signature:(base_text_serial*)
 avr_adc::ptr_to_serial	adc_driver.h	/^        base_text_serial* ptr_to_serial;$/;"	m	class:avr_adc	access:protected
-avr_adc::ptr_to_serial	motor_driver.h	/^        base_text_serial* ptr_to_serial;$/;"	m	class:avr_adc	access:protected
 avr_adc::read_once	adc_driver.cc	/^unsigned int avr_adc::read_once (unsigned char channel)$/;"	f	class:avr_adc	signature:(unsigned char channel)
 avr_adc::read_once	adc_driver.h	/^        unsigned int read_once (unsigned char);$/;"	p	class:avr_adc	access:public	signature:(unsigned char)
-avr_adc::read_once	motor_driver.h	/^        unsigned int read_once (unsigned char);$/;"	p	class:avr_adc	access:public	signature:(unsigned char)
 base	base_text_serial.h	/^        unsigned char base;$/;"	m	class:base_text_serial	access:protected
 base_text_serial	base_text_serial.cc	/^base_text_serial::base_text_serial (void)$/;"	f	class:base_text_serial	signature:(void)
 base_text_serial	base_text_serial.h	/^        base_text_serial (void);            \/\/ Simple constructor doesn't do much$/;"	p	class:base_text_serial	access:public	signature:(void)
@@ -99,12 +94,13 @@ base_text_serial::transmit_now	base_text_serial.h	/^        virtual void transmi
 bin	base_text_serial.h	/^    bin,                    \/\/\/< Print following numbers in base 2 (binary)$/;"	e	enum:__anon1
 bytes	adc_driver.cc	/^	char bytes[2];                          \/\/ The bytes in the number$/;"	m	union:ADC_result	file:	access:public
 cbi	adc_driver.cc	30;"	d	file:
-cbi	motor_driver.cc	29;"	d	file:
+cbi	motor_driver.cc	28;"	d	file:
 check_for_char	base_text_serial.cc	/^bool base_text_serial::check_for_char (void)$/;"	f	class:base_text_serial	signature:(void)
 check_for_char	base_text_serial.h	/^        virtual bool check_for_char (void); \/\/ Check if a character is in the buffer$/;"	p	class:base_text_serial	access:public	signature:(void)
 check_for_char	rs232.cc	/^bool rs232::check_for_char (void)$/;"	f	class:rs232	signature:(void)
 check_for_char	rs232.h	/^        bool check_for_char (void);         \/\/ Check if a character is in the buffer$/;"	p	class:rs232	access:public	signature:(void)
 dec	base_text_serial.h	/^    dec,                    \/\/\/< Print following numbers in base 10 (decimal)$/;"	e	enum:__anon1
+direction_of_motor	motor_driver.h	/^	bool direction_of_motor;$/;"	m	class:motor_driver	access:protected
 endl	base_text_serial.h	/^    endl,                   \/\/\/< Print a carriage return and linefeed$/;"	e	enum:__anon1
 getchar	base_text_serial.cc	/^char base_text_serial::getchar (void)$/;"	f	class:base_text_serial	signature:(void)
 getchar	base_text_serial.h	/^        virtual char getchar (void);        \/\/ Get a character; wait if none is ready$/;"	p	class:base_text_serial	access:public	signature:(void)
@@ -113,9 +109,19 @@ getchar	rs232.h	/^        char getchar (void);                \/\/ Get a charact
 hex	base_text_serial.h	/^    hex,                    \/\/\/< Print following numbers in base 16 (hexadecimal)$/;"	e	enum:__anon1
 main	adc_test.cc	/^int main ()$/;"	f	signature:()
 main	cpptests.cc	/^int main(){$/;"	f	signature:()
+main	motor_test.cc	/^int main ()$/;"	f	signature:()
 motor_driver	motor_driver.cc	/^motor_driver::motor_driver (base_text_serial* p_serial_port)$/;"	f	class:motor_driver	signature:(base_text_serial* p_serial_port)
+motor_driver	motor_driver.h	/^        motor_driver (base_text_serial*);$/;"	p	class:motor_driver	access:public	signature:(base_text_serial*)
+motor_driver	motor_driver.h	/^class motor_driver$/;"	c
+motor_driver::direction_of_motor	motor_driver.h	/^	bool direction_of_motor;$/;"	m	class:motor_driver	access:protected
 motor_driver::motor_driver	motor_driver.cc	/^motor_driver::motor_driver (base_text_serial* p_serial_port)$/;"	f	class:motor_driver	signature:(base_text_serial* p_serial_port)
-motor_driver::set_power	motor_driver.cc	/^unsigned int motor_driver::set_power (int power)$/;"	f	class:motor_driver	signature:(int power)
+motor_driver::motor_driver	motor_driver.h	/^        motor_driver (base_text_serial*);$/;"	p	class:motor_driver	access:public	signature:(base_text_serial*)
+motor_driver::power_level	motor_driver.h	/^	unsigned char power_level;$/;"	m	class:motor_driver	access:protected
+motor_driver::ptr_to_serial	motor_driver.h	/^        base_text_serial* ptr_to_serial;$/;"	m	class:motor_driver	access:protected
+motor_driver::set_power	motor_driver.cc	/^bool motor_driver::set_power (int power)$/;"	f	class:motor_driver	signature:(int power)
+motor_driver::set_power	motor_driver.h	/^        bool set_power (int);$/;"	p	class:motor_driver	access:public	signature:(int)
+motor_driver::set_power_pct	motor_driver.cc	/^bool motor_driver::set_power_pct (int power)$/;"	f	class:motor_driver	signature:(int power)
+motor_driver::set_power_pct	motor_driver.h	/^	bool set_power_pct (int);$/;"	p	class:motor_driver	access:public	signature:(int)
 oct	base_text_serial.h	/^    oct,                    \/\/\/< Print following numbers in base 8 (octal)$/;"	e	enum:__anon1
 operator <<	adc_driver.cc	/^base_text_serial& operator<< (base_text_serial& serial, avr_adc& my_adc)$/;"	f	signature:(base_text_serial& serial, avr_adc& my_adc)
 operator <<	adc_driver.h	/^base_text_serial& operator<< (base_text_serial&, avr_adc&);$/;"	p	signature:(base_text_serial&, avr_adc&)
@@ -137,13 +143,12 @@ operator <<	base_text_serial.h	/^        base_text_serial& operator<< (ser_manip
 operator <<	base_text_serial.h	/^        base_text_serial& operator<< (unsigned char);$/;"	p	class:base_text_serial	access:public	signature:(unsigned char)
 operator <<	base_text_serial.h	/^        base_text_serial& operator<< (unsigned int);$/;"	p	class:base_text_serial	access:public	signature:(unsigned int)
 operator <<	base_text_serial.h	/^        base_text_serial& operator<< (unsigned long);$/;"	p	class:base_text_serial	access:public	signature:(unsigned long)
-operator <<	motor_driver.cc	/^base_text_serial& operator<< (base_text_serial& serial, avr_adc& my_adc)$/;"	f	signature:(base_text_serial& serial, avr_adc& my_adc)
-operator <<	motor_driver.h	/^base_text_serial& operator<< (base_text_serial&, avr_adc&);$/;"	p	signature:(base_text_serial&, avr_adc&)
 p_UCR	rs232.h	/^        volatile unsigned char* p_UCR;$/;"	m	class:rs232	access:protected
 p_UDR	rs232.h	/^        volatile unsigned char* p_UDR;$/;"	m	class:rs232	access:protected
 p_USR	rs232.h	/^        volatile unsigned char* p_USR;$/;"	m	class:rs232	access:protected
+power_level	motor_driver.h	/^	unsigned char power_level;$/;"	m	class:motor_driver	access:protected
 ptr_to_serial	adc_driver.h	/^        base_text_serial* ptr_to_serial;$/;"	m	class:avr_adc	access:protected
-ptr_to_serial	motor_driver.h	/^        base_text_serial* ptr_to_serial;$/;"	m	class:avr_adc	access:protected
+ptr_to_serial	motor_driver.h	/^        base_text_serial* ptr_to_serial;$/;"	m	class:motor_driver	access:protected
 putchar	base_text_serial.h	/^        virtual bool putchar (char) { }     \/\/\/< Virtual and not defined in base class$/;"	f	class:base_text_serial	access:public	signature:(char)
 putchar	rs232.cc	/^bool rs232::putchar (char chout)$/;"	f	class:rs232	signature:(char chout)
 putchar	rs232.h	/^        bool putchar (char);                \/\/ Write one character to serial port$/;"	p	class:rs232	access:public	signature:(char)
@@ -152,7 +157,6 @@ puts	rs232.cc	/^void rs232::puts (char const* str)$/;"	f	class:rs232	signature:(
 puts	rs232.h	/^        void puts (char const*);            \/\/ Write a string constant to serial port$/;"	p	class:rs232	access:public	signature:(char const*)
 read_once	adc_driver.cc	/^unsigned int avr_adc::read_once (unsigned char channel)$/;"	f	class:avr_adc	signature:(unsigned char channel)
 read_once	adc_driver.h	/^        unsigned int read_once (unsigned char);$/;"	p	class:avr_adc	access:public	signature:(unsigned char)
-read_once	motor_driver.h	/^        unsigned int read_once (unsigned char);$/;"	p	class:avr_adc	access:public	signature:(unsigned char)
 ready_to_send	base_text_serial.cc	/^bool base_text_serial::ready_to_send (void)$/;"	f	class:base_text_serial	signature:(void)
 ready_to_send	base_text_serial.h	/^        virtual bool ready_to_send (void);  \/\/ Virtual and not defined in base class$/;"	p	class:base_text_serial	access:public	signature:(void)
 ready_to_send	rs232.cc	/^bool rs232::ready_to_send (void)$/;"	f	class:rs232	signature:(void)
@@ -176,10 +180,13 @@ rs232::ready_to_send	rs232.h	/^        bool ready_to_send (void);          \/\/ 
 rs232::rs232	rs232.cc	/^rs232::rs232 (unsigned char divisor, unsigned char port_number)$/;"	f	class:rs232	signature:(unsigned char divisor, unsigned char port_number)
 rs232::rs232	rs232.h	/^        rs232 (unsigned char, unsigned char = 0);$/;"	p	class:rs232	access:public	signature:(unsigned char, unsigned char = 0)
 sbi	adc_driver.cc	31;"	d	file:
-sbi	motor_driver.cc	30;"	d	file:
+sbi	motor_driver.cc	29;"	d	file:
 send_now	base_text_serial.h	/^    send_now                \/\/\/< Tell some radio devices to send data immediately$/;"	e	enum:__anon1
 ser_manipulator	base_text_serial.h	/^    } ser_manipulator;$/;"	t	typeref:enum:__anon1
-set_power	motor_driver.cc	/^unsigned int motor_driver::set_power (int power)$/;"	f	class:motor_driver	signature:(int power)
+set_power	motor_driver.cc	/^bool motor_driver::set_power (int power)$/;"	f	class:motor_driver	signature:(int power)
+set_power	motor_driver.h	/^        bool set_power (int);$/;"	p	class:motor_driver	access:public	signature:(int)
+set_power_pct	motor_driver.cc	/^bool motor_driver::set_power_pct (int power)$/;"	f	class:motor_driver	signature:(int power)
+set_power_pct	motor_driver.h	/^	bool set_power_pct (int);$/;"	p	class:motor_driver	access:public	signature:(int)
 transmit_now	base_text_serial.cc	/^void base_text_serial::transmit_now (void)$/;"	f	class:base_text_serial	signature:(void)
 transmit_now	base_text_serial.h	/^        virtual void transmit_now (void);   \/\/ Immediately transmit any buffered data$/;"	p	class:base_text_serial	access:public	signature:(void)
 word	adc_driver.cc	/^	int word;                               \/\/ The whole 16-bit number$/;"	m	union:ADC_result	file:	access:public

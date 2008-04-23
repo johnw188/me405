@@ -20,7 +20,7 @@
  *  better comments. Handing in a Doxygen file with only this would not look good. 
  */
 
-class avr_adc
+class adc_driver
     {
     protected:
         // The ADC class needs a pointer to the serial port used to say hello
@@ -29,7 +29,7 @@ class avr_adc
     public:
         // The constructor just says hello at the moment, using the serial port which
         // is specified in the pointer given to it
-        avr_adc (base_text_serial*);
+        adc_driver (base_text_serial*);
 
         // This could be a function to read one channel once, returning the result as
         // an unsigned integer. The parameter is the channel number 
@@ -41,7 +41,7 @@ class avr_adc
 /// This operator allows status information about the analog to digital converter to be 
 /// written to serial ports 'cout' style
 
-base_text_serial& operator<< (base_text_serial&, avr_adc&);
+base_text_serial& operator<< (base_text_serial&, adc_driver&);
 
 
 #endif // _AVR_ADC_H_
