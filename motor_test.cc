@@ -1,13 +1,10 @@
 //======================================================================================
-/** \file adc_test.cc
- *      This file contains a test program which checks that the A/D converter on the
- *      AVR processor is working correctly. 
+/** \file motor_test.cc
+ *      This file contains a test program which checks that the motor controls on the
+ *      ME405 board is working correctly. 
  *
  *  Revisions:
- *    \li  00-00-00  The Earth cooled, and then there was breakfast
- *    \li  01-01-00  Confusion
- *    \li  04-10-08  Man writes adc_test.cc
- *    \li  04-14-08  Man completes code/comments. There is much rejoycing
+ *    \li  04-22-08  Wrote test class
  *
  *  License:
  *    This file released under the Lesser GNU Public License. The program is intended
