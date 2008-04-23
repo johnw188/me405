@@ -61,11 +61,11 @@ bool motor_driver::set_power (int power)
 	unsigned char OCR2_value
 
 	if(power < 0){
-		negative_power = true;
+		direction_of_motor = false;
 		OCR2_value = (unsigned char)-power;
 	}
 	else{
-		negative_power = false;
+		direction_of_motor = true;
 		OCR2_value = (unsigned char)power;
 	}
 
