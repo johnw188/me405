@@ -6,6 +6,7 @@
  *  Revisions:
  *    \li  04-17-08  Created files
  *    \li  04-21-08  Began implementing methods
+ *    \li  04-24-08  Finished class
  *
  *  License:
  *    This file released under the Lesser GNU Public License. The program is intended
@@ -41,10 +42,16 @@ motor_driver::motor_driver (base_text_serial* p_serial_port)
 	*ptr_to_serial << "Setting up motor controller" << endl;
 	power_level = 0;
 	direction_of_motor = true;
+	brake_on = true;
+	// Initializes the timer 2 control register with prescalers to get a PWM running
+	//at 120Hz
 	TCCR2 = 0b01101100;
+	// Initializes the duty cycle to 0%
 	OCR2 = 0b00000000;
+	// Sets up data direction registers to open the relevent bits of port D and B
 	DDRB = 0b10000000;
 	DDRD = 0b10100000;
+	// Initializes motor to brake mode with zero input
 	PORTD = 0b11100000;
 }
 
@@ -54,16 +61,20 @@ motor_driver::motor_driver (base_text_serial* p_serial_port)
  *  setting the duty cycle of the PWM based upon that value. The negative flag is used
  *  to set the registers of the motor control chip to turn the motor one way or another
  *  \param  power The power level that you want to set the motor to
- *  \return Method doesn't return much as it's the base method of the class. More
- *  robust methods will take care of verifying that the input data is correct. If the
- *  number is invalid, the motor will simply not be set, and the function will return
- *  false. If the motor is set properly, the return will be true.
+ *  \return True if motor is set, false if it isn't
  */
 
 bool motor_driver::set_power (int power)
 {
 	bool negative_power;
 	unsigned char OCR2_value;
+
+	if(power > 255 || -power > 255 || brake_on == true){
+		// Motor not set, as brake is on or power value is wrong
+		return false;
+	}
+
+	power_level = power;
 
 	if(power < 0){
 		direction_of_motor = false;
@@ -76,21 +87,56 @@ bool motor_driver::set_power (int power)
 
 	OCR2 = OCR2_value;
 	PORTD &= 0b01011111;
-	PORTD |= 0b10000000;
+	if(direction_of_motor){
+		PORTD |= 0b10000000;
+	}
+	else{
+		PORTD |= 0b00100000;
+	}
+	
+	// Motor set
+	return true;
 }
 
 //-------------------------------------------------------------------------------------
 /** This method sets the power to a percentage of max power.
  *  \param  power The power level that you want to set the motor to, with -100 <= power
- *  <= 100 as it's a percentage value
+ *  <= 100 as it's a percentage value. 
  *  \return True if motor was set correctly, false if it wasn't
  */
 
-bool motor_driver::set_power_pct (int power)
+bool motor_driver::set_power_pct (int power_pct)
 {
 	int power_value;
-
+	power_value = (power_pct * 255) / 100;
+	if(set_power(power_value)){
+		return true;
+	}
+	else{
+		return false;
+	}
 }
+
+//-------------------------------------------------------------------------------------
+/** This method turns the brake of the motor on/off
+ *  \param  brake True to set brake on, false to turn brake off
+ *  \return True if brake was set, false if it was turned off
+ */
+bool motor_driver::set_brake (bool brake)
+{
+	if(brake){
+		brake_on = true;
+		PORTD = 0b11100000;
+		return true;
+	}
+	else{
+		brake_on = false;
+		set_power(power_level);
+		return false;
+	}
+}
+		
+
 
 //--------------------------------------------------------------------------------------
 /** This overloaded operator allows information about the motor to be printed

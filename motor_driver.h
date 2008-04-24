@@ -29,7 +29,7 @@ class motor_driver
 	// Char to hold the current power level of the motor
 	unsigned char power_level;
 	// Bool to hold the current direction of the motor.
-	bool direction_of_motor;
+	bool direction_of_motor, brake_on;
 
     public:
 	// Initializes member variables
@@ -41,6 +41,8 @@ class motor_driver
 	// Method which takes a char from -100 to 100 and sets the duty cycle of the
 	// PWM to that percentage, as well as setting the direction of the motor
 	bool set_power_pct (int);
+
+	bool set_brake (bool);
     };
 
 
