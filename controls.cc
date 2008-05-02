@@ -33,6 +33,7 @@
 
 /** ISR's for updating the encoder position
  */
+// If PORTE doesn't work, try PINE
 ISR(INT4_vect){
 	if( (PORTE & 0b00010000) == 0b00010000 ){
 		if(encoder_pin_A == false && encoder_pin_B == true){
@@ -106,12 +107,17 @@ controls::controls (base_text_serial* p_serial_port) : motor_driver(p_serial_por
 	cbi(DDRE, DDE5);
 	cbi(DDRE, DDE4);
 
+	// Setup the interrupt pins as interrupt pins triggering on any logical change
+	cbi(EICRB, ISC51);
+	sbi(EICRB, ISC50);
+	cbi(EICRB, ISC41);
+	sbi(EICRB, ISC40);
+	sbi(EIMSK, INT4);
+	sbi(EIMSK, INT5);
+
 	// Zero error_count
 	error_count = 0;
 
-	// Enable interrupts
-	sei();
-	
 	// Initialize constants
 	motor_position = 0;
 	gear_position = 0;
@@ -125,6 +131,9 @@ controls::controls (base_text_serial* p_serial_port) : motor_driver(p_serial_por
 	gear_ratio = 16;
 	// Number of encoder ticks to equal a full gear revolution
 	encoder_gear_max_value = (long)((encoder_max_value + 1) * gear_ratio) - 1;
+	
+	// Enable interrupts
+	sei();
 }
 
 //-------------------------------------------------------------------------------------
@@ -216,7 +225,7 @@ void controls::update_geared_position_control(void){
  *  easily to the terminal
  */
 
-base_text_serial& operator<< (base_text_serial& serial, controls& my_controls)
+base_text_serial& operator<< (base_text_serial& serial)
 {
 	// Outputs to the serial port
 	serial << "kp: " << kp << "\n\rki: " << ki << "\n\rMotor power: " << power_level << endl;
