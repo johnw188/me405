@@ -33,7 +33,7 @@
 
 /** ISR's for updating the encoder position
  */
-ISR(INT4){
+ISR(INT4_vect){
 	if( (PORTE & 0b00010000) == 0b00010000 ){
 		if(encoder_pin_A == false && encoder_pin_B == true){
 			motor_position == encoder_max_value ? (motor_position = 0) : (motor_position += 1);
@@ -64,7 +64,7 @@ ISR(INT4){
 	}
 }
 
-ISR(INT5){
+ISR(INT5_vect){
 	if( (PORTE & 0b00100000) == 0b00100000 ){
 		if(encoder_pin_A == false && encoder_pin_B == false){
 			motor_position == encoder_max_value ? motor_position = 0 : motor_position += 1;
