@@ -42,7 +42,7 @@ motor_driver::motor_driver (base_text_serial* p_serial_port)
 	*ptr_to_serial << "Setting up motor controller" << endl;
 	power_level = 0;
 	direction_of_motor = true;
-	brake_on = true;
+	brake_on = false;
 	// Initializes the timer 2 control register with prescalers to get a PWM running
 	//at 120Hz
 	TCCR2 = 0b01101100;
