@@ -13,9 +13,12 @@
 
 class controls : public motor_driver {
 	protected:
+		// Status of the encoder pins
 		bool encoder_pin_A, encoder_pin_B;
-		int encoder_per_rev;
-		long encoder_per_gear_rev;
+		// Variable to hold the number of errors encountered by the encoder
+		int error_count;
+		int encoder_max_value;
+		long encoder_gear_max_value;
 		// Position of the motor (from 0-255)
 		unsigned int motor_position;
 		// Position of the ouput of the geartrain
