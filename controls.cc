@@ -4,6 +4,7 @@
  *
  *  Revisions:
  *    \li  05-01-08  Created files
+ *    \li  05-01-08  Avoiding splitting into gear_controls class and controls class
  *
  *  License:
  *    This file released under the Lesser GNU Public License. The program is intended
@@ -14,8 +15,10 @@
 #include <stdlib.h>                         // Include standard library header files
 #include <avr/io.h>
 
-#include "rs232.h"                          // Include header for serial port class
-#include "motor_driver.h"                        // Include header for the A/D class
+// Including header files
+#include "rs232.h"      
+#include "motor_driver.h"
+#include "controls.h"
 
 
 /** These defines make it easier for us to manipulate the bits of our registers, by
@@ -27,114 +30,92 @@
 #define sbi(reg, bit) reg |= (BV(bit))  // Sets the corresponding bit in register reg
 
 //-------------------------------------------------------------------------------------
-/** This constructor initializes the timer registers in order to implement the PWM pin
- *  which drives the motor controller. It also sets the initial power level to zero
- *  and the initial direction to true, and sets up a serial port for debugging
+/** This constructor initializes the data members of the controls class, and also
+ *  calls the motor driver constructor to set up the motor driver variables
  */
 
-motor_driver::motor_driver (base_text_serial* p_serial_port)
+controls::controls (base_text_serial* p_serial_port) : motor_driver(p_serial_port)
 {
-	// Store the serial port locally and print a message
-	ptr_to_serial = p_serial_port;
-	*ptr_to_serial << "Setting up motor controller" << endl;
-	power_level = 0;
-	direction_of_motor = true;
-	brake_on = true;
-	// Initializes the timer 2 control register with prescalers to get a PWM running
-	//at 120Hz
-	TCCR2 = 0b01101100;
-	// Initializes the duty cycle to 0%
-	OCR2 = 0b00000000;
-	// Sets up data direction registers to open the relevent bits of port D and B
-	DDRB = 0b10000000;
-	DDRD = 0b10100000;
-	// Initializes motor to brake mode with zero input
-	PORTD = 0b11100000;
-}
-
-
-//-------------------------------------------------------------------------------------
-/** This method sets the power level of the motor, taking a number from -255 to 255 and
- *  setting the duty cycle of the PWM based upon that value. The negative flag is used
- *  to set the registers of the motor control chip to turn the motor one way or another
- *  \param  power The power level that you want to set the motor to
- *  \return True if motor is set, false if it isn't
- */
-
-bool motor_driver::set_power (int power)
-{
-	bool negative_power;
-	unsigned char OCR2_value;
-
-	if(power > 255 || -power > 255 || brake_on == true){
-		// Motor not set, as brake is on or power value is wrong
-		return false;
-	}
-
-	power_level = power;
-
-	if(power < 0){
-		direction_of_motor = false;
-		OCR2_value = (unsigned char)-power;
-	}
-	else{
-		direction_of_motor = true;
-		OCR2_value = (unsigned char)power;
-	}
-
-	OCR2 = OCR2_value;
-	PORTD &= 0b01011111;
-	if(direction_of_motor){
-		PORTD |= 0b10000000;
-	}
-	else{
-		PORTD |= 0b00100000;
-	}
+	// Setup interrupt pins here to trigger interrupts on rising and falling
+	// edge for both encoder_pin_A and encoder_pin_B
 	
-	// Motor set
-	return true;
+	motor_position = 0;
+	post_gears_position = 0;
+	ki = 0;
+	kp = 0;
+	kd = 0;
+
+	// Number of encoder ticks per revolution of motor
+	encoder_per_rev = 2016;
+	gear_ratio = 16;
+	encoder_per_gear_rev = (long)encoder_per_rev * gear_ratio;
 }
 
 //-------------------------------------------------------------------------------------
-/** This method sets the power to a percentage of max power.
- *  \param  power The power level that you want to set the motor to, with -100 <= power
- *  <= 100 as it's a percentage value. 
- *  \return True if motor was set correctly, false if it wasn't
+/** This method sets the current position as the new reference state for angle 
+ *  measurements passed to the controller
  */
 
-bool motor_driver::set_power_pct (int power_pct)
-{
-	int power_value;
-	power_value = (power_pct * 255) / 100;
-	if(set_power(power_value)){
-		return true;
+void controls::set_reference_position(){
+	motor_position = 0;
+	post_gears_position = 0;
+}
+
+//-------------------------------------------------------------------------------------
+/** Starts a position controller to tell the motor to move to a position desired_position
+ *  degrees from the reference position.
+ */
+
+void controls::start_position_control(int desired_position){
+	position_error_sum = 0;
+}
+
+void controls::start_position_control(int desired_position, int kp_val, int ki_val){
+	position_error_sum = 0;
+	kp = kp_val;
+	ki = ki_val;
+}
+
+void controls::update_position_control(void){
+	position_error = desired_position - motor_position;
+	position_error_sum += position_error;
+	motor_setting = position_error * kp + position_error_sum * kv;
+	if(motor_setting > 255){
+		motor_setting = 255;
 	}
-	else{
-		return false;
+	else if(motor_setting < -255){
+		motor_setting = -255;
 	}
 }
 
 //-------------------------------------------------------------------------------------
-/** This method turns the brake of the motor on/off
- *  \param  brake True to set brake on, false to turn brake off
- *  \return True if brake was set, false if it was turned off
+/** Starts a gear position controller to tell the end of the geartrain with a predefined
+ *  gear ratio
  */
-bool motor_driver::set_brake (bool brake)
-{
-	if(brake){
-		brake_on = true;
-		PORTD = 0b11100000;
-		return true;
+
+void controls::start_geared_position_control(int desired_position_degrees){
+	desired_gear_position = (long)(desired_position_degrees * encoder_per_gear_rev) / 360;
+	gear_position_error_sum = 0;
+}
+
+void controls::start_geared_position_control(int desired_position_degrees, int kp_val, int ki_val){
+	desired_gear_position = (long)(desired_position_degrees * encoder_per_gear_rev) / 360;
+	gear_position_error_sum = 0;
+	kp = kp_val;
+	ki = ki_val;
+}
+
+void controls::update_geared_position_control(void){
+	gear_position_error = desired_gear_position - gear_position;
+	gear_position_error_sum += position_error;
+	motor_setting = gear_position_error * kp + gear_position_error_sum * kv;
+	if(motor_setting > 255){
+		motor_setting = 255;
 	}
-	else{
-		brake_on = false;
-		set_power(power_level);
-		return false;
+	else if(motor_setting < -255){
+		motor_setting = -255;
 	}
 }
-		
-
-
 //--------------------------------------------------------------------------------------
 /** This overloaded operator allows information about the motor to be printed
  *  easily to the terminal
