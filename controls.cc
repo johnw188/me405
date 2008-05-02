@@ -36,12 +36,12 @@
 ISR(INT4){
 	if( (PORTE & 0b00010000) == 0b00010000 ){
 		if(encoder_pin_A == false && encoder_pin_B == true){
-			motor_position == encoder_max_value ? motor_position = 0 : motor_position += 1;
-			gear_position == encoder_gear_max_value ? gear_position = 0 : gear_position += 1;
+			motor_position == encoder_max_value ? (motor_position = 0) : (motor_position += 1);
+			gear_position == encoder_gear_max_value ? (gear_position = 0) : (gear_position += 1);
 		}
 		else if(encoder_pin_A == false && encoder_pin_B == false){
-			motor_position == 0 ? motor_position = encoder_max_value : motor_position -= 1;
-			gear_position == 0 ? gear_position = encoder_gear_max_value : gear_position -= 1;
+			motor_position == 0 ? (motor_position = encoder_max_value) : (motor_position -= 1);
+			gear_position == 0 ? (gear_position = encoder_gear_max_value) : (gear_position -= 1);
 		}
 		else{
 			error_count += 1;
@@ -50,12 +50,12 @@ ISR(INT4){
 	}
 	else{
 		if(encoder_pin_A == true && encoder_pin_B == false){
-			motor_position == encoder_max_value ? motor_position = 0 : motor_position += 1;
-			gear_position == encoder_gear_max_value ? gear_position = 0 : gear_position += 1;
+			motor_position == encoder_max_value ? (motor_position = 0) : (motor_position += 1);
+			gear_position == encoder_gear_max_value ? (gear_position = 0) : (gear_position += 1);
 		}
 		else if(encoder_pin_A == true && encoder_pin_B == true){
-			motor_position == 0 ? motor_position = encoder_max_value : motor_position -= 1;
-			gear_position == 0 ? gear_position = encoder_gear_max_value : gear_position -= 1;
+			motor_position == 0 ? (motor_position = encoder_max_value) : (motor_position -= 1);
+			gear_position == 0 ? (gear_position = encoder_gear_max_value) : (gear_position -= 1);
 		}
 		else{
 			error_count += 1;
