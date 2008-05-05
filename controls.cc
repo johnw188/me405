@@ -204,6 +204,7 @@ void controls::start_position_control(int desired_position, int kp_val, int ki_v
 }
 
 void controls::update_position_control(void){
+	update_ISR_values();
 	position_error = desired_position - motor_position;
 	position_error_sum += position_error;
 	motor_setting = position_error * kp + position_error_sum * ki;
@@ -245,6 +246,7 @@ void controls::start_geared_position_control(int desired_position_degrees, int k
 }
 
 void controls::update_geared_position_control(void){
+	update_ISR_values();
 	gear_position_error = desired_gear_position - gear_position;
 	gear_position_error_sum += position_error;
 	motor_setting = gear_position_error * kp + gear_position_error_sum * ki;
@@ -266,7 +268,8 @@ base_text_serial& operator<< (base_text_serial& serial, controls& controller)
 {
 	// Outputs to the serial port
 	serial << "kp: " << controller.get_kp() << "\n\rki: " << controller.get_ki() << "\n\rMotor position: " 
-		<< controller.get_motor_position() << "Errors: " << controller.get_errors() << endl;
+		<< controller.get_motor_position() << "\n\rGear Position: " << controller.get_motor_gear_position() 
+		<< "\n\rErrors: " << controller.get_errors() << endl;
 
 	return (serial);
 }

@@ -47,12 +47,16 @@ int main ()
     // Say hello
     the_serial_port << "\r\nControls Test App\r\n";
 
+    controller.set_kp(10);
+    controller.set_ki(10);
+    controller.start_geared_position_control(10);
+
 
     // Run the main scheduling loop, in which the action to run is done repeatedly.
     while (true)
     {
 	    // Continuously check the value of the adc and set the motor accordingly.
-	    if(dummy++ > 1000000L){
+	    if(dummy++ > 10000L){
 		    dummy = 0;
 		    if(PINE & 0b00010000){
 			    the_serial_port << "pin4 high" << endl;
@@ -68,6 +72,7 @@ int main ()
 		    }
 		    controller.update_ISR_values();
 		    the_serial_port << controller;
+		    controller.update_geared_position_control();
 	    }
     }
 

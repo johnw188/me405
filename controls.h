@@ -50,6 +50,7 @@ class controls : public motor_driver {
 		int get_kd(void){return kd;}
 		// Use to read position
 		int get_motor_position(void){return motor_position;}
+		int get_motor_gear_position(void){return gear_position;}
 		// Use to check number of errors encountered
 		int get_errors(void){return error_count;}
 		// Sets new reference value
