@@ -42,9 +42,9 @@ unsigned int ISR_motor_position;
 // Position of the ouput of the geartrain
 unsigned long ISR_gear_position;
 
+
 /** ISR's for updating the encoder position
 */
-// If PORTE doesn't work, try PINE
 ISR(INT4_vect){
 	if( (PINE & 0b00010000) == 0b00010000 ){
 		if(ISR_encoder_pin_A == false && ISR_encoder_pin_B == true){
@@ -266,7 +266,7 @@ base_text_serial& operator<< (base_text_serial& serial, controls& controller)
 {
 	// Outputs to the serial port
 	serial << "kp: " << controller.get_kp() << "\n\rki: " << controller.get_ki() << "\n\rMotor position: " 
-		<< controller.get_motor_position() << endl;
+		<< controller.get_motor_position() << "Errors: " << controller.get_errors() << endl;
 
 	return (serial);
 }
