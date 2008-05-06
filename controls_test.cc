@@ -47,9 +47,9 @@ int main ()
     // Say hello
     the_serial_port << "\r\nControls Test App\r\n";
 
-    controller.set_kp(10);
-    controller.set_ki(10);
-    controller.start_geared_position_control(10);
+    controller.set_kp(1);
+    controller.set_ki(0);
+    controller.start_geared_position_control(0);
 
 
     // Run the main scheduling loop, in which the action to run is done repeatedly.

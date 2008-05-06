@@ -247,7 +247,12 @@ void controls::start_geared_position_control(int desired_position_degrees, int k
 
 void controls::update_geared_position_control(void){
 	update_ISR_values();
-	gear_position_error = desired_gear_position - gear_position;
+	if(desired_gear_position > gear_position){
+		gear_position_error = desired_gear_position - gear_position;
+	}
+	else{
+		gear_position_error = -(gear_position - desired_gear_position);
+	}
 	gear_position_error_sum += position_error;
 	motor_setting = gear_position_error * kp + gear_position_error_sum * ki;
 	if(motor_setting > 255){
