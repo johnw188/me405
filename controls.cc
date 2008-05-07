@@ -191,6 +191,10 @@ void controls::update_ISR_values(){
 	// Set interrupts
 	sei();
 }
+
+int controls::get_motor_gear_position(){
+	return ISR_gear_position;
+}
 //-------------------------------------------------------------------------------------
 /** Starts a position controller to tell the motor to move to a position desired_position
  *  degrees from the reference position.
@@ -248,7 +252,6 @@ void controls::update_geared_position_control(void){
 	}
 	else{
 		gear_position_error = -(ISR_gear_position_degrees - desired_gear_position);
-		*ptr_to_serial << "Less than" << endl;
 	}
 
 	if(gear_position_error > 180){
@@ -257,13 +260,14 @@ void controls::update_geared_position_control(void){
 	gear_position_error_sum += gear_position_error;
 	motor_setting = gear_position_error * kp + gear_position_error_sum * ki;
 
-	*ptr_to_serial << ISR_gear_position_degrees << "   " << desired_gear_position << "   " << gear_position_error << "   " << gear_position_error_sum << "   " << motor_setting << endl;
+	// Debug string
+	 // *ptr_to_serial << ISR_gear_position_degrees << "   " << desired_gear_position << "   " << gear_position_error << "   " << gear_position_error_sum << "   " << motor_setting << "                           \r";
 
-	if(motor_setting > 100){
-		motor_setting = 100;
+	if(motor_setting > 255){
+		motor_setting = 255;
 	}
-	else if(motor_setting < -100){
-		motor_setting = -100;
+	else if(motor_setting < -255){
+		motor_setting = -255;
 	}
 
 	set_power(motor_setting);

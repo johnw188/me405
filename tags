@@ -10,9 +10,12 @@ ADC_result::bytes	adc_driver.cc	/^	char bytes[2];                          \/\/ 
 ADC_result::word	adc_driver.cc	/^	int word;                               \/\/ The whole 16-bit number$/;"	m	union:ADC_result	file:	access:public
 AVARICE	Makefile	/^AVARICE = avarice                # Name of JTAG interface program$/;"	m
 BAUD_DIV	adc_test.cc	27;"	d	file:
-BAUD_DIV	motor_test.cc	28;"	d	file:
+BAUD_DIV	camera_controller.cc	24;"	d	file:
+BAUD_DIV	controls_test.cc	28;"	d	file:
+BAUD_DIV	motor_test.cc	26;"	d	file:
 BV	adc_driver.cc	29;"	d	file:
-BV	motor_driver.cc	27;"	d	file:
+BV	controls.cc	30;"	d	file:
+BV	motor_driver.cc	28;"	d	file:
 CC	Makefile	/^CC = avr-gcc                     # Name of compiler program$/;"	m
 CHIP	Makefile	/^CHIP=m128$/;"	m
 DBCMFL	Makefile	/^DBCMFL = gdb.commands            # File containing debugger startup commands$/;"	m
@@ -22,11 +25,22 @@ DEBUG_CODES	Makefile	/^DEBUG_CODES = $/;"	m
 HDRS	Makefile	/^HDRS =                           # Not used$/;"	m
 HWARE	Makefile	/^HWARE = bsd                      # Type of cable ('bsd' is parport cable)$/;"	m
 IPPORT	Makefile	/^IPPORT = :4242                   # IP port on which Avarice and Insight talk$/;"	m
+ISR	controls.cc	/^ISR(INT4_vect){$/;"	f	signature:(INT4_vect)
+ISR	controls.cc	/^ISR(INT5_vect){$/;"	f	signature:(INT5_vect)
+ISR	stl_us_timer.cc	/^ISR (TIMER1_OVF_vect)$/;"	f	signature:(TIMER1_OVF_vect)
+ISR_encoder_gear_max_value	controls.cc	/^long ISR_encoder_gear_max_value;$/;"	v
+ISR_encoder_max_value	controls.cc	/^int ISR_encoder_max_value;$/;"	v
+ISR_encoder_pin_A	controls.cc	/^bool ISR_encoder_pin_A, ISR_encoder_pin_B;$/;"	v
+ISR_encoder_pin_B	controls.cc	/^bool ISR_encoder_pin_A, ISR_encoder_pin_B;$/;"	v
+ISR_error_count	controls.cc	/^int ISR_error_count;$/;"	v
+ISR_gear_position	controls.cc	/^unsigned long ISR_gear_position;$/;"	v
+ISR_gear_position_degrees	controls.cc	/^int ISR_gear_position_degrees;$/;"	v
+ISR_motor_position	controls.cc	/^unsigned int ISR_motor_position;$/;"	v
 JHWARE	Makefile	/^JHWARE = jtagice                 # Type of JTAG-ICE interface$/;"	m
 JPORT	Makefile	/^JPORT = \/dev\/ttyUSB0             # Port to which JTAG-ICE is connected$/;"	m
 LINKMODE	Makefile	/^LINKMODE = -g                    # Linker mode string$/;"	m
 MCU	Makefile	/^MCU=atmega128$/;"	m
-OBJS	Makefile	/^OBJS = $(TARGET).o base_text_serial.o rs232.o motor_driver.o$/;"	m
+OBJS	Makefile	/^OBJS = $(TARGET).o base_text_serial.o rs232.o motor_driver.o adc_driver.o controls.o$/;"	m
 OPTIM	Makefile	/^OPTIM = -O2                      # Optimization level for compiler (0, n, s)$/;"	m
 PORT	Makefile	/^PORT = \/dev\/parport0             # Port used by avrdude downloader program$/;"	m
 RXC_MASK	rs232.h	37;"	d
@@ -36,7 +50,7 @@ RXC_MASK	rs232.h	49;"	d
 RXC_MASK	rs232.h	53;"	d
 RXC_MASK	rs232.h	57;"	d
 STD	Makefile	/^STD = _GNU_SOURCE                # Standard compiler options$/;"	m
-TARGET	Makefile	/^TARGET = motor_test$/;"	m
+TARGET	Makefile	/^TARGET = controls_test$/;"	m
 UART_TX_TOUT	rs232.h	62;"	d
 UDRE_MASK	rs232.h	36;"	d
 UDRE_MASK	rs232.h	40;"	d
@@ -44,18 +58,23 @@ UDRE_MASK	rs232.h	44;"	d
 UDRE_MASK	rs232.h	48;"	d
 UDRE_MASK	rs232.h	52;"	d
 UDRE_MASK	rs232.h	56;"	d
+USEC_PER_COUNT	stl_us_timer.h	36;"	d
 _AVR_ADC_H_	adc_driver.h	15;"	d
 _BASE_TEXT_SERIAL_H_	base_text_serial.h	25;"	d
 _MOTOR_DRIVER_H_	motor_driver.h	16;"	d
 _RS232_H_	rs232.h	26;"	d
-avr_adc	adc_driver.cc	/^avr_adc::avr_adc (base_text_serial* p_serial_port)$/;"	f	class:avr_adc	signature:(base_text_serial* p_serial_port)
-avr_adc	adc_driver.h	/^        avr_adc (base_text_serial*);$/;"	p	class:avr_adc	access:public	signature:(base_text_serial*)
-avr_adc	adc_driver.h	/^class avr_adc$/;"	c
-avr_adc::avr_adc	adc_driver.cc	/^avr_adc::avr_adc (base_text_serial* p_serial_port)$/;"	f	class:avr_adc	signature:(base_text_serial* p_serial_port)
-avr_adc::avr_adc	adc_driver.h	/^        avr_adc (base_text_serial*);$/;"	p	class:avr_adc	access:public	signature:(base_text_serial*)
-avr_adc::ptr_to_serial	adc_driver.h	/^        base_text_serial* ptr_to_serial;$/;"	m	class:avr_adc	access:protected
-avr_adc::read_once	adc_driver.cc	/^unsigned int avr_adc::read_once (unsigned char channel)$/;"	f	class:avr_adc	signature:(unsigned char channel)
-avr_adc::read_once	adc_driver.h	/^        unsigned int read_once (unsigned char);$/;"	p	class:avr_adc	access:public	signature:(unsigned char)
+_STL_US_TIMER_H_	stl_us_timer.h	26;"	d
+__anon2::half	stl_us_timer.h	/^    int half[2];                            \/\/\/< The data as an array of 16-bit ints$/;"	m	union:__anon2	access:public
+__anon2::quarters	stl_us_timer.h	/^    char quarters[4];                       \/\/\/< The data as an array of 8-bit chars$/;"	m	union:__anon2	access:public
+__anon2::whole	stl_us_timer.h	/^    long whole;                             \/\/\/< All the data as one 32-bit number$/;"	m	union:__anon2	access:public
+adc_driver	adc_driver.cc	/^adc_driver::adc_driver (base_text_serial* p_serial_port)$/;"	f	class:adc_driver	signature:(base_text_serial* p_serial_port)
+adc_driver	adc_driver.h	/^        adc_driver (base_text_serial*);$/;"	p	class:adc_driver	access:public	signature:(base_text_serial*)
+adc_driver	adc_driver.h	/^class adc_driver$/;"	c
+adc_driver::adc_driver	adc_driver.cc	/^adc_driver::adc_driver (base_text_serial* p_serial_port)$/;"	f	class:adc_driver	signature:(base_text_serial* p_serial_port)
+adc_driver::adc_driver	adc_driver.h	/^        adc_driver (base_text_serial*);$/;"	p	class:adc_driver	access:public	signature:(base_text_serial*)
+adc_driver::ptr_to_serial	adc_driver.h	/^        base_text_serial* ptr_to_serial;$/;"	m	class:adc_driver	access:protected
+adc_driver::read_once	adc_driver.cc	/^unsigned int adc_driver::read_once (unsigned char channel)$/;"	f	class:adc_driver	signature:(unsigned char channel)
+adc_driver::read_once	adc_driver.h	/^        unsigned int read_once (unsigned char);$/;"	p	class:adc_driver	access:public	signature:(unsigned char)
 base	base_text_serial.h	/^        unsigned char base;$/;"	m	class:base_text_serial	access:protected
 base_text_serial	base_text_serial.cc	/^base_text_serial::base_text_serial (void)$/;"	f	class:base_text_serial	signature:(void)
 base_text_serial	base_text_serial.h	/^        base_text_serial (void);            \/\/ Simple constructor doesn't do much$/;"	p	class:base_text_serial	access:public	signature:(void)
@@ -92,39 +111,155 @@ base_text_serial::ready_to_send	base_text_serial.h	/^        virtual bool ready_
 base_text_serial::transmit_now	base_text_serial.cc	/^void base_text_serial::transmit_now (void)$/;"	f	class:base_text_serial	signature:(void)
 base_text_serial::transmit_now	base_text_serial.h	/^        virtual void transmit_now (void);   \/\/ Immediately transmit any buffered data$/;"	p	class:base_text_serial	access:public	signature:(void)
 bin	base_text_serial.h	/^    bin,                    \/\/\/< Print following numbers in base 2 (binary)$/;"	e	enum:__anon1
+brake_on	motor_driver.h	/^	bool direction_of_motor, brake_on;$/;"	m	class:motor_driver	access:protected
 bytes	adc_driver.cc	/^	char bytes[2];                          \/\/ The bytes in the number$/;"	m	union:ADC_result	file:	access:public
 cbi	adc_driver.cc	30;"	d	file:
-cbi	motor_driver.cc	28;"	d	file:
+cbi	controls.cc	31;"	d	file:
+cbi	motor_driver.cc	29;"	d	file:
+change_gear_position	controls.cc	/^void controls::change_gear_position(int new_position){$/;"	f	class:controls	signature:(int new_position)
+change_gear_position	controls.h	/^		void change_gear_position(int);$/;"	p	class:controls	access:public	signature:(int)
 check_for_char	base_text_serial.cc	/^bool base_text_serial::check_for_char (void)$/;"	f	class:base_text_serial	signature:(void)
 check_for_char	base_text_serial.h	/^        virtual bool check_for_char (void); \/\/ Check if a character is in the buffer$/;"	p	class:base_text_serial	access:public	signature:(void)
 check_for_char	rs232.cc	/^bool rs232::check_for_char (void)$/;"	f	class:rs232	signature:(void)
 check_for_char	rs232.h	/^        bool check_for_char (void);         \/\/ Check if a character is in the buffer$/;"	p	class:rs232	access:public	signature:(void)
+controls	controls.cc	/^controls::controls (base_text_serial* p_serial_port) : motor_driver(p_serial_port)$/;"	f	class:controls	signature:(base_text_serial* p_serial_port)
+controls	controls.h	/^		controls(base_text_serial*);$/;"	p	class:controls	access:public	signature:(base_text_serial*)
+controls	controls.h	/^class controls : public motor_driver {$/;"	c	inherits:motor_driver
+controls::change_gear_position	controls.cc	/^void controls::change_gear_position(int new_position){$/;"	f	class:controls	signature:(int new_position)
+controls::change_gear_position	controls.h	/^		void change_gear_position(int);$/;"	p	class:controls	access:public	signature:(int)
+controls::controls	controls.cc	/^controls::controls (base_text_serial* p_serial_port) : motor_driver(p_serial_port)$/;"	f	class:controls	signature:(base_text_serial* p_serial_port)
+controls::controls	controls.h	/^		controls(base_text_serial*);$/;"	p	class:controls	access:public	signature:(base_text_serial*)
+controls::desired_gear_position	controls.h	/^		long desired_gear_position, desired_position;$/;"	m	class:controls	access:protected
+controls::desired_position	controls.h	/^		long desired_gear_position, desired_position;$/;"	m	class:controls	access:protected
+controls::encoder_gear_max_value	controls.h	/^		long encoder_gear_max_value;$/;"	m	class:controls	access:protected
+controls::encoder_max_value	controls.h	/^		int encoder_max_value;$/;"	m	class:controls	access:protected
+controls::encoder_pin_A	controls.h	/^		bool encoder_pin_A, encoder_pin_B;$/;"	m	class:controls	access:protected
+controls::encoder_pin_B	controls.h	/^		bool encoder_pin_A, encoder_pin_B;$/;"	m	class:controls	access:protected
+controls::error_count	controls.h	/^		int error_count;$/;"	m	class:controls	access:protected
+controls::gear_position	controls.h	/^		unsigned long gear_position;$/;"	m	class:controls	access:protected
+controls::gear_position_degrees	controls.h	/^		int gear_position_degrees;$/;"	m	class:controls	access:protected
+controls::gear_position_error	controls.h	/^		long gear_position_error, gear_velocity_error;$/;"	m	class:controls	access:protected
+controls::gear_position_error_sum	controls.h	/^		long gear_position_error_sum, gear_velocity_error_sum;$/;"	m	class:controls	access:protected
+controls::gear_ratio	controls.h	/^		int gear_ratio;$/;"	m	class:controls	access:protected
+controls::gear_velocity_error	controls.h	/^		long gear_position_error, gear_velocity_error;$/;"	m	class:controls	access:protected
+controls::gear_velocity_error_sum	controls.h	/^		long gear_position_error_sum, gear_velocity_error_sum;$/;"	m	class:controls	access:protected
+controls::get_errors	controls.h	/^		int get_errors(void){return error_count;}$/;"	f	class:controls	access:public	signature:(void)
+controls::get_gear_position_degrees	controls.h	/^		int get_gear_position_degrees(void){return gear_position_degrees;}$/;"	f	class:controls	access:public	signature:(void)
+controls::get_kd	controls.h	/^		int get_kd(void){return kd;}$/;"	f	class:controls	access:public	signature:(void)
+controls::get_ki	controls.h	/^		int get_ki(void){return ki;}$/;"	f	class:controls	access:public	signature:(void)
+controls::get_kp	controls.h	/^		int get_kp(void){return kp;}$/;"	f	class:controls	access:public	signature:(void)
+controls::get_motor_gear_position	controls.h	/^		int get_motor_gear_position(void){return gear_position;}$/;"	f	class:controls	access:public	signature:(void)
+controls::get_motor_position	controls.h	/^		int get_motor_position(void){return motor_position;}$/;"	f	class:controls	access:public	signature:(void)
+controls::get_motor_position_degrees	controls.h	/^		int get_motor_position_degrees(void){return motor_position_degrees;}$/;"	f	class:controls	access:public	signature:(void)
+controls::kd	controls.h	/^		int kp, ki, kd;$/;"	m	class:controls	access:protected
+controls::ki	controls.h	/^		int kp, ki, kd;$/;"	m	class:controls	access:protected
+controls::kp	controls.h	/^		int kp, ki, kd;$/;"	m	class:controls	access:protected
+controls::motor_position	controls.h	/^		unsigned int motor_position;$/;"	m	class:controls	access:protected
+controls::motor_position_degrees	controls.h	/^		int motor_position_degrees;$/;"	m	class:controls	access:protected
+controls::motor_setting	controls.h	/^		int motor_setting;$/;"	m	class:controls	access:protected
+controls::position_error	controls.h	/^		int position_error, velocity_error;$/;"	m	class:controls	access:protected
+controls::position_error_sum	controls.h	/^		int position_error_sum, velocity_error_sum;$/;"	m	class:controls	access:protected
+controls::set_kd	controls.h	/^		void set_kd(int value){kd = value;}$/;"	f	class:controls	access:public	signature:(int value)
+controls::set_ki	controls.h	/^		void set_ki(int value){ki = value;}$/;"	f	class:controls	access:public	signature:(int value)
+controls::set_kp	controls.h	/^		void set_kp(int value){kp = value;}$/;"	f	class:controls	access:public	signature:(int value)
+controls::set_reference_position	controls.cc	/^void controls::set_reference_position(){$/;"	f	class:controls	signature:()
+controls::set_reference_position	controls.h	/^		void set_reference_position(void);$/;"	p	class:controls	access:public	signature:(void)
+controls::start_geared_position_control	controls.cc	/^void controls::start_geared_position_control(int desired_position_degrees){$/;"	f	class:controls	signature:(int desired_position_degrees)
+controls::start_geared_position_control	controls.cc	/^void controls::start_geared_position_control(int desired_position_degrees, int kp_val, int ki_val){$/;"	f	class:controls	signature:(int desired_position_degrees, int kp_val, int ki_val)
+controls::start_geared_position_control	controls.h	/^		void start_geared_position_control(int);$/;"	p	class:controls	access:public	signature:(int)
+controls::start_geared_position_control	controls.h	/^		void start_geared_position_control(int, int, int);$/;"	p	class:controls	access:public	signature:(int, int, int)
+controls::start_position_control	controls.cc	/^void controls::start_position_control(int desired_position){$/;"	f	class:controls	signature:(int desired_position)
+controls::start_position_control	controls.cc	/^void controls::start_position_control(int desired_position, int kp_val, int ki_val){$/;"	f	class:controls	signature:(int desired_position, int kp_val, int ki_val)
+controls::start_position_control	controls.h	/^		void start_position_control(int);$/;"	p	class:controls	access:public	signature:(int)
+controls::start_position_control	controls.h	/^		void start_position_control(int, int, int);$/;"	p	class:controls	access:public	signature:(int, int, int)
+controls::start_velocity_control	controls.h	/^		void start_velocity_control(int);$/;"	p	class:controls	access:public	signature:(int)
+controls::start_velocity_control	controls.h	/^		void start_velocity_control(int, int, int);$/;"	p	class:controls	access:public	signature:(int, int, int)
+controls::update_ISR_values	controls.cc	/^void controls::update_ISR_values(){$/;"	f	class:controls	signature:()
+controls::update_ISR_values	controls.h	/^		void update_ISR_values(void);$/;"	p	class:controls	access:public	signature:(void)
+controls::update_geared_position_control	controls.cc	/^void controls::update_geared_position_control(void){$/;"	f	class:controls	signature:(void)
+controls::update_geared_position_control	controls.h	/^		void update_geared_position_control(void);$/;"	p	class:controls	access:public	signature:(void)
+controls::update_position_control	controls.cc	/^void controls::update_position_control(void){$/;"	f	class:controls	signature:(void)
+controls::update_position_control	controls.h	/^		void update_position_control(void);$/;"	p	class:controls	access:public	signature:(void)
+controls::update_velocity_control	controls.h	/^		void update_velocity_control(void);$/;"	p	class:controls	access:public	signature:(void)
+controls::velocity_error	controls.h	/^		int position_error, velocity_error;$/;"	m	class:controls	access:protected
+controls::velocity_error_sum	controls.h	/^		int position_error_sum, velocity_error_sum;$/;"	m	class:controls	access:protected
+data	stl_us_timer.h	/^        time_data_32 data;$/;"	m	class:time_stamp	access:protected
 dec	base_text_serial.h	/^    dec,                    \/\/\/< Print following numbers in base 10 (decimal)$/;"	e	enum:__anon1
-direction_of_motor	motor_driver.h	/^	bool direction_of_motor;$/;"	m	class:motor_driver	access:protected
+desired_gear_position	controls.h	/^		long desired_gear_position, desired_position;$/;"	m	class:controls	access:protected
+desired_position	controls.h	/^		long desired_gear_position, desired_position;$/;"	m	class:controls	access:protected
+direction_of_motor	motor_driver.h	/^	bool direction_of_motor, brake_on;$/;"	m	class:motor_driver	access:protected
+encoder_gear_max_value	controls.h	/^		long encoder_gear_max_value;$/;"	m	class:controls	access:protected
+encoder_max_value	controls.h	/^		int encoder_max_value;$/;"	m	class:controls	access:protected
+encoder_pin_A	controls.h	/^		bool encoder_pin_A, encoder_pin_B;$/;"	m	class:controls	access:protected
+encoder_pin_B	controls.h	/^		bool encoder_pin_A, encoder_pin_B;$/;"	m	class:controls	access:protected
 endl	base_text_serial.h	/^    endl,                   \/\/\/< Print a carriage return and linefeed$/;"	e	enum:__anon1
+error_count	controls.h	/^		int error_count;$/;"	m	class:controls	access:protected
+gear_position	controls.h	/^		unsigned long gear_position;$/;"	m	class:controls	access:protected
+gear_position_degrees	controls.h	/^		int gear_position_degrees;$/;"	m	class:controls	access:protected
+gear_position_error	controls.h	/^		long gear_position_error, gear_velocity_error;$/;"	m	class:controls	access:protected
+gear_position_error_sum	controls.h	/^		long gear_position_error_sum, gear_velocity_error_sum;$/;"	m	class:controls	access:protected
+gear_ratio	controls.h	/^		int gear_ratio;$/;"	m	class:controls	access:protected
+gear_velocity_error	controls.h	/^		long gear_position_error, gear_velocity_error;$/;"	m	class:controls	access:protected
+gear_velocity_error_sum	controls.h	/^		long gear_position_error_sum, gear_velocity_error_sum;$/;"	m	class:controls	access:protected
+get_errors	controls.h	/^		int get_errors(void){return error_count;}$/;"	f	class:controls	access:public	signature:(void)
+get_gear_position_degrees	controls.h	/^		int get_gear_position_degrees(void){return gear_position_degrees;}$/;"	f	class:controls	access:public	signature:(void)
+get_kd	controls.h	/^		int get_kd(void){return kd;}$/;"	f	class:controls	access:public	signature:(void)
+get_ki	controls.h	/^		int get_ki(void){return ki;}$/;"	f	class:controls	access:public	signature:(void)
+get_kp	controls.h	/^		int get_kp(void){return kp;}$/;"	f	class:controls	access:public	signature:(void)
+get_microsec	stl_us_timer.cc	/^long time_stamp::get_microsec (void)$/;"	f	class:time_stamp	signature:(void)
+get_microsec	stl_us_timer.h	/^        long get_microsec (void);$/;"	p	class:time_stamp	access:public	signature:(void)
+get_motor_gear_position	controls.h	/^		int get_motor_gear_position(void){return gear_position;}$/;"	f	class:controls	access:public	signature:(void)
+get_motor_position	controls.h	/^		int get_motor_position(void){return motor_position;}$/;"	f	class:controls	access:public	signature:(void)
+get_motor_position_degrees	controls.h	/^		int get_motor_position_degrees(void){return motor_position_degrees;}$/;"	f	class:controls	access:public	signature:(void)
+get_seconds	stl_us_timer.cc	/^int time_stamp::get_seconds (void)$/;"	f	class:time_stamp	signature:(void)
+get_seconds	stl_us_timer.h	/^        int get_seconds (void);$/;"	p	class:time_stamp	access:public	signature:(void)
+get_time	stl_us_timer.cc	/^void time_stamp::get_time (long& an_item)$/;"	f	class:time_stamp	signature:(long& an_item)
+get_time	stl_us_timer.h	/^        void get_time (long&);$/;"	p	class:time_stamp	access:public	signature:(long&)
+get_time_now	stl_us_timer.cc	/^time_stamp& task_timer::get_time_now (void)$/;"	f	class:task_timer	signature:(void)
+get_time_now	stl_us_timer.h	/^        time_stamp& get_time_now (void);    \/\/\/ Get the current time$/;"	p	class:task_timer	access:public	signature:(void)
 getchar	base_text_serial.cc	/^char base_text_serial::getchar (void)$/;"	f	class:base_text_serial	signature:(void)
 getchar	base_text_serial.h	/^        virtual char getchar (void);        \/\/ Get a character; wait if none is ready$/;"	p	class:base_text_serial	access:public	signature:(void)
 getchar	rs232.cc	/^char rs232::getchar (void)$/;"	f	class:rs232	signature:(void)
 getchar	rs232.h	/^        char getchar (void);                \/\/ Get a character; wait if none is ready$/;"	p	class:rs232	access:public	signature:(void)
+half	stl_us_timer.h	/^    int half[2];                            \/\/\/< The data as an array of 16-bit ints$/;"	m	union:__anon2	access:public
 hex	base_text_serial.h	/^    hex,                    \/\/\/< Print following numbers in base 16 (hexadecimal)$/;"	e	enum:__anon1
+kd	controls.h	/^		int kp, ki, kd;$/;"	m	class:controls	access:protected
+ki	controls.h	/^		int kp, ki, kd;$/;"	m	class:controls	access:protected
+kp	controls.h	/^		int kp, ki, kd;$/;"	m	class:controls	access:protected
 main	adc_test.cc	/^int main ()$/;"	f	signature:()
+main	controls_test.cc	/^int main ()$/;"	f	signature:()
 main	cpptests.cc	/^int main(){$/;"	f	signature:()
 main	motor_test.cc	/^int main ()$/;"	f	signature:()
 motor_driver	motor_driver.cc	/^motor_driver::motor_driver (base_text_serial* p_serial_port)$/;"	f	class:motor_driver	signature:(base_text_serial* p_serial_port)
 motor_driver	motor_driver.h	/^        motor_driver (base_text_serial*);$/;"	p	class:motor_driver	access:public	signature:(base_text_serial*)
 motor_driver	motor_driver.h	/^class motor_driver$/;"	c
-motor_driver::direction_of_motor	motor_driver.h	/^	bool direction_of_motor;$/;"	m	class:motor_driver	access:protected
+motor_driver::brake_on	motor_driver.h	/^	bool direction_of_motor, brake_on;$/;"	m	class:motor_driver	access:protected
+motor_driver::direction_of_motor	motor_driver.h	/^	bool direction_of_motor, brake_on;$/;"	m	class:motor_driver	access:protected
 motor_driver::motor_driver	motor_driver.cc	/^motor_driver::motor_driver (base_text_serial* p_serial_port)$/;"	f	class:motor_driver	signature:(base_text_serial* p_serial_port)
 motor_driver::motor_driver	motor_driver.h	/^        motor_driver (base_text_serial*);$/;"	p	class:motor_driver	access:public	signature:(base_text_serial*)
 motor_driver::power_level	motor_driver.h	/^	unsigned char power_level;$/;"	m	class:motor_driver	access:protected
 motor_driver::ptr_to_serial	motor_driver.h	/^        base_text_serial* ptr_to_serial;$/;"	m	class:motor_driver	access:protected
+motor_driver::set_brake	motor_driver.cc	/^bool motor_driver::set_brake (bool brake)$/;"	f	class:motor_driver	signature:(bool brake)
+motor_driver::set_brake	motor_driver.h	/^	bool set_brake (bool);$/;"	p	class:motor_driver	access:public	signature:(bool)
 motor_driver::set_power	motor_driver.cc	/^bool motor_driver::set_power (int power)$/;"	f	class:motor_driver	signature:(int power)
 motor_driver::set_power	motor_driver.h	/^        bool set_power (int);$/;"	p	class:motor_driver	access:public	signature:(int)
-motor_driver::set_power_pct	motor_driver.cc	/^bool motor_driver::set_power_pct (int power)$/;"	f	class:motor_driver	signature:(int power)
+motor_driver::set_power_pct	motor_driver.cc	/^bool motor_driver::set_power_pct (int power_pct)$/;"	f	class:motor_driver	signature:(int power_pct)
 motor_driver::set_power_pct	motor_driver.h	/^	bool set_power_pct (int);$/;"	p	class:motor_driver	access:public	signature:(int)
+motor_position	controls.h	/^		unsigned int motor_position;$/;"	m	class:controls	access:protected
+motor_position_degrees	controls.h	/^		int motor_position_degrees;$/;"	m	class:controls	access:protected
+motor_setting	controls.h	/^		int motor_setting;$/;"	m	class:controls	access:protected
+now_time	stl_us_timer.h	/^        time_stamp now_time;$/;"	m	class:task_timer	access:protected
 oct	base_text_serial.h	/^    oct,                    \/\/\/< Print following numbers in base 8 (octal)$/;"	e	enum:__anon1
-operator <<	adc_driver.cc	/^base_text_serial& operator<< (base_text_serial& serial, avr_adc& my_adc)$/;"	f	signature:(base_text_serial& serial, avr_adc& my_adc)
-operator <<	adc_driver.h	/^base_text_serial& operator<< (base_text_serial&, avr_adc&);$/;"	p	signature:(base_text_serial&, avr_adc&)
+operator +	stl_us_timer.cc	/^time_stamp time_stamp::operator + (const time_stamp& addend)$/;"	f	class:time_stamp	signature:(const time_stamp& addend)
+operator +	stl_us_timer.h	/^        time_stamp operator + (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
+operator +=	stl_us_timer.cc	/^void time_stamp::operator += (const time_stamp& addend)$/;"	f	class:time_stamp	signature:(const time_stamp& addend)
+operator +=	stl_us_timer.h	/^        void operator += (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
+operator -	stl_us_timer.cc	/^time_stamp time_stamp::operator - (const time_stamp& previous)$/;"	f	class:time_stamp	signature:(const time_stamp& previous)
+operator -	stl_us_timer.h	/^        time_stamp operator - (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
+operator -=	stl_us_timer.cc	/^void time_stamp::operator -= (const time_stamp& previous)$/;"	f	class:time_stamp	signature:(const time_stamp& previous)
+operator -=	stl_us_timer.h	/^        void operator -= (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
+operator <<	adc_driver.cc	/^base_text_serial& operator<< (base_text_serial& serial, adc_driver& my_adc)$/;"	f	signature:(base_text_serial& serial, adc_driver& my_adc)
+operator <<	adc_driver.h	/^base_text_serial& operator<< (base_text_serial&, adc_driver&);$/;"	p	signature:(base_text_serial&, adc_driver&)
 operator <<	base_text_serial.cc	/^base_text_serial& base_text_serial::operator<< (bool value)$/;"	f	class:base_text_serial	signature:(bool value)
 operator <<	base_text_serial.cc	/^base_text_serial& base_text_serial::operator<< (char num)$/;"	f	class:base_text_serial	signature:(char num)
 operator <<	base_text_serial.cc	/^base_text_serial& base_text_serial::operator<< (const char* string)$/;"	f	class:base_text_serial	signature:(const char* string)
@@ -143,11 +278,21 @@ operator <<	base_text_serial.h	/^        base_text_serial& operator<< (ser_manip
 operator <<	base_text_serial.h	/^        base_text_serial& operator<< (unsigned char);$/;"	p	class:base_text_serial	access:public	signature:(unsigned char)
 operator <<	base_text_serial.h	/^        base_text_serial& operator<< (unsigned int);$/;"	p	class:base_text_serial	access:public	signature:(unsigned int)
 operator <<	base_text_serial.h	/^        base_text_serial& operator<< (unsigned long);$/;"	p	class:base_text_serial	access:public	signature:(unsigned long)
+operator <<	controls.cc	/^base_text_serial& operator<< (base_text_serial& serial, controls& controller)$/;"	f	signature:(base_text_serial& serial, controls& controller)
+operator <<	controls.h	/^base_text_serial& operator<< (base_text_serial&, controls&);$/;"	p	signature:(base_text_serial&, controls&)
+operator <<	stl_us_timer.cc	/^base_text_serial& operator<< (base_text_serial& serial, time_stamp& stamp)$/;"	f	signature:(base_text_serial& serial, time_stamp& stamp)
+operator <<	stl_us_timer.h	/^base_text_serial& operator<< (base_text_serial&, time_stamp&);$/;"	p	signature:(base_text_serial&, time_stamp&)
+operator ==	stl_us_timer.cc	/^bool time_stamp::operator == (const time_stamp& other)$/;"	f	class:time_stamp	signature:(const time_stamp& other)
+operator ==	stl_us_timer.h	/^        bool operator == (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
+operator >=	stl_us_timer.cc	/^bool time_stamp::operator >= (const time_stamp& other)$/;"	f	class:time_stamp	signature:(const time_stamp& other)
+operator >=	stl_us_timer.h	/^        bool operator >= (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
 p_UCR	rs232.h	/^        volatile unsigned char* p_UCR;$/;"	m	class:rs232	access:protected
 p_UDR	rs232.h	/^        volatile unsigned char* p_UDR;$/;"	m	class:rs232	access:protected
 p_USR	rs232.h	/^        volatile unsigned char* p_USR;$/;"	m	class:rs232	access:protected
+position_error	controls.h	/^		int position_error, velocity_error;$/;"	m	class:controls	access:protected
+position_error_sum	controls.h	/^		int position_error_sum, velocity_error_sum;$/;"	m	class:controls	access:protected
 power_level	motor_driver.h	/^	unsigned char power_level;$/;"	m	class:motor_driver	access:protected
-ptr_to_serial	adc_driver.h	/^        base_text_serial* ptr_to_serial;$/;"	m	class:avr_adc	access:protected
+ptr_to_serial	adc_driver.h	/^        base_text_serial* ptr_to_serial;$/;"	m	class:adc_driver	access:protected
 ptr_to_serial	motor_driver.h	/^        base_text_serial* ptr_to_serial;$/;"	m	class:motor_driver	access:protected
 putchar	base_text_serial.h	/^        virtual bool putchar (char) { }     \/\/\/< Virtual and not defined in base class$/;"	f	class:base_text_serial	access:public	signature:(char)
 putchar	rs232.cc	/^bool rs232::putchar (char chout)$/;"	f	class:rs232	signature:(char chout)
@@ -155,8 +300,9 @@ putchar	rs232.h	/^        bool putchar (char);                \/\/ Write one cha
 puts	base_text_serial.h	/^        virtual void puts (char const*) { } \/\/\/< Virtual and not defined in base class$/;"	f	class:base_text_serial	access:public	signature:(char const*)
 puts	rs232.cc	/^void rs232::puts (char const* str)$/;"	f	class:rs232	signature:(char const* str)
 puts	rs232.h	/^        void puts (char const*);            \/\/ Write a string constant to serial port$/;"	p	class:rs232	access:public	signature:(char const*)
-read_once	adc_driver.cc	/^unsigned int avr_adc::read_once (unsigned char channel)$/;"	f	class:avr_adc	signature:(unsigned char channel)
-read_once	adc_driver.h	/^        unsigned int read_once (unsigned char);$/;"	p	class:avr_adc	access:public	signature:(unsigned char)
+quarters	stl_us_timer.h	/^    char quarters[4];                       \/\/\/< The data as an array of 8-bit chars$/;"	m	union:__anon2	access:public
+read_once	adc_driver.cc	/^unsigned int adc_driver::read_once (unsigned char channel)$/;"	f	class:adc_driver	signature:(unsigned char channel)
+read_once	adc_driver.h	/^        unsigned int read_once (unsigned char);$/;"	p	class:adc_driver	access:public	signature:(unsigned char)
 ready_to_send	base_text_serial.cc	/^bool base_text_serial::ready_to_send (void)$/;"	f	class:base_text_serial	signature:(void)
 ready_to_send	base_text_serial.h	/^        virtual bool ready_to_send (void);  \/\/ Virtual and not defined in base class$/;"	p	class:base_text_serial	access:public	signature:(void)
 ready_to_send	rs232.cc	/^bool rs232::ready_to_send (void)$/;"	f	class:rs232	signature:(void)
@@ -179,14 +325,104 @@ rs232::ready_to_send	rs232.cc	/^bool rs232::ready_to_send (void)$/;"	f	class:rs2
 rs232::ready_to_send	rs232.h	/^        bool ready_to_send (void);          \/\/ Check if the port is ready to transmit$/;"	p	class:rs232	access:public	signature:(void)
 rs232::rs232	rs232.cc	/^rs232::rs232 (unsigned char divisor, unsigned char port_number)$/;"	f	class:rs232	signature:(unsigned char divisor, unsigned char port_number)
 rs232::rs232	rs232.h	/^        rs232 (unsigned char, unsigned char = 0);$/;"	p	class:rs232	access:public	signature:(unsigned char, unsigned char = 0)
+save_time_stamp	stl_us_timer.cc	/^void task_timer::save_time_stamp (time_stamp& the_stamp)$/;"	f	class:task_timer	signature:(time_stamp& the_stamp)
+save_time_stamp	stl_us_timer.h	/^        void save_time_stamp (time_stamp&); \/\/\/ Save current time in a timestamp$/;"	p	class:task_timer	access:public	signature:(time_stamp&)
 sbi	adc_driver.cc	31;"	d	file:
-sbi	motor_driver.cc	29;"	d	file:
+sbi	controls.cc	32;"	d	file:
+sbi	motor_driver.cc	30;"	d	file:
 send_now	base_text_serial.h	/^    send_now                \/\/\/< Tell some radio devices to send data immediately$/;"	e	enum:__anon1
 ser_manipulator	base_text_serial.h	/^    } ser_manipulator;$/;"	t	typeref:enum:__anon1
+set_brake	motor_driver.cc	/^bool motor_driver::set_brake (bool brake)$/;"	f	class:motor_driver	signature:(bool brake)
+set_brake	motor_driver.h	/^	bool set_brake (bool);$/;"	p	class:motor_driver	access:public	signature:(bool)
+set_kd	controls.h	/^		void set_kd(int value){kd = value;}$/;"	f	class:controls	access:public	signature:(int value)
+set_ki	controls.h	/^		void set_ki(int value){ki = value;}$/;"	f	class:controls	access:public	signature:(int value)
+set_kp	controls.h	/^		void set_kp(int value){kp = value;}$/;"	f	class:controls	access:public	signature:(int value)
 set_power	motor_driver.cc	/^bool motor_driver::set_power (int power)$/;"	f	class:motor_driver	signature:(int power)
 set_power	motor_driver.h	/^        bool set_power (int);$/;"	p	class:motor_driver	access:public	signature:(int)
-set_power_pct	motor_driver.cc	/^bool motor_driver::set_power_pct (int power)$/;"	f	class:motor_driver	signature:(int power)
+set_power_pct	motor_driver.cc	/^bool motor_driver::set_power_pct (int power_pct)$/;"	f	class:motor_driver	signature:(int power_pct)
 set_power_pct	motor_driver.h	/^	bool set_power_pct (int);$/;"	p	class:motor_driver	access:public	signature:(int)
+set_reference_position	controls.cc	/^void controls::set_reference_position(){$/;"	f	class:controls	signature:()
+set_reference_position	controls.h	/^		void set_reference_position(void);$/;"	p	class:controls	access:public	signature:(void)
+set_time	stl_us_timer.cc	/^bool task_timer::set_time (time_stamp& t_stamp)$/;"	f	class:task_timer	signature:(time_stamp& t_stamp)
+set_time	stl_us_timer.cc	/^void time_stamp::set_time (int sec, long microsec)$/;"	f	class:time_stamp	signature:(int sec, long microsec)
+set_time	stl_us_timer.cc	/^void time_stamp::set_time (long a_time)$/;"	f	class:time_stamp	signature:(long a_time)
+set_time	stl_us_timer.h	/^        bool set_time (time_stamp&);$/;"	p	class:task_timer	access:public	signature:(time_stamp&)
+set_time	stl_us_timer.h	/^        void set_time (int, long);$/;"	p	class:time_stamp	access:public	signature:(int, long)
+set_time	stl_us_timer.h	/^        void set_time (long);$/;"	p	class:time_stamp	access:public	signature:(long)
+start_geared_position_control	controls.cc	/^void controls::start_geared_position_control(int desired_position_degrees){$/;"	f	class:controls	signature:(int desired_position_degrees)
+start_geared_position_control	controls.cc	/^void controls::start_geared_position_control(int desired_position_degrees, int kp_val, int ki_val){$/;"	f	class:controls	signature:(int desired_position_degrees, int kp_val, int ki_val)
+start_geared_position_control	controls.h	/^		void start_geared_position_control(int);$/;"	p	class:controls	access:public	signature:(int)
+start_geared_position_control	controls.h	/^		void start_geared_position_control(int, int, int);$/;"	p	class:controls	access:public	signature:(int, int, int)
+start_position_control	controls.cc	/^void controls::start_position_control(int desired_position){$/;"	f	class:controls	signature:(int desired_position)
+start_position_control	controls.cc	/^void controls::start_position_control(int desired_position, int kp_val, int ki_val){$/;"	f	class:controls	signature:(int desired_position, int kp_val, int ki_val)
+start_position_control	controls.h	/^		void start_position_control(int);$/;"	p	class:controls	access:public	signature:(int)
+start_position_control	controls.h	/^		void start_position_control(int, int, int);$/;"	p	class:controls	access:public	signature:(int, int, int)
+start_velocity_control	controls.h	/^		void start_velocity_control(int);$/;"	p	class:controls	access:public	signature:(int)
+start_velocity_control	controls.h	/^		void start_velocity_control(int, int, int);$/;"	p	class:controls	access:public	signature:(int, int, int)
+task_timer	stl_us_timer.cc	/^task_timer::task_timer (void)$/;"	f	class:task_timer	signature:(void)
+task_timer	stl_us_timer.h	/^        task_timer (void);                  \/\/\/ Constructor creates an empty timer$/;"	p	class:task_timer	access:public	signature:(void)
+task_timer	stl_us_timer.h	/^class task_timer$/;"	c
+task_timer::get_time_now	stl_us_timer.cc	/^time_stamp& task_timer::get_time_now (void)$/;"	f	class:task_timer	signature:(void)
+task_timer::get_time_now	stl_us_timer.h	/^        time_stamp& get_time_now (void);    \/\/\/ Get the current time$/;"	p	class:task_timer	access:public	signature:(void)
+task_timer::now_time	stl_us_timer.h	/^        time_stamp now_time;$/;"	m	class:task_timer	access:protected
+task_timer::save_time_stamp	stl_us_timer.cc	/^void task_timer::save_time_stamp (time_stamp& the_stamp)$/;"	f	class:task_timer	signature:(time_stamp& the_stamp)
+task_timer::save_time_stamp	stl_us_timer.h	/^        void save_time_stamp (time_stamp&); \/\/\/ Save current time in a timestamp$/;"	p	class:task_timer	access:public	signature:(time_stamp&)
+task_timer::set_time	stl_us_timer.cc	/^bool task_timer::set_time (time_stamp& t_stamp)$/;"	f	class:task_timer	signature:(time_stamp& t_stamp)
+task_timer::set_time	stl_us_timer.h	/^        bool set_time (time_stamp&);$/;"	p	class:task_timer	access:public	signature:(time_stamp&)
+task_timer::task_timer	stl_us_timer.cc	/^task_timer::task_timer (void)$/;"	f	class:task_timer	signature:(void)
+task_timer::task_timer	stl_us_timer.h	/^        task_timer (void);                  \/\/\/ Constructor creates an empty timer$/;"	p	class:task_timer	access:public	signature:(void)
+time_data_32	stl_us_timer.h	/^    } time_data_32;$/;"	t	typeref:union:__anon2
+time_stamp	stl_us_timer.cc	/^time_stamp::time_stamp (int sec, long microsec)$/;"	f	class:time_stamp	signature:(int sec, long microsec)
+time_stamp	stl_us_timer.cc	/^time_stamp::time_stamp (long a_time)$/;"	f	class:time_stamp	signature:(long a_time)
+time_stamp	stl_us_timer.cc	/^time_stamp::time_stamp (void)$/;"	f	class:time_stamp	signature:(void)
+time_stamp	stl_us_timer.h	/^        time_stamp (int, long);$/;"	p	class:time_stamp	access:public	signature:(int, long)
+time_stamp	stl_us_timer.h	/^        time_stamp (long);$/;"	p	class:time_stamp	access:public	signature:(long)
+time_stamp	stl_us_timer.h	/^        time_stamp (void);$/;"	p	class:time_stamp	access:public	signature:(void)
+time_stamp	stl_us_timer.h	/^class time_stamp$/;"	c
+time_stamp::data	stl_us_timer.h	/^        time_data_32 data;$/;"	m	class:time_stamp	access:protected
+time_stamp::get_microsec	stl_us_timer.cc	/^long time_stamp::get_microsec (void)$/;"	f	class:time_stamp	signature:(void)
+time_stamp::get_microsec	stl_us_timer.h	/^        long get_microsec (void);$/;"	p	class:time_stamp	access:public	signature:(void)
+time_stamp::get_seconds	stl_us_timer.cc	/^int time_stamp::get_seconds (void)$/;"	f	class:time_stamp	signature:(void)
+time_stamp::get_seconds	stl_us_timer.h	/^        int get_seconds (void);$/;"	p	class:time_stamp	access:public	signature:(void)
+time_stamp::get_time	stl_us_timer.cc	/^void time_stamp::get_time (long& an_item)$/;"	f	class:time_stamp	signature:(long& an_item)
+time_stamp::get_time	stl_us_timer.h	/^        void get_time (long&);$/;"	p	class:time_stamp	access:public	signature:(long&)
+time_stamp::operator +	stl_us_timer.cc	/^time_stamp time_stamp::operator + (const time_stamp& addend)$/;"	f	class:time_stamp	signature:(const time_stamp& addend)
+time_stamp::operator +	stl_us_timer.h	/^        time_stamp operator + (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
+time_stamp::operator +=	stl_us_timer.cc	/^void time_stamp::operator += (const time_stamp& addend)$/;"	f	class:time_stamp	signature:(const time_stamp& addend)
+time_stamp::operator +=	stl_us_timer.h	/^        void operator += (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
+time_stamp::operator -	stl_us_timer.cc	/^time_stamp time_stamp::operator - (const time_stamp& previous)$/;"	f	class:time_stamp	signature:(const time_stamp& previous)
+time_stamp::operator -	stl_us_timer.h	/^        time_stamp operator - (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
+time_stamp::operator -=	stl_us_timer.cc	/^void time_stamp::operator -= (const time_stamp& previous)$/;"	f	class:time_stamp	signature:(const time_stamp& previous)
+time_stamp::operator -=	stl_us_timer.h	/^        void operator -= (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
+time_stamp::operator ==	stl_us_timer.cc	/^bool time_stamp::operator == (const time_stamp& other)$/;"	f	class:time_stamp	signature:(const time_stamp& other)
+time_stamp::operator ==	stl_us_timer.h	/^        bool operator == (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
+time_stamp::operator >=	stl_us_timer.cc	/^bool time_stamp::operator >= (const time_stamp& other)$/;"	f	class:time_stamp	signature:(const time_stamp& other)
+time_stamp::operator >=	stl_us_timer.h	/^        bool operator >= (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
+time_stamp::set_time	stl_us_timer.cc	/^void time_stamp::set_time (int sec, long microsec)$/;"	f	class:time_stamp	signature:(int sec, long microsec)
+time_stamp::set_time	stl_us_timer.cc	/^void time_stamp::set_time (long a_time)$/;"	f	class:time_stamp	signature:(long a_time)
+time_stamp::set_time	stl_us_timer.h	/^        void set_time (int, long);$/;"	p	class:time_stamp	access:public	signature:(int, long)
+time_stamp::set_time	stl_us_timer.h	/^        void set_time (long);$/;"	p	class:time_stamp	access:public	signature:(long)
+time_stamp::time_stamp	stl_us_timer.cc	/^time_stamp::time_stamp (int sec, long microsec)$/;"	f	class:time_stamp	signature:(int sec, long microsec)
+time_stamp::time_stamp	stl_us_timer.cc	/^time_stamp::time_stamp (long a_time)$/;"	f	class:time_stamp	signature:(long a_time)
+time_stamp::time_stamp	stl_us_timer.cc	/^time_stamp::time_stamp (void)$/;"	f	class:time_stamp	signature:(void)
+time_stamp::time_stamp	stl_us_timer.h	/^        time_stamp (int, long);$/;"	p	class:time_stamp	access:public	signature:(int, long)
+time_stamp::time_stamp	stl_us_timer.h	/^        time_stamp (long);$/;"	p	class:time_stamp	access:public	signature:(long)
+time_stamp::time_stamp	stl_us_timer.h	/^        time_stamp (void);$/;"	p	class:time_stamp	access:public	signature:(void)
+time_stamp::to_string	stl_us_timer.cc	/^void time_stamp::to_string (char* str, unsigned char digits)$/;"	f	class:time_stamp	signature:(char* str, unsigned char digits)
+time_stamp::to_string	stl_us_timer.h	/^        void to_string (char*, unsigned char = 5);$/;"	p	class:time_stamp	access:public	signature:(char*, unsigned char = 5)
+to_string	stl_us_timer.cc	/^void time_stamp::to_string (char* str, unsigned char digits)$/;"	f	class:time_stamp	signature:(char* str, unsigned char digits)
+to_string	stl_us_timer.h	/^        void to_string (char*, unsigned char = 5);$/;"	p	class:time_stamp	access:public	signature:(char*, unsigned char = 5)
 transmit_now	base_text_serial.cc	/^void base_text_serial::transmit_now (void)$/;"	f	class:base_text_serial	signature:(void)
 transmit_now	base_text_serial.h	/^        virtual void transmit_now (void);   \/\/ Immediately transmit any buffered data$/;"	p	class:base_text_serial	access:public	signature:(void)
+update_ISR_values	controls.cc	/^void controls::update_ISR_values(){$/;"	f	class:controls	signature:()
+update_ISR_values	controls.h	/^		void update_ISR_values(void);$/;"	p	class:controls	access:public	signature:(void)
+update_geared_position_control	controls.cc	/^void controls::update_geared_position_control(void){$/;"	f	class:controls	signature:(void)
+update_geared_position_control	controls.h	/^		void update_geared_position_control(void);$/;"	p	class:controls	access:public	signature:(void)
+update_position_control	controls.cc	/^void controls::update_position_control(void){$/;"	f	class:controls	signature:(void)
+update_position_control	controls.h	/^		void update_position_control(void);$/;"	p	class:controls	access:public	signature:(void)
+update_velocity_control	controls.h	/^		void update_velocity_control(void);$/;"	p	class:controls	access:public	signature:(void)
+ust_overflows	stl_us_timer.cc	/^unsigned int ust_overflows = 0;$/;"	v
+velocity_error	controls.h	/^		int position_error, velocity_error;$/;"	m	class:controls	access:protected
+velocity_error_sum	controls.h	/^		int position_error_sum, velocity_error_sum;$/;"	m	class:controls	access:protected
+whole	stl_us_timer.h	/^    long whole;                             \/\/\/< All the data as one 32-bit number$/;"	m	union:__anon2	access:public
 word	adc_driver.cc	/^	int word;                               \/\/ The whole 16-bit number$/;"	m	union:ADC_result	file:	access:public

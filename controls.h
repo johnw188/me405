@@ -53,7 +53,7 @@ class controls : public motor_driver {
 		int get_kd(void){return kd;}
 		// Use to read position
 		int get_motor_position(void){return motor_position;}
-		int get_motor_gear_position(void){return gear_position;}
+		int get_motor_gear_position(void);
 		int get_motor_position_degrees(void){return motor_position_degrees;}
 		int get_gear_position_degrees(void){return gear_position_degrees;}
 		// Use to check number of errors encountered

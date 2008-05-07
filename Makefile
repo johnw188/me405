@@ -19,7 +19,7 @@
 
 # The name of the program you're building, and the list of object files
 TARGET = controls_test
-OBJS = $(TARGET).o base_text_serial.o rs232.o motor_driver.o adc_driver.o controls.o
+OBJS = $(TARGET).o base_text_serial.o rs232.o motor_driver.o adc_driver.o controls.o stl_us_timer.o
 
 # This specifies the type of CPU; both 'CHIP' and 'MCU' must be set
 #CHIP = 2313
