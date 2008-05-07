@@ -41,6 +41,7 @@ long ISR_encoder_gear_max_value;
 unsigned int ISR_motor_position;
 // Position of the ouput of the geartrain
 unsigned long ISR_gear_position;
+int ISR_gear_position_degrees;
 
 
 /** ISR's for updating the encoder position
@@ -185,6 +186,8 @@ void controls::update_ISR_values(){
 	ISR_encoder_gear_max_value = encoder_gear_max_value;
 	motor_position = ISR_motor_position;
 	gear_position = ISR_gear_position;
+	motor_position_degrees = (long)(ISR_motor_position * 360) / encoder_max_value;
+	gear_position_degrees = (long)(ISR_gear_position * 360) / encoder_gear_max_value;
 	// Set interrupts
 	sei();
 }
@@ -224,45 +227,50 @@ void controls::update_position_control(void){
  */
 
 void controls::start_geared_position_control(int desired_position_degrees){
-	if(desired_position_degrees == 360){
-		desired_gear_position = 0;
-	}
-	else{
-		desired_gear_position = (long)(desired_position_degrees * (encoder_gear_max_value + 1)) / 360;
-	}
+	desired_gear_position = desired_position_degrees;
 	gear_position_error_sum = 0;
 }
 
 void controls::start_geared_position_control(int desired_position_degrees, int kp_val, int ki_val){
-	if(desired_position_degrees == 360){
-		desired_gear_position = 0;
-	}
-	else{
-		desired_gear_position = (long)(desired_position_degrees * (encoder_gear_max_value + 1)) / 360;
-	}
+	desired_gear_position = desired_position_degrees;
 	gear_position_error_sum = 0;
 	kp = kp_val;
 	ki = ki_val;
 }
 
 void controls::update_geared_position_control(void){
-	update_ISR_values();
-	if(desired_gear_position > gear_position){
-		gear_position_error = desired_gear_position - gear_position;
+	cli();
+	ISR_gear_position_degrees = (long)(ISR_gear_position * 360) / encoder_gear_max_value;
+	sei();
+
+	if(desired_gear_position > ISR_gear_position_degrees){
+		gear_position_error = desired_gear_position - ISR_gear_position_degrees;
 	}
 	else{
-		gear_position_error = -(gear_position - desired_gear_position);
+		gear_position_error = -(ISR_gear_position_degrees - desired_gear_position);
+		*ptr_to_serial << "Less than" << endl;
 	}
-	gear_position_error_sum += position_error;
+
+	if(gear_position_error > 180){
+		gear_position_error -= 360;
+	}
+	gear_position_error_sum += gear_position_error;
 	motor_setting = gear_position_error * kp + gear_position_error_sum * ki;
-	if(motor_setting > 255){
-		motor_setting = 255;
+
+	*ptr_to_serial << ISR_gear_position_degrees << "   " << desired_gear_position << "   " << gear_position_error << "   " << gear_position_error_sum << "   " << motor_setting << endl;
+
+	if(motor_setting > 100){
+		motor_setting = 100;
 	}
-	else if(motor_setting < -255){
-		motor_setting = -255;
+	else if(motor_setting < -100){
+		motor_setting = -100;
 	}
 
 	set_power(motor_setting);
+}
+
+void controls::change_gear_position(int new_position){
+	desired_gear_position = new_position;
 }
 //--------------------------------------------------------------------------------------
 /** This overloaded operator allows information about the motor to be printed
@@ -274,7 +282,8 @@ base_text_serial& operator<< (base_text_serial& serial, controls& controller)
 	// Outputs to the serial port
 	serial << "kp: " << controller.get_kp() << "\n\rki: " << controller.get_ki() << "\n\rMotor position: " 
 		<< controller.get_motor_position() << "\n\rGear Position: " << controller.get_motor_gear_position() 
-		<< "\n\rErrors: " << controller.get_errors() << endl;
+		<< "\n\rErrors: " << controller.get_errors() << "\n\rMotor position(degrees): " 
+		<< controller.get_motor_position_degrees() << "\n\rGear position(degrees): " << controller.get_gear_position_degrees() << endl;
 
 	return (serial);
 }

@@ -35,7 +35,9 @@
 
 int main ()
     {
-    volatile unsigned long dummy;           // Used as a not-smart delay loop counter
+    volatile unsigned long dummy, controldummy;           // Used as a not-smart delay loop counter
+    char input_char;
+    int position = 0;
 
     // Create an RS232 serial port object. Diagnostic information can be printed out 
     // using this port
@@ -47,34 +49,41 @@ int main ()
     // Say hello
     the_serial_port << "\r\nControls Test App\r\n";
 
-    controller.set_kp(1);
+    controller.set_kp(3);
     controller.set_ki(0);
-    controller.start_geared_position_control(0);
+    controller.start_geared_position_control(90);
+
+    the_serial_port << sizeof(int) << ":" << sizeof(long) << ":" << endl;
 
 
     // Run the main scheduling loop, in which the action to run is done repeatedly.
     while (true)
     {
 	    // Continuously check the value of the adc and set the motor accordingly.
-	    if(dummy++ > 10000L){
-		    dummy = 0;
-		    if(PINE & 0b00010000){
-			    the_serial_port << "pin4 high" << endl;
-		    }
-		    else{
-			    the_serial_port << "pin4 low" << endl;
-		    }
-		    if(PINE & 0b00100000){
-			    the_serial_port << "pin5 high" << endl;
-		    }
-		    else{
-			    the_serial_port << "pin5 low" << endl;
-		    }
-		    controller.update_ISR_values();
-		    the_serial_port << controller;
+	    //if(controldummy++ > 100L){
 		    controller.update_geared_position_control();
+	   // }
+	    if (the_serial_port.check_for_char ())
+	    {
+		    input_char = the_serial_port.getchar();
+		    // If space is pressed, toggle brake
+		    if (input_char == '+')
+		    {
+			    position += 10;
+			    controller.change_gear_position(position);
+		    }
+		    else if(input_char == '-')
+		    {
+			    position -= 10;
+			    controller.change_gear_position(position);
+		    }
+		    else if(input_char >= 48 && input_char <= 57){
+			    controller.set_kp(input_char - 48);
+		    }
 	    }
+
     }
+
 
     return (0);
     }
