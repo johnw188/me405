@@ -44,7 +44,7 @@ unsigned long ISR_gear_position;
 int ISR_gear_position_degrees;
 
 
-/** ISR's for updating the encoder position
+/** ISR's for updating the encoder position. Increments or decrements position based upon previous state of the encoder pins
 */
 ISR(INT4_vect){
 	if( (PINE & 0b00010000) == 0b00010000 ){
@@ -179,6 +179,7 @@ void controls::set_reference_position(){
 void controls::update_ISR_values(){
 	// Clear interrupts
 	cli();
+	// Updates values
 	encoder_pin_A = ISR_encoder_pin_A;
 	encoder_pin_B = ISR_encoder_pin_B;
 	error_count = ISR_error_count;
@@ -227,7 +228,7 @@ void controls::update_position_control(void){
 
 //-------------------------------------------------------------------------------------
 /** Starts a gear position controller to tell the end of the geartrain with a predefined
- *  gear ratio
+ *  gear ratio to move to a position
  */
 
 void controls::start_geared_position_control(int desired_position_degrees){
@@ -243,26 +244,34 @@ void controls::start_geared_position_control(int desired_position_degrees, int k
 }
 
 void controls::update_geared_position_control(void){
+	//Get position in degrees
 	cli();
 	ISR_gear_position_degrees = (long)(ISR_gear_position * 360) / encoder_gear_max_value;
-	sei();
 
+	// Calculate error
 	if(desired_gear_position > ISR_gear_position_degrees){
 		gear_position_error = desired_gear_position - ISR_gear_position_degrees;
 	}
 	else{
 		gear_position_error = -(ISR_gear_position_degrees - desired_gear_position);
 	}
+	sei();
 
+	// Attempt to deal with crossing zero degrees
 	if(gear_position_error > 180){
 		gear_position_error -= 360;
 	}
+	
+	// Integrate error
 	gear_position_error_sum += gear_position_error;
+
+	// Generate motor setting output
 	motor_setting = gear_position_error * kp + gear_position_error_sum * ki;
 
 	// Debug string
 	 // *ptr_to_serial << ISR_gear_position_degrees << "   " << desired_gear_position << "   " << gear_position_error << "   " << gear_position_error_sum << "   " << motor_setting << "                           \r";
 
+	// Saturation control
 	if(motor_setting > 255){
 		motor_setting = 255;
 	}
@@ -270,10 +279,12 @@ void controls::update_geared_position_control(void){
 		motor_setting = -255;
 	}
 
+	// Sets motor power
 	set_power(motor_setting);
 }
 
 void controls::change_gear_position(int new_position){
+	// Changes gear position to a new position
 	desired_gear_position = new_position;
 }
 //--------------------------------------------------------------------------------------
