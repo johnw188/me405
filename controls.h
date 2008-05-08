@@ -25,8 +25,13 @@ class controls : public motor_driver {
 		unsigned long gear_position;
 		// Stores controls constants
 		int kp, ki, kd;
+		// Stores value to set motor to
+		int motor_setting;
 		// Stores gear ratio of a geared system
 		int gear_ratio;
+		// Stores motor position in degrees
+		int motor_position_degrees;
+		int gear_position_degrees;
 		// Places to store error
 		int position_error, velocity_error;
 		long gear_position_error, gear_velocity_error;
@@ -43,13 +48,20 @@ class controls : public motor_driver {
 		void set_ki(int value){ki = value;}
 		void set_kd(int value){kd = value;}
 		//Use to read constants from other classes
-		void get_kp(void){return kp;}
-		void get_ki(void){return ki;}
-		void get_kd(void){return kd;}
+		int get_kp(void){return kp;}
+		int get_ki(void){return ki;}
+		int get_kd(void){return kd;}
 		// Use to read position
 		int get_motor_position(void){return motor_position;}
+		int get_motor_gear_position(void);
+		int get_motor_position_degrees(void){return motor_position_degrees;}
+		int get_gear_position_degrees(void){return gear_position_degrees;}
+		// Use to check number of errors encountered
+		int get_errors(void){return error_count;}
 		// Sets new reference value
-		bool set_reference_position(void);
+		void set_reference_position(void);
+		// Updates class member variables from ISR
+		void update_ISR_values(void);
 		// Position control methods
 		void start_position_control(int);
 		void start_position_control(int, int, int);
@@ -58,8 +70,11 @@ class controls : public motor_driver {
 		void start_geared_position_control(int);
 		void start_geared_position_control(int, int, int);
 		void update_geared_position_control(void);
+		void change_gear_position(int);
 		// Velocity control methods
 		void start_velocity_control(int);
 		void start_velocity_control(int, int, int);
 		void update_velocity_control(void);
 };
+
+base_text_serial& operator<< (base_text_serial&, controls&);

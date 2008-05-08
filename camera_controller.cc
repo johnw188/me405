@@ -16,17 +16,13 @@
                                          
 // Controller uses motor_driver class to power a motor
 #include "rs232.h"                        
-#include "motor_driver.h"                   
+#include "controls.h"
 
 /** This is the baud rate divisor for the serial port. It should give 9600 baud for the
  *  CPU crystal speed in use, for example 26 works for a 4MHz crystal on an ATmega8 
  */
 #define BAUD_DIV        52                  // For testing an ATmega128
 
-// Constructor to initialize/define everything
-camera_controller::camera_controller(base_text_serial* p_to_serial, motor_driver* p_to_motor){
-	ptr_to_serial = p_to_serial;
-	ptr_to_motor = p_to_motor;
 
 	// Define current position as initial position
 	
