@@ -54,7 +54,7 @@ int main ()
     // Say hello
     the_serial_port << "\r\nControls Test App\r\n";
 
-    controller.set_kp(40);
+    controller.set_kp(10);
     controller.set_ki(0);
     controller.start_geared_position_control(0);
 
