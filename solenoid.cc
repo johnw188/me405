@@ -1,45 +1,51 @@
-solenoid::solenoid(base_text_serial* p_serial_port)
+//======================================================================================
+/** \file  solenoid.cc
+ *  Class which implements the functionality of the solenoid to make a picture or hit the focus
+ *  ME405 boards
+ *
+ *  Revisions:
+ *    \li  04-17-08  Created files
+ *    \li  04-21-08  Began implementing methods
+ *
+ *  License:
+ *    This file released under the Lesser GNU Public License. The program is intended
+ *    for educational use only, but its use is not restricted thereto. 
+ */
+//======================================================================================
+
+#include <stdlib.h>
+#include <avr/io.h>
+#include "rs232.h"                          // Include header for serial port class
+#include "solenoid.h"
+
+solenoid::solenoid (base_text_serial* p_serial_port)
 {
-	ptr_to_serial = p_serial_port;
-	*ptr_to_serial << "Setting up solenid controller";
-	//Sets up the data direction register to open the relevant bit of Port A
-	DDRA = 0b00000001;
-	//Sets the output to zero at the beginning
-	PORTA = 0b00000000;
+  ptr_to_serial = p_serial_port;
+  *ptr_to_serial << "Setting up solenid controller";
+  //Sets up the data direction register to open the relevant bit of Port C
+  DDRC = 0b00000001;
+  //Sets the output to zero at the beginning
+  PORTC = 0b00000000;
 }
 
-solenoid::take_pic()
+bool solenoid::set_pic_time (int time)
 {
-   volatile unsigned long dummy;           // Used as a not-smart delay loop counter
-	if(dummy++ < time_for_pic && solenoid_on){
-		dummy = 0;	
-		PORTA = 0b00000001
-	}
-};
+time_for_pic = time;
+return true;
+}
 
-solenoid::hit_focus()
+bool solenoid::set_focus_time (int time)
 {
-	volatile unsigned long dummy;           // Used as a not-smart delay loop counter
-	if(dummy++ < time_for_focus && solenoid_on){
-		dummy = 0;	
-		PORTA = 0b00000001
-	}
-};
+time_for_focus = time;
+return true;
+}
 
+void solenoid::turn_on (void)
+{
+    PORTC |= 0b00000001;
+}
 
-
-
-
-
-
-
-
-
-
-
-Hi John, 
-I started writing a class for the solenoid. I'd have some more questions about things here and then we can test it. 
-I'll work on this stupid presentation little bit more, and then come back. could you write me an email, until when you plan to stay here for today? linearization is one more topic...
-		richter.markus@arcor.de
-				
-cu later.
+void solenoid::turn_off (void)
+{
+    PORTC &= 0b00000000;
+}
