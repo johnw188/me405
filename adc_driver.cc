@@ -59,7 +59,7 @@ adc_driver::adc_driver (base_text_serial* p_serial_port)
 
 	// Turns on A/D converter without interrupts and in single sample mode,
 	// with prescaler set to 64
-	ADCSRA = 0b10000110;
+	ADCSRA = 0b10000010;
 
 	// Sets ADC result to right adjust, selects AVCChannel as Vref, and selects
 	// single-ended conversion on PF0

@@ -18,8 +18,8 @@
 # Stuff the user is expected to change is in this section
 
 # The name of the program you're building, and the list of object files
-TARGET = controls_test
-OBJS = $(TARGET).o base_text_serial.o rs232.o motor_driver.o adc_driver.o controls.o stl_us_timer.o
+TARGET = adc_test
+OBJS = $(TARGET).o base_text_serial.o rs232.o motor_driver.o adc_driver.o controls.o stl_us_timer.o sharp_sensor_driver.o
 
 # This specifies the type of CPU; both 'CHIP' and 'MCU' must be set
 #CHIP = 2313
@@ -40,7 +40,7 @@ MCU=atmega128
 # Port to which downloader cable is attached, and type of downloader
 PORT = /dev/parport0             # Port used by avrdude downloader program
 HWARE = bsd                      # Type of cable ('bsd' is parport cable)
-JPORT = /dev/ttyUSB0             # Port to which JTAG-ICE is connected
+JPORT = /dev/avrjtag             # Port to which JTAG-ICE is connected
 JHWARE = jtagice                 # Type of JTAG-ICE interface
 IPPORT = :4242                   # IP port on which Avarice and Insight talk
 

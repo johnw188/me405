@@ -18,6 +18,10 @@
 #include <avr/io.h>
 
 #include "rs232.h"                          // Include header for serial port class
+#include "adc_driver.h"
+#include "sharp_sensor_driver.h"
+
+#define SENSORPORT 0
 
 
 /** These defines make it easier for us to manipulate the bits of our registers, by
@@ -32,20 +36,22 @@
 /** Constructor
  */
 
-sharp_sensor_driver::sharp_sensor_driver(){
-
+sharp_sensor_driver::sharp_sensor_driver(base_text_serial* p_serial_port) : adc_driver(p_serial_port){
 }
 
 
 //--------------------------------------------------------------------------------------
-/** This overloaded operator allows information about the motor to be printed
- *  easily to the terminal
+/** Gets a raw reading from the sensor
  */
 
-base_text_serial& operator<< (base_text_serial& serial, motor_driver& my_motor)
-{
-	// Outputs to the serial port
-	serial << "stuff goes here" << endl;
+int sharp_sensor_driver::getReading(void){
+	return read_once(SENSORPORT);
+}
 
-	return (serial);
+//--------------------------------------------------------------------------------------
+/** Uses a lookup table to convert reading to distance
+ */
+
+int sharp_sensor_driver::getDistance(void){
+
 }

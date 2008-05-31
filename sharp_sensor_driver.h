@@ -14,25 +14,21 @@
 #ifndef _SHARP_SENSOR_DRIVER_H_
 #define _SHARP_SENSOR_DRIVER_H_
 
+#include "adc_driver.h"
+
 
 //-------------------------------------------------------------------------------------
-/** Comments
+/** Sensor driver implements getReading and getDistance methods
  */
 
-class motor_driver
-    {
-    protected:
-
-    public:
-        sharp_sensor_driver(base_text_serial*);
-    };
-
-
-//--------------------------------------------------------------------------------------
-/// This operator allows status information about the sensor to be written to serial
-/// ports easily
-
-base_text_serial& operator<< (base_text_serial&);
-
+class sharp_sensor_driver : public adc_driver {
+	protected:
+		int sensor_value; //Returns raw sensor data
+		int sensor_distance; //Returns distance in centimeters
+	public:
+		sharp_sensor_driver(base_text_serial*);
+		int getReading(void);
+		int getDistance(void);
+};
 
 #endif

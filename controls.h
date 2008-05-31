@@ -11,6 +11,8 @@
  */
 //======================================================================================
 
+#ifndef _CONTROLS_H_
+#define _CONTROLS_H_
 class controls : public motor_driver {
 	protected:
 		// Status of the encoder pins
@@ -78,3 +80,5 @@ class controls : public motor_driver {
 };
 
 base_text_serial& operator<< (base_text_serial&, controls&);
+
+#endif

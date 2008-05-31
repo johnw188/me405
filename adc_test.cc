@@ -19,7 +19,7 @@
 #include <stdlib.h>                         // Standard C library
                                             // User written headers included with " "
 #include "rs232.h"                          // Include header for serial port class
-#include "adc_driver.h"                        // Include header for the A/D class
+#include "sharp_sensor_driver.h"                        // Include header for the A/D class
 
 /** This is the baud rate divisor for the serial port. It should give 9600 baud for the
  *  CPU crystal speed in use, for example 26 works for a 4MHz crystal on an ATmega8 
@@ -44,7 +44,7 @@ int main ()
 
     // Create an ADC (Analog to Digital Converter) object. This object must be given a
     // pointer to the serial port object so that it can print debugging information
-    avr_adc my_adc (&the_serial_port);
+    sharp_sensor_driver sharp_sensor (&the_serial_port);
 
     // Say hello
     the_serial_port << "\r\nAnalog to Digital Test Program v0.002\r\n";
@@ -55,14 +55,14 @@ int main ()
         {
         // The dummy counter is used to slow down the rate at which stuff is printed
         // on the terminal
-        if (++dummy >= 1000000L)
+        if (++dummy >= 10000L)
             {
             dummy = 0;
 
 
 	    // Calls the overloaded << operator to print diagnostic information about
 	    // the A/D conversion ports
-            the_serial_port << "A/D status:\n\r" << my_adc << endl;
+            the_serial_port << "A/D status: " << sharp_sensor.getReading() << "\r";
             }
         }
 
