@@ -62,7 +62,7 @@ int main ()
 
 	    // Calls the overloaded << operator to print diagnostic information about
 	    // the A/D conversion ports
-            the_serial_port << "A/D status: " << sharp_sensor.getReading() << "\r";
+            the_serial_port << "A/D status: " << sharp_sensor.getReading() << endl;
             }
         }
 

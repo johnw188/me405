@@ -120,7 +120,6 @@ int main ()
         {
         	//my_motor_task.schedule (the_timer.get_time_now ());
         	my_solenoid_task.schedule (the_timer.get_time_now ());
-	STL_DEBUG_PUTS ("while");
         }
     return (0);
     }

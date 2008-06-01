@@ -19,11 +19,9 @@ const char WAITING = 0;                  		// Is waiting for change of state
 const char TAKE_PIC = 1;                    		// Is taking a pic
 
 unsigned int timer = 0;
-int interval = 10000;					// interval time to run this task
-//int time_to_take_pic = 100000 / interval;		// Time to take a pic: 100 ms
-//int time_to_wake_up = 270000000 / interval;	// Time to wake up: 4 min 30 sec
-int time_to_wake_up = 100;
-int time_to_take_pic = 100;
+
+int time_to_wake_up = 27000; //27000 * .01 = 270 seconds = 4 min 30 sec
+int time_to_take_pic = 10; //10 * .01 = 0.1sec
 //-------------------------------------------------------------------------------------
 /** This constructor creates a motor task object. The motor object needs pointers to
  *  a solenoid controller in order to do its thing. 
@@ -37,7 +35,7 @@ task_solenoid::task_solenoid (time_stamp* t_stamp, solenoid* p_solenoid, base_te
     {
 	ptr_solenoid = p_solenoid;                        // Save pointers to other objects
 	ptr_serial = p_ser;
-
+	take_picture_flag = false;
     // Say hello
     ptr_serial->puts ("Solenoid task constructor\r\n");
     }
@@ -58,14 +56,15 @@ char task_solenoid::run (char state)
         // to be going to the right
 	case (WAITING):
 		timer++;
-        	/*if(take_picture){
+        	if(take_picture_flag){
+			take_picture_flag = false;
 			ptr_solenoid->turn_on();
 			timer = 0;
 			return(TAKE_PIC);
-		}*/
-		STL_DEBUG_PUTS ("waiting");
+		}
 		if (timer > time_to_wake_up){
 			timer = 0;
+			ptr_solenoid->turn_on();
 			return(TAKE_PIC);
 		}
             break;
@@ -76,7 +75,6 @@ char task_solenoid::run (char state)
 		if (timer > time_to_take_pic){
 			timer = 0;
 			ptr_solenoid->turn_off();
-		STL_DEBUG_PUTS ("after activate ");
 			return(WAITING);
 		}
             break;
@@ -89,4 +87,13 @@ char task_solenoid::run (char state)
         };
     // If we get here, no transition is called for
     return (STL_NO_TRANSITION);
+    }
+
+/** This method is called to tell the solenoid to take a picture
+ */
+
+void task_solenoid::take_picture (void)
+    {
+    ptr_serial->puts ("Taking picture\r\n");
+    take_picture_flag = true;
     }
