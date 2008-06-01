@@ -1,7 +1,6 @@
 //======================================================================================
-/** \file  task_solenoid.cc
- *  Task which controls the solenoid to keep the camera awake and take pictures when
- *  flagged
+/** \file  task_comm.cc
+ *  Task which controls the radioto communicate to other microcontrollers when flagged
  *
  *  Revisions:
  *    \li  05-31-08  Created file
@@ -16,12 +15,11 @@
 
 // S T A T E S:
 const char WAITING = 0;                  		// Is waiting for change of state
-const char TAKE_PIC = 1;                    		// Is taking a pic
+const char SEND = 1;                    		// Is sending a coord
+const char RECEIVE = 2					// Is receiving a packege	
 
 unsigned int timer = 0;
 
-int time_to_wake_up = 27000; //27000 * .01 = 270 seconds = 4 min 30 sec
-int time_to_take_pic = 10; //10 * .01 = 0.1sec
 //-------------------------------------------------------------------------------------
 /** This constructor creates a motor task object. The motor object needs pointers to
  *  a solenoid controller in order to do its thing. 
@@ -30,14 +28,14 @@ int time_to_take_pic = 10; //10 * .01 = 0.1sec
  *  @param p_ser   A pointer to a serial port for sending messages if required
  */
 
-task_solenoid::task_solenoid (time_stamp* t_stamp, solenoid* p_solenoid, base_text_serial* p_ser)
+task_comm::task_comm (time_stamp* t_stamp, solenoid* p_solenoid, base_text_serial* p_ser)
     : stl_task (*t_stamp, p_ser)
     {
 	ptr_solenoid = p_solenoid;                        // Save pointers to other objects
 	ptr_serial = p_ser;
 	take_picture_flag = false;
     // Say hello
-    ptr_serial->puts ("Solenoid task constructor\r\n");
+    ptr_serial->puts ("communication task constructor\r\n");
     }
 
 //-------------------------------------------------------------------------------------
@@ -69,7 +67,7 @@ char task_solenoid::run (char state)
             break;
 
         // In State 1, the motor goes to the right
-        case (TAKE_PIC):
+        case (SEND):
 		timer++;
 		ptr_solenoid->turn_on();
 		if (timer > time_to_take_pic){
@@ -78,9 +76,18 @@ char task_solenoid::run (char state)
 			return(WAITING);
 		}
             break;
+        case (RECEIVE):
+		timer++;
+		ptr_solenoid->turn_on();
+		if (timer > time_to_take_pic){
+			timer = 0;
+			ptr_solenoid->turn_off();
+			return(WAITING);
+		}
+            break
         // If the state isn't a known state, call Houston; we have a problem
         default:
-		STL_DEBUG_PUTS ("WARNING: Solenoid control task in state ");
+		STL_DEBUG_PUTS ("WARNING: communication control task in state ");
 		STL_DEBUG_WRITE (state);
 		STL_DEBUG_PUTS ("\r\n");
 		return(WAITING);
