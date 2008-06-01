@@ -33,10 +33,4 @@ class task_solenoid : public stl_task
 
         // The run method is where the task actually performs its function
         char run (char);
-
-        // This method is called to tell the motor to go
-        void go (void);
-        
-        // This method is called to tell the motor to stop moving
-        void stop (void);
     };
