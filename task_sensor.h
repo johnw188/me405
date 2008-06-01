@@ -35,6 +35,7 @@ class task_sensor : public stl_task
     protected:
         sharp_sensor_driver* ptr_sharp_sensor_driver;                 // Pointer to solenoid object
         base_text_serial* ptr_serial;         	// Pointer to a serial port for messages
+	task_motor* ptr_task_motor;
 	bool take_reading_flag;
 	bool reading_taken_flag;
 	bool take_initial_reading_flag;
