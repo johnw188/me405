@@ -28,11 +28,12 @@ task_logic::task_logic(time_stamp*, solenoid*, sharp_sensor_driver*, base_text_s
 char task_logic::run(char state){
 	switch(state){
 		case(INIT):
-			if(task_motor->get_position() == 350 && task_sensor->reading_taken()){
+			if(task_motor->get_position() == 350 && task_sensor->check_reading_taken()){
+				task_sensor->reading_taken();
 				return(WAITING);
 			}
 			else if(task_sensor->reading_taken()){
-				motor_task->set_position(motor_task->get_position() + 10);
+				motor_task->increment_position(10);
 				return(GETTING_INIT_READING);
 			}
 			break;
@@ -43,20 +44,21 @@ char task_logic::run(char state){
 			}
 			break;
 		case(SCANNING_POSITIVE):
-			if(task_sensor->reading_taken()){
-				send
-				return(TAKE_PICTURE);
+			if(task_motor->get_position() == 350 && task_sensor->check_reading_taken()){
+				task_sensor->reading_taken();
+				return(SCANNING_NEGATIVE);
 			}
-			else if(position_stablized_flag = true){
-
-			}
-			else if(reading_taken){
-				desired_position = ((desired_position + 10) % 360);
-				new_motor_position_flag = true;
-				task_sensor->compare(motor_position);
+			else if(task_sensor->reading_taken()){
+				motor_task->increment_position(10);
+				return(GETTING_READING);
 			}
 			break;
 		case(SCANNING_NEGATIVE):
+
+			break;
+		case(GETTING_READING):
+
+
 
 		case(TAKE_PICTURE):
 			task_solenoid->take_picture();
