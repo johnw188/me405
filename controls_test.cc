@@ -83,12 +83,9 @@ int main ()
 			    flag = false;
 		    }
 	    }
-	    if(dummy++ >= 1000 && flag){
-		    the_serial_port << timer.get_time_now() << "," << controller.get_motor_gear_position() << endl;
-	    }
-
+	    //if(dummy++ >= 1000 && flag){
+		//    the_serial_port << timer.get_time_now() << "," << controller.get_motor_gear_position() << endl;
+	    //}
     }
-
-
     return (0);
     }
