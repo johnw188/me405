@@ -22,13 +22,13 @@
 // User written headers included with " "
 #include "rs232.h"				// Serial port header
 #include "stl_us_timer.h"			// Microsecond-resolution timer
-#include "avr_adc.h"				// A/D converter header
+#include "adc_driver.h"				// A/D converter header
 #include "motor_driver.h"			// Driver for motor connected to board
 #include "sharp_sensor_driver.h"		// IR-Sensor
 #include "stl_debug.h"				// Handy debugging macros
 #include "stl_task.h"				// Base class for all task classes
-#include "task_soleniod.h"			// The task that runs the motor around
-#include "task_logic.h"				// The task that makes some logic
+#include "task_solenoid.h"			// The task that runs the motor around
+//#include "task_logic.h"				// The task that makes some logic
 #include "task_motor.h"				// The task controls the motor
 #include "nRF24L01_text.h"                  // Nordic nRF24L01 radio module header
 
@@ -65,7 +65,7 @@ int main ()
 	the_serial_port << "\r\n\nME405 Board Motor Test" << endl;
 
 	// Create a really basic no-frills analog to digital converter interface object
-	avr_adc my_adc (&the_serial_port);
+	adc_driver my_adc (&the_serial_port);
 
 	// Create a microsecond-resolution timer
 	task_timer the_timer;
