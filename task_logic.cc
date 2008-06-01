@@ -42,9 +42,9 @@ char task_logic::run(char state){
 				return(INIT);
 			}
 			break;
-		case(WAITING):
-			if(task_sensor->change_detected()){
-				send_coordinate_flag = true;
+		case(SCANNING_POSITIVE):
+			if(task_sensor->reading_taken()){
+				send
 				return(TAKE_PICTURE);
 			}
 			else if(position_stablized_flag = true){
@@ -55,6 +55,8 @@ char task_logic::run(char state){
 				new_motor_position_flag = true;
 				task_sensor->compare(motor_position);
 			}
+			break;
+		case(SCANNING_NEGATIVE):
 
 		case(TAKE_PICTURE):
 			task_solenoid->take_picture();
