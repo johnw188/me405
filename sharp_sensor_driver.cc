@@ -46,7 +46,7 @@ int lookupt_cm[14][2] ={{75,632},
 			{375,160},
 			{400,142}};
 
-int sensor_distances[36];
+int sensor_distances[36]; 		// Initial Values for each 10 degrees
 
 //--------------------------------------------------------------------------------------
 /** Constructor
@@ -109,5 +109,4 @@ if (sensor_distances[angle/10] == get_distance())
 	return(false);
 else 
 	return(true);
-
 }

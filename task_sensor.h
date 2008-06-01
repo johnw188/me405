@@ -38,6 +38,7 @@ class task_sensor : public stl_task
 	bool take_reading_flag;
 	bool reading_taken_flag;
 	bool take_initial_reading_flag;
+	bool change_detected;
     public:
         // The constructor creates a sharp_sensor_driver task object
         task_sensor(time_stamp*, sharp_sensor_driver*, motor_driver*, base_text_serial*);

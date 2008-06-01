@@ -29,7 +29,6 @@ class sharp_sensor_driver : public adc_driver {
 	protected:
 		int sensor_value;		// Returns raw sensor data
 		int sensor_distance;		// Returns distance in centimeters
-		int sensor_distances[36];	// Initial Values for each 10 degrees
 	public:
 		sharp_sensor_driver(base_text_serial*);
 		int get_reading(void);			// Get analog reading
