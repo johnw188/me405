@@ -20,23 +20,16 @@
 class task_solenoid : public stl_task
     {
     protected:
-        motor405a* p_motor;                 // Pointer to motor controller
-        avr_adc* p_adc;                     // Pointer to A/D converter object
-        base_text_serial* p_serial;         // Pointer to a serial port for messages
-
-        bool going;                         // True if motor should be running now
-        int angle_reading;                  // A/D reading from angle potentiometer
+        solenoid* ptr_solenoid;                 // Pointer to solenoid object
+        base_text_serial* ptr_serial;         	// Pointer to a serial port for messages
+	bool* take_picture;
+	const int time_to_take_pic;		// Time to take a pic: 100 ms
+	const int time_to_wake_up;		// Time to wake up: 4 min 30 sec
 
     public:
         // The constructor creates a new task object
-        task_solenoid (time_stamp*, motor405a*, avr_adc*, base_text_serial*);
+        task_solenoid (time_stamp*, solenoid*, base_text_serial*);
 
         // The run method is where the task actually performs its function
         char run (char);
-
-        // This method is called to tell the motor to go
-        void go (void);
-        
-        // This method is called to tell the motor to stop moving
-        void stop (void);
     };
