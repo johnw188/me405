@@ -25,7 +25,6 @@
 #include <string.h>
 #include <avr/interrupt.h>                  // There's an interrupt service routine here
 
-#include "base_text_serial.h"               // Base for text-type serial port objects
 #include "stl_us_timer.h"                   // Header for this file
 
 

@@ -25,6 +25,7 @@
 #ifndef _STL_US_TIMER_H_
 #define _STL_US_TIMER_H_
 
+#include "base_text_serial.h"
 
 //------------------ Macros to be set by user -----------------------------------------
 

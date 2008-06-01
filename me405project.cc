@@ -29,7 +29,7 @@
 #include "stl_task.h"				// Base class for all task classes
 #include "task_solenoid.h"			// The task that runs the motor around
 //#include "task_logic.h"				// The task that makes some logic
-#include "task_motor.h"				// The task controls the motor
+//#include "task_motor.h"				// The task controls the motor
 #include "nRF24L01_text.h"                  // Nordic nRF24L01 radio module header
 
 /** This is the baud rate divisor for the serial port. It should give 9600 baud for the
@@ -95,9 +95,9 @@ int main ()
 
 	// Create a time stamp which holds the interval between runs of the solenoid task
 	// The time stamp is initialized with a number of seconds, then microseconds
-	time_stamp interval_time (0, 10000);
+	time_stamp interval_time(0, 10000);
 	the_serial_port << "Solenoid Task Interval: " << interval_time << endl;
-	task_solenoid my_solenoid_task(&time_stamp, &mysol, &the_serial_port);
+	task_solenoid my_solenoid_task(&interval_time, &mysol, &the_serial_port);
 
 	// Set the interval a bit slower for the user radio task (buffer gets all)
 	interval_time.set_time (0, 50000);
@@ -120,6 +120,7 @@ int main ()
         {
         	//my_motor_task.schedule (the_timer.get_time_now ());
         	my_solenoid_task.schedule (the_timer.get_time_now ());
+	STL_DEBUG_PUTS ("while");
         }
     return (0);
     }

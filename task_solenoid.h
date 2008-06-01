@@ -12,6 +12,17 @@
  */
 //======================================================================================
 
+#ifndef _TASK_SOLENOID_
+#define _TASK_SOLENOID_
+
+#include <stdlib.h>
+#include <avr/io.h>
+#include "base_text_serial.h"
+#include "stl_us_timer.h"
+#include "stl_debug.h"
+#include "rs232.h"
+#include "stl_task.h"
+#include "solenoid.h"
 
 //-------------------------------------------------------------------------------------
 /** This class contains a task which moves a motorized lever back and forth. 
@@ -23,8 +34,8 @@ class task_solenoid : public stl_task
         solenoid* ptr_solenoid;                 // Pointer to solenoid object
         base_text_serial* ptr_serial;         	// Pointer to a serial port for messages
 	bool* take_picture;
-	const int time_to_take_pic;		// Time to take a pic: 100 ms
-	const int time_to_wake_up;		// Time to wake up: 4 min 30 sec
+	int time_to_take_pic;		// Time to take a pic: 100 ms
+	int time_to_wake_up;		// Time to wake up: 4 min 30 sec
 
     public:
         // The constructor creates a new task object
@@ -33,3 +44,4 @@ class task_solenoid : public stl_task
         // The run method is where the task actually performs its function
         char run (char);
     };
+#endif
