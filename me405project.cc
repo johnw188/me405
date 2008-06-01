@@ -31,6 +31,7 @@
 //#include "task_logic.h"				// The task that makes some logic
 //#include "task_motor.h"				// The task controls the motor
 #include "nRF24L01_text.h"                  // Nordic nRF24L01 radio module header
+#include "task_sensor.h"			// The task that runs the sensor
 
 /** This is the baud rate divisor for the serial port. It should give 9600 baud for the
  *  CPU crystal speed in use, for example 26 works for a 4MHz crystal */
@@ -45,12 +46,14 @@
 
 int main ()
     {
+//	unsigned int timer = 0;
+//these variables are old stuff:
     volatile unsigned int dummy = 0;        // Delay loop kind of counter
     char time_string[16];                   // Character buffer holds printable time
     char input_char;                        // A character typed by the user
     unsigned char motor_duty = 0;           // Duty cycle to send to motor
     bool going_clockwise = true;            // Which way is the motor going? 
-
+//old stuff ends here
 
 //======================================================//
 //	Create Class - Objects				//
@@ -62,7 +65,7 @@ int main ()
 
 	// Print a greeting message. This is almost always a good thing because it lets 
 	// the user know that the program is actually running
-	the_serial_port << "\r\n\nME405 Board Motor Test" << endl;
+	the_serial_port << "\r\n\nME405 Camera Project" << endl;
 
 	// Create a really basic no-frills analog to digital converter interface object
 	adc_driver my_adc (&the_serial_port);
@@ -71,13 +74,13 @@ int main ()
 	task_timer the_timer;
 
 	// Create an ME405 board motor controller object
-//	motor_driver my_motor (&the_serial_port);
+	motor_driver my_motor (&the_serial_port);
 
 	// Create a solenoid class-object
 	solenoid mysol(&the_serial_port);
 
 	// Create a sensor driver object
-//	sharp_sensor_driver my_sharp_sensor_driver(&the_serial_port);
+	sharp_sensor_driver my_sensor(&the_serial_port);
 
 	// Create a bit-banged SPI port interface object. Masks are SCK, MISO, MOSI
 //	spi_bb_port my_SPI (PINB, PORTB, DDRB, 0x02, 0x04, 0x08);
@@ -97,7 +100,10 @@ int main ()
 	// The time stamp is initialized with a number of seconds, then microseconds
 	time_stamp interval_time(0, 10000);
 	the_serial_port << "Solenoid Task Interval: " << interval_time << endl;
+	//solenoid task
 	task_solenoid my_solenoid_task(&interval_time, &mysol, &the_serial_port);
+	//sensor task
+	task_sensor my_sensor_task(&interval_time, &my_sensor, &my_motor, &the_serial_port);
 
 	// Set the interval a bit slower for the user radio task (buffer gets all)
 	interval_time.set_time (0, 50000);
@@ -120,6 +126,7 @@ int main ()
         {
         	//my_motor_task.schedule (the_timer.get_time_now ());
         	my_solenoid_task.schedule (the_timer.get_time_now ());
+		my_sensor_task.schedule (the_timer.get_time_now ());
         }
     return (0);
     }

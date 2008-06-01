@@ -21,7 +21,7 @@
 solenoid::solenoid (base_text_serial* p_serial_port)
 {
   ptr_to_serial = p_serial_port;
-  *ptr_to_serial << "Setting up solenid controller";
+  *ptr_to_serial << "Setting up solenid controller" << endl;
   //Sets up the data direction register to open the relevant bit of Port C
   DDRC = 0b00000001;
   //Sets the output to zero at the beginning

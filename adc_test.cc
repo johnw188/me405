@@ -55,14 +55,16 @@ int main ()
         {
         // The dummy counter is used to slow down the rate at which stuff is printed
         // on the terminal
-        if (++dummy >= 10000L)
+        if (++dummy >= 100000L)
             {
             dummy = 0;
 
 
 	    // Calls the overloaded << operator to print diagnostic information about
 	    // the A/D conversion ports
-            the_serial_port << "A/D status: " << sharp_sensor.getReading() << endl;
+            the_serial_port << "A/D value: " << sharp_sensor.get_reading() << endl;
+            the_serial_port << "Distance: " << sharp_sensor.get_distance() << endl;
+	    the_serial_port << "-------------------------------------------------" << endl;
             }
         }
 
