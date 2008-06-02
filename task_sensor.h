@@ -40,13 +40,17 @@ class task_sensor : public stl_task
 	bool reading_taken_flag;
 	bool take_initial_reading_flag;
 	bool change_detected;
+	int latest_reading;     //Variable to hold the latest value recorded from the sensor
     public:
         // The constructor creates a sharp_sensor_driver task object
         task_sensor(time_stamp*, sharp_sensor_driver*, motor_driver*, base_text_serial*);
 
         // The run method is where the task actually performs its function
         char run(char);
+	bool change_detected(void);
 	void take_reading(void);
+	bool check_reading_taken(void);
+	bool reading_taken(void);
 	void init_sensor_values(void);
     };
 

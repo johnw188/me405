@@ -103,7 +103,7 @@ sensor_distances[angle/10] = get_distance();
 
 }
 
-bool sharp_sensor_driver::sth_changed(int angle){
+bool sharp_sensor_driver::something_changed(int angle){
 
 if (sensor_distances[angle/10] == get_distance())
 	return(false);

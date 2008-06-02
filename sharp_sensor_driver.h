@@ -34,7 +34,7 @@ class sharp_sensor_driver : public adc_driver {
 		int get_reading(void);			// Get analog reading
 		int get_distance(void);			// Converts analog reading into Distance with the help of lookup table
 		void init_sensor_values(int);		//Fills the array with initial values, gets angle in degrees
-		bool sth_changed(int);			// Compare reading to initialization reading, takes an angle in degrees to compare
+		bool ssomething_changed(int);			// Compare reading to initialization reading, takes an angle in degrees to compare
 };
 
 #endif
