@@ -126,7 +126,7 @@ controls::controls (base_text_serial* p_serial_port) : motor_driver(p_serial_por
 	motor_position = 0;
 	gear_position = 0;
 	ki = 0;
-	kp = 0;
+	kp = 10;
 	kd = 0;
 
 	// Number of encoder ticks per revolution of motor

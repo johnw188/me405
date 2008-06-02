@@ -14,8 +14,8 @@
 #include "task_logic.h"
 
 // S T A T E S:
-const char INIT = 0;          
-const char GETTING_INIT_READING = 1;
+const char GETTING_INIT_READING = 0;
+const char INIT = 1;          
 const char SCANNING_POSITIVE = 2;
 const char SCANNING_NEGATIVE = 3;
 const char GETTING_READING = 4;
@@ -43,6 +43,12 @@ task_logic::task_logic(time_stamp* t_stamp, task_solenoid* p_task_solenoid, task
 char task_logic::run(char state){
 	switch(state){
 		// Initialization state to get base room readings
+		case(GETTING_INIT_READING):
+			if(ptr_task_motor->position_stable()){
+				ptr_task_sensor->init_sensor_values();
+				return(INIT);
+			}
+			break;
 		case(INIT):
 			if(ptr_task_motor->get_target_position() == 350){
 				if(ptr_task_sensor->reading_taken()){
@@ -53,12 +59,6 @@ char task_logic::run(char state){
 			else if(ptr_task_sensor->reading_taken()){
 				ptr_task_motor->increment_position(10);
 				return(GETTING_INIT_READING);
-			}
-			break;
-		case(GETTING_INIT_READING):
-			if(ptr_task_motor->position_stable()){
-				ptr_task_sensor->init_sensor_values();
-				return(INIT);
 			}
 			break;
 		// Two "main" modes -> scanning positive and scanning negative, to cover both possible
