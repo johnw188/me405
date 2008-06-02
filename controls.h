@@ -13,6 +13,16 @@
 
 #ifndef _CONTROLS_H_
 #define _CONTROLS_H_
+
+// Includes libraries
+#include <stdlib.h>  
+#include <avr/io.h>
+#include <avr/interrupt.h> 
+
+// Including header files
+#include "rs232.h"      
+#include "motor_driver.h"
+
 class controls : public motor_driver {
 	protected:
 		// Status of the encoder pins

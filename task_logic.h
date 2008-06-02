@@ -23,6 +23,9 @@
 #include "rs232.h"
 #include "stl_task.h"
 #include "solenoid.h"
+#include "task_solenoid.h"
+#include "task_sensor.h"
+#include "task_motor.h"
 
 //-------------------------------------------------------------------------------------
 /** This class contains a task which moves a motorized lever back and forth. 
@@ -31,9 +34,9 @@
 class task_logic : public stl_task
     {
     protected:
-        task_solenoid* task_solenoid;                 // Pointer to solenoid object
-	task_sensor* task_sensor;
-	task_motor* task_motor;
+        task_solenoid* ptr_task_solenoid;                 // Pointer to solenoid object
+	task_sensor* ptr_task_sensor;
+	task_motor* ptr_task_motor;
         base_text_serial* ptr_serial;         	// Pointer to a serial port for messages
 	bool take_picture_flag;
 

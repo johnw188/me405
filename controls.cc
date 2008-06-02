@@ -12,14 +12,6 @@
  */
 //======================================================================================
 
-// Includes libraries
-#include <stdlib.h>  
-#include <avr/io.h>
-#include <avr/interrupt.h> 
-
-// Including header files
-#include "rs232.h"      
-#include "motor_driver.h"
 #include "controls.h"
 
 

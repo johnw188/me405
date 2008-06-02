@@ -18,8 +18,8 @@
 # Stuff the user is expected to change is in this section
 
 # The name of the program you're building, and the list of object files
-TARGET = adc_test
-OBJS = $(TARGET).o base_text_serial.o rs232.o motor_driver.o task_motor.o adc_driver.o controls.o stl_us_timer.o sharp_sensor_driver.o  solenoid.o task_solenoid.o stl_task.o task_sensor.o
+TARGET = me405project
+OBJS = $(TARGET).o base_text_serial.o rs232.o motor_driver.o controls.o task_motor.o adc_driver.o stl_us_timer.o solenoid.o task_solenoid.o stl_task.o task_sensor.o sharp_sensor_driver.o task_logic.o
 
 # This specifies the type of CPU; both 'CHIP' and 'MCU' must be set
 #CHIP = 2313

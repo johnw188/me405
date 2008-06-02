@@ -28,8 +28,8 @@
 #include "stl_debug.h"				// Handy debugging macros
 #include "stl_task.h"				// Base class for all task classes
 #include "task_solenoid.h"			// The task that runs the motor around
-//#include "task_logic.h"				// The task that makes some logic
-//#include "task_motor.h"				// The task controls the motor
+#include "task_logic.h"				// The task that makes some logic
+#include "task_motor.h"				// The task controls the motor
 #include "nRF24L01_text.h"                  // Nordic nRF24L01 radio module header
 #include "task_sensor.h"			// The task that runs the sensor
 
@@ -46,14 +46,6 @@
 
 int main ()
     {
-//	unsigned int timer = 0;
-//these variables are old stuff:
-    volatile unsigned int dummy = 0;        // Delay loop kind of counter
-    char time_string[16];                   // Character buffer holds printable time
-    char input_char;                        // A character typed by the user
-    unsigned char motor_duty = 0;           // Duty cycle to send to motor
-    bool going_clockwise = true;            // Which way is the motor going? 
-//old stuff ends here
 
 //======================================================//
 //	Create Class - Objects				//
@@ -67,15 +59,12 @@ int main ()
 	// the user know that the program is actually running
 	the_serial_port << "\r\n\nME405 Camera Project" << endl;
 
-	// Create a really basic no-frills analog to digital converter interface object
-	adc_driver my_adc (&the_serial_port);
-
 	// Create a microsecond-resolution timer
 	task_timer the_timer;
 
-	// Create an ME405 board motor controller object
-	motor_driver my_motor (&the_serial_port);
-
+	// Create a controls object
+	controls my_controls(&the_serial_port);
+	
 	// Create a solenoid class-object
 	solenoid mysol(&the_serial_port);
 
@@ -102,8 +91,12 @@ int main ()
 	the_serial_port << "Solenoid Task Interval: " << interval_time << endl;
 	//solenoid task
 	task_solenoid my_solenoid_task(&interval_time, &mysol, &the_serial_port);
+	//controls task
+	task_motor my_motor_task(&interval_time, &the_serial_port, &my_controls);
 	//sensor task
-	task_sensor my_sensor_task(&interval_time, &my_sensor, &my_motor, &the_serial_port);
+	task_sensor my_sensor_task(&interval_time, &my_sensor, &my_motor_task, &the_serial_port);
+	//logic task
+	task_logic my_logic_task(&interval_time, &my_solenoid_task, &my_sensor_task, &my_motor_task, &the_serial_port);
 
 	// Set the interval a bit slower for the user radio task (buffer gets all)
 	interval_time.set_time (0, 50000);
@@ -124,9 +117,11 @@ int main ()
 	// will be used in other more sophisticated programs
 	while (true)
         {
-        	//my_motor_task.schedule (the_timer.get_time_now ());
+		my_logic_task.schedule(the_timer.get_time_now());
+        	my_motor_task.schedule (the_timer.get_time_now ());
         	my_solenoid_task.schedule (the_timer.get_time_now ());
 		my_sensor_task.schedule (the_timer.get_time_now ());
         }
     return (0);
     }
+
