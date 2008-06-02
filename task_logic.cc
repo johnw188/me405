@@ -13,6 +13,14 @@
 
 #include "task_logic.h"
 
+// S T A T E S:
+const char INIT = 0;          
+const char GETTING_INIT_READING = 1;
+const char SCANNING_POSITIVE = 2;
+const char SCANNING_NEGATIVE = 3;
+const char GETTING_READING = 4;
+const char CHANGE_DETECTED = 5;
+
 //-------------------------------------------------------------------------------------
 /** This constructor creates a logic task object. It controls the logic steps in our program
  *  @param t_stamp A timestamp which contains the time between runs of this task
@@ -22,9 +30,13 @@
 bool turning_positive = true;
 bool reading_requested = false;
 
-task_logic::task_logic(time_stamp*, solenoid*, sharp_sensor_driver*, base_text_serial*){
-
-
+task_logic::task_logic(time_stamp* t_stamp, task_solenoid* p_task_solenoid, task_sensor* p_task_sensor,
+		task_motor* p_task_motor, base_text_serial* p_ser) : stl_task (*t_stamp, p_ser){
+	task_solenoid = p_task_solenoid;
+	task_sensor = p_task_sensor;
+	task_motor = p_task_motor;
+	ptr_serial = p_ser;
+	ptr_serial->puts("Setting up logic task");
 }
 
 
@@ -34,7 +46,8 @@ char task_logic::run(char state){
 		case(INIT):
 			if(task_motor->get_position() == 350){
 				if(task_sensor->reading_taken()){
-					return(WAITING);
+					turning_positive = false;
+					return(SCANNING_NEGATIVE);
 				}
 			}
 			else if(task_sensor->reading_taken()){
@@ -96,15 +109,13 @@ char task_logic::run(char state){
 					return(SCANNING_NEGATIVE);
 			}
 			break;
-		case(TAKE_PICTURE):
+		case(CHANGE_DETECTED):
 			task_solenoid->take_picture();
-			return(SEND_COORDS);
-		
-		case(TRIANGULATION):
-			return(SEND_COORDS);
-
-		case(SEND_COORDS):
-			return(WAITING);
+			if(turning_positive)
+				return(SCANNING_POSITIVE);
+			else
+				return(SCANNING_NEGATIVE);
+			break;
 
     // If we get here, no transition is called for
     return (STL_NO_TRANSITION);

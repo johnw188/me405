@@ -199,6 +199,9 @@ int controls::get_motor_gear_position(){
 //-------------------------------------------------------------------------------------
 /** Starts a position controller to tell the motor to move to a position desired_position
  *  degrees from the reference position.
+ *
+ *  Methods incomplete as of now, as all motor controls for this project are done via
+ *  the geared_position_control methods
  */
 
 void controls::start_position_control(int desired_position){
@@ -260,6 +263,9 @@ void controls::update_geared_position_control(void){
 	// Attempt to deal with crossing zero degrees
 	if(gear_position_error > 180){
 		gear_position_error -= 360;
+	}
+	else if(gear_position_error < -180){
+		gear_position_error += 360;
 	}
 	
 	// Integrate error

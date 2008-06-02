@@ -31,13 +31,15 @@
 class task_logic : public stl_task
     {
     protected:
-        solenoid* ptr_solenoid;                 // Pointer to solenoid object
+        task_solenoid* task_solenoid;                 // Pointer to solenoid object
+	task_sensor* task_sensor;
+	task_motor* task_motor;
         base_text_serial* ptr_serial;         	// Pointer to a serial port for messages
 	bool take_picture_flag;
 
     public:
         // The constructor creates a new task object
-        task_logic(time_stamp*, solenoid*, sharp_sensor_driver*, base_text_serial*);
+        task_logic(time_stamp*, task_solenoid*, task_sensor*, task_motor*, base_text_serial*);
 
         // The run method is where the task actually performs its function
         char run(char);
