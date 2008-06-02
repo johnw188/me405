@@ -267,7 +267,7 @@ void controls::update_geared_position_control(void){
 	motor_setting = gear_position_error * kp + gear_position_error_sum * ki;
 
 	// Debug string
-	//*ptr_to_serial << ISR_gear_position_degrees << "   " << desired_gear_position << "   " << gear_position_error << "   " << gear_position_error_sum << "   " << motor_setting << "                           \r";
+	*ptr_to_serial << ISR_gear_position_degrees << "   " << desired_gear_position << "   " << gear_position_error << "   " << gear_position_error_sum << "   " << motor_setting << "                           \r";
 
 	// Saturation control
 	if(motor_setting > 255){

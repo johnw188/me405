@@ -46,10 +46,12 @@ char task_logic::run(char state){
 		case(GETTING_INIT_READING):
 			if(ptr_task_motor->position_stable()){
 				ptr_task_sensor->init_sensor_values();
+				ptr_serial->puts("motor is stable, took an init reading\n\r");
 				return(INIT);
 			}
 			break;
 		case(INIT):
+			ptr_serial->puts("in state 1\n\r");
 			if(ptr_task_motor->get_target_position() == 350){
 				if(ptr_task_sensor->reading_taken()){
 					turning_positive = false;
