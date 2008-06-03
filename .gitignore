@@ -4,3 +4,4 @@
 *.hex
 *.lst
 *~
+.DS_Store
