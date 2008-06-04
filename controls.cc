@@ -186,7 +186,7 @@ void controls::update_ISR_values(){
 }
 
 int controls::get_motor_gear_position(){
-	return ISR_gear_position;
+	return (long)(ISR_gear_position * 360) / encoder_gear_max_value;
 }
 //-------------------------------------------------------------------------------------
 /** Starts a position controller to tell the motor to move to a position desired_position
@@ -267,7 +267,7 @@ void controls::update_geared_position_control(void){
 	motor_setting = gear_position_error * kp + gear_position_error_sum * ki;
 
 	// Debug string
-	*ptr_to_serial << ISR_gear_position_degrees << "   " << desired_gear_position << "   " << gear_position_error << "   " << gear_position_error_sum << "   " << motor_setting << "                           \r";
+//	*ptr_to_serial << ISR_gear_position_degrees << "   " << desired_gear_position << "   " << gear_position_error << "   " << gear_position_error_sum << "   " << motor_setting << "                           \r";
 
 	// Saturation control
 	if(motor_setting > 255){

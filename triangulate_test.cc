@@ -1,5 +1,5 @@
 //======================================================================================
-/** \file triangulation_test.cc
+/** \file triangulate_test.cc
  *      This file contains a test program which checks that the A/D converter on the
  *      AVR processor is working correctly.
  *
@@ -38,8 +38,10 @@ char input_char;
 
 int main ()
     {
-    signed int obj_x = 2;
-    signed int obj_y = 2;
+	int obj_x = 2;
+	int obj_y = 2;
+	signed int obj_ang = 45;
+	signed int obj_dis = 3;
     // Create an RS232 serial port object. Diagnostic information can be printed out 
     // using this port
     rs232 the_serial_port (BAUD_DIV, 1);
@@ -69,6 +71,9 @@ int main ()
                 {
                 // read ports 0-3 and print
                 the_serial_port << "camera angle is: " << (my_triangle.global_to_angle(obj_x,obj_y)) << endl << endl;
+
+                the_serial_port << "From angle 45 and distance 3: x_global: " << (my_triangle.angle_to_global(1,obj_ang,obj_dis)) << 
+		" y_global: " << (my_triangle.angle_to_global(0,obj_ang,obj_dis)) << endl << endl;
                 }
             else  //if any other key is pressed, print error and do nothing
                 {
@@ -76,5 +81,7 @@ int main ()
                 }
             }
         }
+
     return (0);
     }
+

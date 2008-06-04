@@ -30,8 +30,9 @@
 #include "task_solenoid.h"			// The task that runs the motor around
 #include "task_logic.h"				// The task that makes some logic
 #include "task_motor.h"				// The task controls the motor
-#include "nRF24L01_text.h"                  // Nordic nRF24L01 radio module header
+#include "nRF24L01_text.h"			// Nordic nRF24L01 radio module header
 #include "task_sensor.h"			// The task that runs the sensor
+#include "triangle.h"				// Triangulation class converts local coords to global and the other way
 
 /** This is the baud rate divisor for the serial port. It should give 9600 baud for the
  *  CPU crystal speed in use, for example 26 works for a 4MHz crystal */
@@ -71,6 +72,9 @@ int main ()
 	// Create a sensor driver object
 	sharp_sensor_driver my_sensor(&the_serial_port);
 
+	// Create Triangulation Class
+	triangle my_triangle (&the_serial_port);
+
 	// Create a bit-banged SPI port interface object. Masks are SCK, MISO, MOSI
 //	spi_bb_port my_SPI (PINB, PORTB, DDRB, 0x02, 0x04, 0x08);
 
@@ -96,6 +100,8 @@ int main ()
 	//sensor task
 	task_sensor my_sensor_task(&interval_time, &my_sensor, &my_motor_task, &the_serial_port);
 	//logic task
+	
+	interval_time.set_time(0,10000);
 	task_logic my_logic_task(&interval_time, &my_solenoid_task, &my_sensor_task, &my_motor_task, &the_serial_port);
 
 	// Set the interval a bit slower for the user radio task (buffer gets all)
@@ -110,7 +116,8 @@ int main ()
 
 	// Turn on interrupt processing so the timer can work
 	sei ();
-
+	// Set global position of camera in the room coord system (in tiles) and the angle the camera is facing
+	my_triangle.set_position(13,6,90);
 	// Run the main scheduling loop, in which the tasks are continuously scheduled.
 	// This program currently uses very simple "round robin" scheduling in which the
 	// tasks are simply called in order. More sophisticated scheduling strategies

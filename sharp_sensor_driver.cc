@@ -90,7 +90,7 @@ int sharp_sensor_driver::get_distance(void){
 			distance = lookupt_cm[i][0];
 		}
 	}
-	*ptr_to_serial << "distance" << distance << endl;
+//	*ptr_to_serial << "distance" << distance << endl;
 	return(distance);
 
 }
@@ -98,6 +98,7 @@ int sharp_sensor_driver::get_distance(void){
 void sharp_sensor_driver::init_sensor_values(int angle){
 
 	sensor_distances[angle/10] = get_distance();
+	*ptr_to_serial << "angle: "<< angle <<"    distance: " << get_distance() << endl;
 
 }
 
