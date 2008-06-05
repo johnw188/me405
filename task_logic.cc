@@ -42,6 +42,7 @@ task_logic::task_logic(time_stamp* t_stamp, task_solenoid* p_task_solenoid, task
 }
 
 char task_logic::run(char state){
+//	*ptr_serial << "ENTERING LOGIC TASK" << endl;
 	switch(state){
 		// Initialization state to get base room readings
 		case(GETTING_INIT_READING):
@@ -110,9 +111,14 @@ char task_logic::run(char state){
 			ptr_serial->puts("CHANGE_DETECTED\n\r");
 			ptr_task_motor->enable_brake();
 			ptr_task_solenoid->take_picture();
-			ptr_task_motor->disable_brake();
+			*ptr_serial << "after invoking take picture" << endl;
 			//Radio coordinates
-			return(SCANNING_POSITIVE);
+			if(ptr_task_solenoid->picture_done()){	
+				*ptr_serial << "inside if statement" << endl;
+				ptr_task_motor->disable_brake();
+				return(SCANNING_POSITIVE);
+			}
+			return(CHANGE_DETECTED);
 			break;
 
     // If we get here, no transition is called for

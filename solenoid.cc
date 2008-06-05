@@ -42,10 +42,12 @@ return true;
 
 void solenoid::turn_on (void)
 {
+*ptr_to_serial << "Turning on solenoid" << endl;
     PORTC |= 0b00000001;
 }
 
 void solenoid::turn_off (void)
 {
+*ptr_to_serial << "Turning off solenoid" << endl;
     PORTC &= 0b00000000;
 }

@@ -91,17 +91,18 @@ int main ()
 
 	// Create a time stamp which holds the interval between runs of the solenoid task
 	// The time stamp is initialized with a number of seconds, then microseconds
-	time_stamp interval_time(0, 1000);
+	time_stamp interval_time(0, 10000);
 	the_serial_port << "Solenoid Task Interval: " << interval_time << endl;
 	//solenoid task
 	task_solenoid my_solenoid_task(&interval_time, &mysol, &the_serial_port);
 	//controls task
+	interval_time.set_time(0,1000);
 	task_motor my_motor_task(&interval_time, &the_serial_port, &my_controls);
 	//sensor task
 	task_sensor my_sensor_task(&interval_time, &my_sensor, &my_motor_task, &the_serial_port);
 	//logic task
 	
-	interval_time.set_time(0,1000);
+
 	task_logic my_logic_task(&interval_time, &my_solenoid_task, &my_sensor_task, &my_motor_task, &the_serial_port);
 
 	// Set the interval a bit slower for the user radio task (buffer gets all)

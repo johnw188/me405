@@ -21,7 +21,8 @@ const char TAKE_PIC = 1;                    		// Is taking a pic
 unsigned int timer = 0;
 
 int time_to_wake_up = 27000; //27000 * .01 = 270 seconds = 4 min 30 sec
-int time_to_take_pic = 10; //10 * .01 = 0.1sec
+int time_to_take_pic = 20; //200 * .01 = 2 sec
+
 //-------------------------------------------------------------------------------------
 /** This constructor creates a motor task object. The motor object needs pointers to
  *  a solenoid controller in order to do its thing. 
@@ -36,6 +37,7 @@ task_solenoid::task_solenoid (time_stamp* t_stamp, solenoid* p_solenoid, base_te
 	ptr_solenoid = p_solenoid;                        // Save pointers to other objects
 	ptr_serial = p_ser;
 	take_picture_flag = false;
+	picture_done_flag = false;
     // Say hello
     ptr_serial->puts ("Solenoid task constructor\r\n");
     }
@@ -50,16 +52,22 @@ task_solenoid::task_solenoid (time_stamp* t_stamp, solenoid* p_solenoid, base_te
 
 char task_solenoid::run (char state)
     {
+	//*ptr_serial << "ENTERING SOLENOID TASK" << endl;
     switch (state)
         {
         // In State 0, the motor should stop; when it starts up again, we want it
         // to be going to the right
 	case (WAITING):
+		//*ptr_serial << "waiting" << endl;
 		timer++;
 //		*ptr_serial << "Solenoid Timer: " << timer << endl;
         	if(take_picture_flag){
+			//*ptr_serial << "before setting flags" << endl;
 			take_picture_flag = false;
+			picture_done_flag = false;
+			//*ptr_serial << "after setting flags" << endl;
 			timer = 0;
+			//*ptr_serial << "after zeroing timer" << endl;
 			return(TAKE_PIC);
 		}
 		if (timer > time_to_wake_up){
@@ -67,17 +75,22 @@ char task_solenoid::run (char state)
 			timer = 0;
 			return(TAKE_PIC);
 		}
+		return(WAITING);
             break;
 
         // In State 1, the motor goes to the right
         case (TAKE_PIC):
+		//*ptr_serial << "taking pic" << endl;
 		timer++;
+		*ptr_serial << "picture timer: " << timer << endl;
 		ptr_solenoid->turn_on();
 		if (timer > time_to_take_pic){
 			timer = 0;
 			ptr_solenoid->turn_off();
+			picture_done_flag = true;
 			return(WAITING);
 		}
+		return(TAKE_PIC);
             break;
         // If the state isn't a known state, call Houston; we have a problem
         default:
@@ -95,6 +108,18 @@ char task_solenoid::run (char state)
 
 void task_solenoid::take_picture (void)
     {
-    ptr_serial->puts ("Taking picture\r\n");
+    //ptr_serial->puts ("Taking picture\r\n");
     take_picture_flag = true;
     }
+
+bool task_solenoid::picture_done(void){
+	//*ptr_serial << "picture done?" << endl;
+	//if(picture_done_flag)
+		//*ptr_serial << "yes" << endl;
+	if(picture_done_flag){
+		picture_done_flag = false;
+		return true;
+	}
+	else
+		return false;
+}

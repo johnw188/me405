@@ -34,6 +34,7 @@ class task_solenoid : public stl_task
         solenoid* ptr_solenoid;                 // Pointer to solenoid object
         base_text_serial* ptr_serial;         	// Pointer to a serial port for messages
 	bool take_picture_flag;
+	bool picture_done_flag;
 
     public:
         // The constructor creates a new task object
@@ -42,5 +43,6 @@ class task_solenoid : public stl_task
         // The run method is where the task actually performs its function
         char run(char);
 	void take_picture(void);
+	bool picture_done(void);
     };
 #endif
