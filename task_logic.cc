@@ -29,6 +29,8 @@ const char CHANGE_DETECTED = 5;
  */
 bool turning_positive = true;
 bool reading_requested = false;
+bool in_sensor_reading_range;
+bool enable_sensor_reading = true;
 
 task_logic::task_logic(time_stamp* t_stamp, task_solenoid* p_task_solenoid, task_sensor* p_task_sensor,
 		task_motor* p_task_motor, base_text_serial* p_ser) : stl_task (*t_stamp, p_ser){
@@ -44,10 +46,10 @@ char task_logic::run(char state){
 		// Initialization state to get base room readings
 		case(GETTING_INIT_READING):
 			//ptr_serial->puts("GETTING_INIT_READING\r\n");
-		//*ptr_serial << "INIT READING get motor pos: " << ptr_task_motor->get_current_position() << "\r";
+		*ptr_serial << "INIT READING get motor pos: " << ptr_task_motor->get_current_position() << "\r";
 			if(ptr_task_motor->position_stable()){
 				ptr_task_sensor->init_sensor_values();
-		ptr_serial->puts("motor is stable, took an init reading\n\r");
+				ptr_serial->puts("motor is stable, took an init reading\n\r");
 				return(INIT);
 			}
 			return(GETTING_INIT_READING);
@@ -57,59 +59,37 @@ char task_logic::run(char state){
 			if(ptr_task_motor->get_target_position() == 350){
 				if(ptr_task_sensor->check_reading_taken()){
 					turning_positive = false;
-					return(SCANNING_NEGATIVE);
-				}
-			}
-			else if(ptr_task_sensor->reading_taken()){
-				ptr_task_motor->increment_position(10);
-		ptr_serial->puts("increment! +10\n\r");
-				return(GETTING_INIT_READING);
-			}
-			return(INIT);
-			break;
-		// Two "main" modes -> scanning positive and scanning negative, to cover both possible
-		// directions
-		/*case(SCANNING_POSITIVE):
-			ptr_serial->puts("SCANNING_POSITIVE\n\r");
-			*ptr_serial << ptr_task_motor->get_target_position() << endl;
-			if(ptr_task_motor->get_target_position() == 350){
-				if(ptr_task_sensor->reading_taken()){
-					turning_positive = false;
-					return(SCANNING_NEGATIVE);
-				}
-			}
-			else if(ptr_task_sensor->reading_taken()){
-				ptr_task_motor->increment_position(10);
-				return(GETTING_READING);
-			}
-			return(SCANNING_POSITIVE);
-			break;
-		case(SCANNING_NEGATIVE):
-			ptr_serial->puts("SCANNING_NEGATIVE\n\r");
-			*ptr_serial << ptr_task_motor->get_target_position() << endl;
-			if(ptr_task_motor->get_target_position() == 0){
-				if(ptr_task_sensor->check_reading_taken()){
-					turning_positive = true;
 					return(SCANNING_POSITIVE);
 				}
 			}
 			else if(ptr_task_sensor->reading_taken()){
-				ptr_task_motor->increment_position(-10);
+				ptr_task_motor->increment_position(10);
+				ptr_serial->puts("increment! +10\n\r");
+				return(GETTING_INIT_READING);
+			}
+			return(INIT);
+			break;
+		case(SCANNING_POSITIVE):
+			//ptr_serial->puts("SCANNING_POSITIVE\n\r");
+			in_sensor_reading_range = (ptr_task_motor->get_current_position() % 10 < 2 || ptr_task_motor->get_current_position() % 10 > 8);
+			if(in_sensor_reading_range)
+				ptr_serial->puts("In Range!\n\r");
+			if(enable_sensor_reading && in_sensor_reading_range){
+				enable_sensor_reading = false;
 				return(GETTING_READING);
 			}
-			return(SCANNING_NEGATIVE);
-			break;*/
-
-		case(SCANNING_POSITIVE):
-			if(ptr_task_motor->get_current_position() % 10 < 2 || ptr_task_motor->get_current_position() % 10 > 8){
-				ptr_task_sensor->take_reading();
+			else if(in_sensor_reading_range == false){
+				ptr_serial->puts("Reenabling sensor reading\n\r");
+				enable_sensor_reading = true;
+			}
+			return(STL_NO_TRANSITION);
 		// When motor stabalizes, take a reading. reading_requested is a flag which prevents the
 		// task from getting stuck in an infinite loop of taking readings. If the reading taken
 		// is a change from the initialized reading value, go to send the coordinates over the
 		// radio
 		case(GETTING_READING):
 			ptr_serial->puts("GETTING_READING\n\r");
-			if(ptr_task_motor->position_stable() && reading_requested == false){
+			if(reading_requested == false){
 				ptr_task_sensor->take_reading();
 				reading_requested = true;
 			}
@@ -121,23 +101,18 @@ char task_logic::run(char state){
 				if(ptr_task_sensor->change_detected()){
 					return(CHANGE_DETECTED);
 				}
-				else if(turning_positive)
-					return(SCANNING_POSITIVE);
 				else
-					return(SCANNING_NEGATIVE);
+					return(SCANNING_POSITIVE);
 			}
-			ptr_serial->puts("No reading found\n\r");
 			return(GETTING_READING);
 			break;
 		case(CHANGE_DETECTED):
 			ptr_serial->puts("CHANGE_DETECTED\n\r");
+			ptr_task_motor->enable_brake();
 			ptr_task_solenoid->take_picture();
+			ptr_task_motor->disable_brake();
 			//Radio coordinates
-			if(turning_positive)
-				return(SCANNING_POSITIVE);
-			else
-				return(SCANNING_NEGATIVE);
-			return(GETTING_READING);
+			return(SCANNING_POSITIVE);
 			break;
 
     // If we get here, no transition is called for
