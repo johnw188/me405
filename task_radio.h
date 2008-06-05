@@ -18,9 +18,25 @@
  */
 //*************************************************************************************
 
+
+#ifndef _TASK_RADIO_
+#define _TASK_RADIO_
+
+#include <stdlib.h>
+#include <avr/io.h>
+#include "stl_debug.h"
+#include "rs232.h"
+#include "base_text_serial.h"
+#include "stl_us_timer.h"
+#include "stl_task.h"
+#include "nRF24L01_text.h"			// Nordic nRF24L01 radio module header
+#include "sharp_sensor_driver.h"
+#include "task_motor.h"
+#include "triangle.h"
+
 typedef union buffer
     {
-    long long quad_word;                          // The whole 64-bit number
+    long int quad_word;                          // The whole 64-bit number
     char bytes[8];                          	  // The bytes in the number
     };
 
@@ -33,6 +49,9 @@ class task_radio : public stl_task
     protected:
         base_text_serial* p_serial;         // Pointer to a serial port for messages
         nRF24L01_text* p_radio;             // Pointer to a radio object
+	sharp_sensor_driver* ptr_sharp_sensor_driver;                        // Save pointers to other objects
+	task_motor* ptr_task_motor;
+	triangle* ptr_triangle;
 	unsigned char count;		    // Count for receive/transmit array
         bool transmit_flag;		    // True if radio is transmitting
 	bool receive_flag;		    // True if data has been received
@@ -41,11 +60,15 @@ class task_radio : public stl_task
 
     public:
         // The constructor creates a new task object
-        task_radio (unsigned char, unsigned char, time_stamp*, nRF24L01_text* p_rad, base_text_serial*);
-	
+        task_radio (task_motor*, triangle*, sharp_sensor_driver*, time_stamp*, nRF24L01_text* p_rad, base_text_serial*);
+
+	// run method
+	char run (char);
 	// This method loads the transmit buffer for transmission
-	void set_data (char, char);
+	void set_data (void);
 
 	// This method gets two character pointers to modify, returns 1 if data exists, else 0
 	bool get_data (char*, char*);
     };
+
+#endif

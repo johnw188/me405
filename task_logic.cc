@@ -15,11 +15,12 @@
 
 // S T A T E S:
 const char GETTING_INIT_READING = 0;
-const char INIT = 1;          
+const char INIT = 1;
 const char SCANNING_POSITIVE = 2;
 const char SCANNING_NEGATIVE = 3;
 const char GETTING_READING = 4;
 const char CHANGE_DETECTED = 5;
+const char FROM_RADIO = 6;
 
 //-------------------------------------------------------------------------------------
 /** This constructor creates a logic task object. It controls the logic steps in our program
@@ -33,15 +34,21 @@ bool in_sensor_reading_range;
 bool enable_sensor_reading = true;
 
 task_logic::task_logic(time_stamp* t_stamp, task_solenoid* p_task_solenoid, task_sensor* p_task_sensor,
-		task_motor* p_task_motor, base_text_serial* p_ser) : stl_task (*t_stamp, p_ser){
+		task_motor* p_task_motor, task_rad* p_task_radio, triangle* p_triangle, base_text_serial* p_ser) : stl_task (*t_stamp, p_ser){
 	ptr_task_solenoid = p_task_solenoid;
 	ptr_task_sensor = p_task_sensor;
 	ptr_task_motor = p_task_motor;
+	ptr_task_radio = p_task_radio;
 	ptr_serial = p_ser;
+	ptr_triangle = p_triangle;
 	ptr_serial->puts("Logic task constructor\r\n");
 }
 
 char task_logic::run(char state){
+
+int x_temp;
+int y_temp;
+
 //	*ptr_serial << "ENTERING LOGIC TASK" << endl;
 	switch(state){
 		// Initialization state to get base room readings
@@ -83,6 +90,8 @@ char task_logic::run(char state){
 				ptr_serial->puts("Reenabling sensor reading\n\r");
 				enable_sensor_reading = true;
 			}
+			if (ptr_task_radio->check())
+				return(FROM_RADIO);
 			return(STL_NO_TRANSITION);
 		// When motor stabalizes, take a reading. reading_requested is a flag which prevents the
 		// task from getting stuck in an infinite loop of taking readings. If the reading taken
@@ -112,23 +121,30 @@ char task_logic::run(char state){
 			ptr_task_motor->enable_brake();
 			ptr_task_solenoid->take_picture();
 			*ptr_serial << "after invoking take picture" << endl;
-			//Radio coordinates
-			if(ptr_task_solenoid->picture_done()){	
+			// calculate with help of triangulation global coords and send Radio coordinates in task_radio
+			ptr_task_radio->setCoords();
+			if(ptr_task_solenoid->picture_done()){
 				*ptr_serial << "inside if statement" << endl;
 				ptr_task_motor->disable_brake();
 				return(SCANNING_POSITIVE);
 			}
 			return(CHANGE_DETECTED);
 			break;
+		case(FROM_RADIO):
+	
+			ptr_task_motor->change_position(ptr_triangle->global_to_angle(ptr_task_radio->get_coords(1),ptr_task_radio->get_coords(0)));
+			ptr_task_motor->enable_brake();
+			ptr_task_solenoid->take_picture();
+			*ptr_serial << "after take picture from radio" << endl;
+			if(ptr_task_solenoid->picture_done()){
+				*ptr_serial << "inside if statement" << endl;
+				ptr_task_motor->disable_brake();
+				return(SCANNING_POSITIVE);
+			}
+			return(FROM_RADIO);
+			break;
 
     // If we get here, no transition is called for
     return (STL_NO_TRANSITION);
     }
 }
-
-/*hey john, i'm sure you'll find this when you compile the first time. 
-motor is running, but freaking out when have to turn the first increment!
-no idea why, playing with kp has no effect.. saturation level just slows the motor down, but doesn't prevent it from freaking out. 
-but I guess we've got a stable mechanic system... 
-I'm having a shower and I'm starting to write sth down, and then come back. 
-cu.*/

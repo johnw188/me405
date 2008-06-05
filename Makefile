@@ -19,7 +19,7 @@
 
 # The name of the program you're building, and the list of object files
 TARGET = me405project
-OBJS = $(TARGET).o base_text_serial.o rs232.o motor_driver.o controls.o task_motor.o adc_driver.o stl_us_timer.o solenoid.o task_solenoid.o stl_task.o task_sensor.o sharp_sensor_driver.o task_logic.o triangle.o
+OBJS = $(TARGET).o base_text_serial.o rs232.o motor_driver.o controls.o task_motor.o adc_driver.o stl_us_timer.o solenoid.o task_solenoid.o stl_task.o task_sensor.o sharp_sensor_driver.o task_logic.o triangle.o m9xstream.o nRF24L01_base.o spi_bb.o nRF24L01_text.o task_rad.o
 
 # This specifies the type of CPU; both 'CHIP' and 'MCU' must be set
 #CHIP = 2313

@@ -37,7 +37,10 @@ class triangle
     public:
         // This constructor sets up the triangulation. The constructor is passed the serial port
         triangle (base_text_serial*);
+	// Sets position of cam
 	void set_position(int, int, int);
+	// Here you can get the position of the cam again, written for radio task, to send the coords, too
+	int get_position(bool);
         // This method allows a program to compute a angle from a global coordinate
         int global_to_angle (signed int, signed int);
 	// This method allows a program to compute a global x or y from an angle and distance

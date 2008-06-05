@@ -26,6 +26,9 @@
 #include "task_solenoid.h"
 #include "task_sensor.h"
 #include "task_motor.h"
+#include "nRF24L01_text.h"			// Nordic nRF24L01 radio module header
+#include "task_rad.h"
+#include "triangle.h"
 
 //-------------------------------------------------------------------------------------
 /** This class contains a task which moves a motorized lever back and forth. 
@@ -37,12 +40,14 @@ class task_logic : public stl_task
         task_solenoid* ptr_task_solenoid;                 // Pointer to solenoid object
 	task_sensor* ptr_task_sensor;
 	task_motor* ptr_task_motor;
+	triangle* ptr_triangle;
+	task_rad* ptr_task_radio;
         base_text_serial* ptr_serial;         	// Pointer to a serial port for messages
 	bool take_picture_flag;
 
     public:
         // The constructor creates a new task object
-        task_logic(time_stamp*, task_solenoid*, task_sensor*, task_motor*, base_text_serial*);
+        task_logic(time_stamp*, task_solenoid*, task_sensor*, task_motor*, task_rad*, triangle*, base_text_serial*);
 
         // The run method is where the task actually performs its function
         char run(char);

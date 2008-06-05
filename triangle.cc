@@ -129,11 +129,27 @@ triangle::triangle (base_text_serial* p_serial_port){
 
     }
 
+/** This sets the position of the camera into member data
+ */
+
 void triangle::set_position(int pos_x, int pos_y, int init_a){
 
 cam_pos_x = pos_x;
 cam_pos_y = pos_y;
 cam_init_angle = init_a;
+
+}
+
+/** With this you can get the local position of the cam entered in the set_position method
+  * set the bool variable true to get the x-value, false for y
+ */
+
+int triangle::get_position(bool vector){
+
+if (vector)
+	return(cam_pos_x);
+else
+	return(cam_pos_y);
 
 }
 
