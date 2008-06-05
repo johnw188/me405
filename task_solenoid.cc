@@ -56,6 +56,7 @@ char task_solenoid::run (char state)
         // to be going to the right
 	case (WAITING):
 		timer++;
+//		*ptr_serial << "Solenoid Timer: " << timer << endl;
         	if(take_picture_flag){
 			take_picture_flag = false;
 			timer = 0;

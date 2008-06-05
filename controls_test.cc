@@ -54,7 +54,7 @@ int main ()
     // Say hello
     the_serial_port << "\r\nControls Test App\r\n";
 
-    controller.set_kp(10);
+    controller.set_kp(7);
     controller.set_ki(0);
     controller.start_geared_position_control(0);
 
@@ -84,7 +84,7 @@ int main ()
 		    }
 	    }
 	    //if(dummy++ >= 1000 && flag){
-		//    the_serial_port << timer.get_time_now() << "," << controller.get_motor_gear_position() << endl;
+		//   the_serial_port << timer.get_time_now() << "," << controller.get_motor_gear_position() << endl;
 	    //}
     }
     return (0);

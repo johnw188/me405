@@ -132,9 +132,9 @@ controls::controls (base_text_serial* p_serial_port) : motor_driver(p_serial_por
 	// Number of encoder ticks per revolution of motor
 	encoder_max_value = 2015;
 	// Gear ratio of this project
-	gear_ratio = 16;
+	gear_ratio = 4;
 	// Number of encoder ticks to equal a full gear revolution
-	encoder_gear_max_value = (long)((encoder_max_value + 1) * gear_ratio) - 1;
+	encoder_gear_max_value = 8063; //(long)((encoder_max_value + 1) * gear_ratio) - 1; //changed * to / !!!!!!!!!!!!!!!!!!!!!!
 
 	// Populates ISR variables
 	ISR_encoder_max_value = encoder_max_value;
@@ -261,20 +261,20 @@ void controls::update_geared_position_control(void){
 	}
 	
 	// Integrate error
-	gear_position_error_sum += gear_position_error;
+	gear_position_error_sum = 100 ? gear_position_error_sum = 100 : gear_position_error_sum += gear_position_error;
 
 	// Generate motor setting output
 	motor_setting = gear_position_error * kp + gear_position_error_sum * ki;
 
 	// Debug string
-//	*ptr_to_serial << ISR_gear_position_degrees << "   " << desired_gear_position << "   " << gear_position_error << "   " << gear_position_error_sum << "   " << motor_setting << "                           \r";
+	//*ptr_to_serial << ISR_gear_position_degrees << "   " << desired_gear_position << "   " << gear_position_error << "   " << gear_position_error_sum << "   " << motor_setting << "                           \r";
 
 	// Saturation control
-	if(motor_setting > 255){
-		motor_setting = 255;
+	if(motor_setting > 150){
+		motor_setting = 150;
 	}
-	else if(motor_setting < -255){
-		motor_setting = -255;
+	else if(motor_setting < -150){
+		motor_setting = -150;
 	}
 
 	// Sets motor power

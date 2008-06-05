@@ -6,6 +6,7 @@
  *  Revisions:
  *    \li  6-01-08  BC&MR  created constructor and methods
  *    \li  6-01-08  BC&MR  tested and finished methods
+ *    \li  6-04-08  BC     debuged methods
  *  License:
  *    This file released under the Lesser GNU Public License. The program is intended
  *    for educational use only, but its use is not restricted thereto. 
@@ -64,10 +65,14 @@ int traing_tbl[45][2]  ={{88,2863},
 // First Column: angle, Second column: unit x distance scaled to 1000,  Third column unit y
 // distance scaled to 1000.
 
-int unit_tbl[45][3]   ={{0,1000,0},
+int unit_tbl[49][3]   ={{0,1000,0},
+			{1,999,17},
 			{2,999,35},
+			{3,999,52},
 			{4,998,70},
+			{5,996,87},
 			{6,995,105},
+			{7,993,122},
 			{8,990,139},
 			{10,985,174},
 			{12,978,208},
@@ -147,39 +152,39 @@ int triangle::global_to_angle (signed int x_global, signed int y_global)
 	int min_dif = 5000;
 	int angle;
        x_global= x_global - cam_pos_x;
-       y_global= y_global - cam_pos_y;    
+       y_global= y_global - cam_pos_y;
 
      if (x_global <= 0)
 	{
 	if (y_global > 0)
 	     {
 	     quad=90;
-	     x_global=x_global - 2 * x_global;
+	     x_global= 0 - x_global;
 	     }
 	else
 	    {
 	    quad=180;
-	    x_global=x_global - 2 * x_global;
-	    y_global=y_global - 2 * y_global;
+	    x_global= 0 - x_global;
+	    y_global= 0 - y_global;
 	    }
 	}
-        else
+    else
 	{
 	if (y_global > 0)
-	    quad=0;
+	   quad=0;
 	else
-	    {
-	    quad=270;
-	    y_global=y_global - 2 * y_global;
-	    }
+	   {
+	   quad=270;
+	   y_global= 0 - y_global;
+	   }
 	}
-    inv_tan = x_global * 100/y_global;
-    for (int n = 0; n < 45; n++)
+    inv_tan = y_global * 100/x_global;
+    for (int n = 0; n <= 45; n++)
 	{
 	curr_dif= traing_tbl[n][1]-inv_tan;
 
 	if (curr_dif < 0)
-	    curr_dif = curr_dif - 2 * curr_dif;
+	    curr_dif = 0 - curr_dif;
 
 	if (curr_dif < min_dif)
 	     {
@@ -187,13 +192,14 @@ int triangle::global_to_angle (signed int x_global, signed int y_global)
 	     angle = traing_tbl[n][0] + quad - cam_init_angle;
 	     }
 	}
-	return (angle);
+
+     return (angle);
 }
 
 //-------------------------------------------------------------------------------------
 
- *  @param point_angle desired angle in degree
-/** This method takes a local angle and distance and converts the information to a global
+ /**  @param point_angle desired angle in degree
+ ** This method takes a local angle and distance and converts the information to a global
  *  x (if vector is true) and y (if vector is false)
  *  @param vector
  *  @param loc_angle
@@ -211,27 +217,33 @@ int triangle::angle_to_global (bool vector, signed int loc_angle, signed int dis
 	bool y_sign=false;
 
 	local_angle = loc_angle + cam_init_angle;
-
-	if (local_angle > 360)
+	*ptr_to_serial << "loc_angle " << loc_angle << " cam_init_angle " << cam_init_angle << " local_angle " << local_angle << endl;
+	while (local_angle >= 360)
 	local_angle = local_angle - 360;
 	
-	if (local_angle < 0)
+	while (local_angle < 0)
 	local_angle = local_angle + 360;
 
 	if (local_angle > 90 && local_angle < 270)
 	x_sign = true;
 
-	if (local_angle > 180 && local_angle < 270)
+	if (local_angle > 180 && local_angle < 360)
 	y_sign = true;
 
-	if ( local_angle > 90)
+	if ( local_angle > 90 && local_angle <= 180 )
 	local_angle = 180 - local_angle;
 
-	for (int i = 0; i < 45; i++)
+	if ( local_angle > 180 && local_angle <= 270 )
+	local_angle = local_angle - 180;
+
+	if (local_angle > 270)
+	local_angle = 360 - local_angle;
+
+	for (int i = 0; i < 49; i++)
 	{
 	curr_dif= unit_tbl[i][0]-local_angle;
 	if (curr_dif < 0)
-	    curr_dif = curr_dif - 2 * curr_dif;
+	    curr_dif = 0 - curr_dif;
 
 
 	if (curr_dif < min_dif)
@@ -241,13 +253,13 @@ int triangle::angle_to_global (bool vector, signed int loc_angle, signed int dis
 		{
 	        global= unit_tbl[i][1];
 		if ( x_sign == true )
-			global = global - 2 * global;
+			global = 0 - global;
 		}
 	     if ( vector == false )
 		{
 	        global= unit_tbl[i][2];
 		if ( y_sign == true )
-		global = global - 2 * global;
+		global = 0 - global;
 		}
 		}
 	}
@@ -255,10 +267,10 @@ int triangle::angle_to_global (bool vector, signed int loc_angle, signed int dis
 //*ptr_to_serial << "global: " << global << endl;
 
 	if ( vector == true )
-	   global = (global+500)/1000*distance + cam_pos_x;
+	   global = ((global)*distance)/1000 + cam_pos_x;
 
 	if ( vector == false )
-	   global = (global+500)/1000*distance + cam_pos_y;
+	   global = ((global)*distance)/1000 + cam_pos_y;
 
 return (global);
 }

@@ -28,12 +28,10 @@ unsigned int timer = 0;
  *  @param p_ser   A pointer to a serial port for sending messages if required
  */
 
-task_comm::task_comm (time_stamp* t_stamp, solenoid* p_solenoid, base_text_serial* p_ser)
+task_comm::task_comm (time_stamp* t_stamp, base_text_serial* p_ser)
     : stl_task (*t_stamp, p_ser)
     {
-	ptr_solenoid = p_solenoid;                        // Save pointers to other objects
 	ptr_serial = p_ser;
-	take_picture_flag = false;
     // Say hello
     ptr_serial->puts ("communication task constructor\r\n");
     }
@@ -46,7 +44,7 @@ task_comm::task_comm (time_stamp* t_stamp, solenoid* p_solenoid, base_text_seria
  *      transition is called for at this time
  */
 
-char task_solenoid::run (char state)
+char task_comm::run (char state)
     {
     switch (state)
         {

@@ -39,16 +39,15 @@ task_logic::task_logic(time_stamp* t_stamp, task_solenoid* p_task_solenoid, task
 	ptr_serial->puts("Logic task constructor\r\n");
 }
 
-
 char task_logic::run(char state){
 	switch(state){
 		// Initialization state to get base room readings
 		case(GETTING_INIT_READING):
-			ptr_serial->puts("GETTING_INIT_READING\r\n");
-			*ptr_serial << ptr_task_motor->get_current_position() << endl;
+			//ptr_serial->puts("GETTING_INIT_READING\r\n");
+		//*ptr_serial << "INIT READING get motor pos: " << ptr_task_motor->get_current_position() << "\r";
 			if(ptr_task_motor->position_stable()){
 				ptr_task_sensor->init_sensor_values();
-				//ptr_serial->puts("motor is stable, took an init reading\n\r");
+		ptr_serial->puts("motor is stable, took an init reading\n\r");
 				return(INIT);
 			}
 			return(GETTING_INIT_READING);
@@ -63,13 +62,14 @@ char task_logic::run(char state){
 			}
 			else if(ptr_task_sensor->reading_taken()){
 				ptr_task_motor->increment_position(10);
+		ptr_serial->puts("increment! +10\n\r");
 				return(GETTING_INIT_READING);
 			}
 			return(INIT);
 			break;
 		// Two "main" modes -> scanning positive and scanning negative, to cover both possible
 		// directions
-		case(SCANNING_POSITIVE):
+		/*case(SCANNING_POSITIVE):
 			ptr_serial->puts("SCANNING_POSITIVE\n\r");
 			*ptr_serial << ptr_task_motor->get_target_position() << endl;
 			if(ptr_task_motor->get_target_position() == 350){
@@ -98,7 +98,11 @@ char task_logic::run(char state){
 				return(GETTING_READING);
 			}
 			return(SCANNING_NEGATIVE);
-			break;
+			break;*/
+
+		case(SCANNING_POSITIVE):
+			if(ptr_task_motor->get_current_position() % 10 < 2 || ptr_task_motor->get_current_position() % 10 > 8){
+				ptr_task_sensor->take_reading();
 		// When motor stabalizes, take a reading. reading_requested is a flag which prevents the
 		// task from getting stuck in an infinite loop of taking readings. If the reading taken
 		// is a change from the initialized reading value, go to send the coordinates over the
@@ -141,3 +145,9 @@ char task_logic::run(char state){
     }
 }
 
+/*hey john, i'm sure you'll find this when you compile the first time. 
+motor is running, but freaking out when have to turn the first increment!
+no idea why, playing with kp has no effect.. saturation level just slows the motor down, but doesn't prevent it from freaking out. 
+but I guess we've got a stable mechanic system... 
+I'm having a shower and I'm starting to write sth down, and then come back. 
+cu.*/

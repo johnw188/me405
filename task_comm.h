@@ -23,6 +23,7 @@
 #include "rs232.h"
 #include "stl_task.h"
 #include "solenoid.h"
+#include "triangle.h"
 
 //-------------------------------------------------------------------------------------
 /** This class contains a task which moves a motorized lever back and forth. 
