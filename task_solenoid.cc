@@ -117,6 +117,7 @@ bool task_solenoid::picture_done(void){
 	//if(picture_done_flag)
 		//*ptr_serial << "yes" << endl;
 	if(picture_done_flag){
+		*ptr_serial << "picture done flag being cleared" << endl;
 		picture_done_flag = false;
 		return true;
 	}
