@@ -51,71 +51,71 @@ task_solenoid::task_solenoid (time_stamp* t_stamp, solenoid* p_solenoid, base_te
  */
 
 char task_solenoid::run (char state)
-    {
+{
 	//*ptr_serial << "ENTERING SOLENOID TASK" << endl;
-    switch (state)
-        {
-        // In State 0, the motor should stop; when it starts up again, we want it
-        // to be going to the right
-	case (WAITING):
-		//*ptr_serial << "waiting" << endl;
-		timer++;
-//		*ptr_serial << "Solenoid Timer: " << timer << endl;
-        	if(take_picture_flag){
-			//*ptr_serial << "before setting flags" << endl;
-			take_picture_flag = false;
-			picture_done_flag = false;
-			//*ptr_serial << "after setting flags" << endl;
-			timer = 0;
-			//*ptr_serial << "after zeroing timer" << endl;
-			return(TAKE_PIC);
-		}
-		if (timer > time_to_wake_up){
-			take_picture_flag = false;
-			timer = 0;
-			return(TAKE_PIC);
-		}
-		return(WAITING);
-            break;
-
-        // In State 1, the motor goes to the right
-        case (TAKE_PIC):
-		//*ptr_serial << "taking pic" << endl;
-		timer++;
-		*ptr_serial << "picture timer: " << timer << endl;
-		ptr_solenoid->turn_on();
-		if (timer > time_to_take_pic){
-			timer = 0;
-			ptr_solenoid->turn_off();
-			picture_done_flag = true;
+	switch (state)
+	{
+		// In State 0, the motor should stop; when it starts up again, we want it
+		// to be going to the right
+		case (WAITING):
+			//*ptr_serial << "waiting" << endl;
+			timer++;
+			//		*ptr_serial << "Solenoid Timer: " << timer << endl;
+			if(take_picture_flag){
+				//*ptr_serial << "before setting flags" << endl;
+				take_picture_flag = false;
+				picture_done_flag = false;
+				//*ptr_serial << "after setting flags" << endl;
+				timer = 0;
+				//*ptr_serial << "after zeroing timer" << endl;
+				return(TAKE_PIC);
+			}
+			if (timer > time_to_wake_up){
+				take_picture_flag = false;
+				timer = 0;
+				return(TAKE_PIC);
+			}
 			return(WAITING);
-		}
-		return(TAKE_PIC);
-            break;
-        // If the state isn't a known state, call Houston; we have a problem
-        default:
-		STL_DEBUG_PUTS ("WARNING: Solenoid control task in state ");
-		STL_DEBUG_WRITE (state);
-		STL_DEBUG_PUTS ("\r\n");
-		return(WAITING);
-        };
-    // If we get here, no transition is called for
-    return (STL_NO_TRANSITION);
-    }
+			break;
+
+			// In State 1, the motor goes to the right
+		case (TAKE_PIC):
+			//*ptr_serial << "taking pic" << endl;
+			timer++;
+			*ptr_serial << "picture timer: " << timer << endl;
+			ptr_solenoid->turn_on();
+			if (timer > time_to_take_pic){
+				timer = 0;
+				ptr_solenoid->turn_off();
+				picture_done_flag = true;
+				return(WAITING);
+			}
+			return(TAKE_PIC);
+			break;
+			// If the state isn't a known state, call Houston; we have a problem
+		default:
+			STL_DEBUG_PUTS ("WARNING: Solenoid control task in state ");
+			STL_DEBUG_WRITE (state);
+			STL_DEBUG_PUTS ("\r\n");
+			return(WAITING);
+	};
+	// If we get here, no transition is called for
+	return (STL_NO_TRANSITION);
+}
 
 /** This method is called to tell the solenoid to take a picture
- */
+*/
 
 void task_solenoid::take_picture (void)
-    {
-    //ptr_serial->puts ("Taking picture\r\n");
-    take_picture_flag = true;
-    }
+{
+	//ptr_serial->puts ("Taking picture\r\n");
+	take_picture_flag = true;
+}
 
 bool task_solenoid::picture_done(void){
 	//*ptr_serial << "picture done?" << endl;
 	//if(picture_done_flag)
-		//*ptr_serial << "yes" << endl;
+	//*ptr_serial << "yes" << endl;
 	if(picture_done_flag){
 		*ptr_serial << "picture done flag being cleared" << endl;
 		picture_done_flag = false;

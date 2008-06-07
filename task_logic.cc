@@ -25,9 +25,16 @@ const char FROM_RADIO = 6;
 //-------------------------------------------------------------------------------------
 /** This constructor creates a logic task object. It controls the logic steps in our program
  *  @param t_stamp A timestamp which contains the time between runs of this task
- *  @param p_mot   A pointer to a solenoid controller object
+ *  @param p_task_solenoid A pointer to the solenoid task object
+ *  @param p_task_sensor A pointer to the sensor task object
+ *  @param p_task_motor A pointer to the motor task object
+ *  @param p_task_radio A pointer to the radio task object
+ *  @param p_triangle A pointer to the triangle class
  *  @param p_ser   A pointer to a serial port for sending messages if required
  */
+
+// Flags to assist with logic. Ideally these would be initialized in the class, but I ran out of time and wasn't able to refactor
+// all the code
 bool turning_positive = true;
 bool reading_requested = false;
 bool in_sensor_reading_range;
@@ -49,12 +56,21 @@ char task_logic::run(char state){
 int x_temp;
 int y_temp;
 
-//	*ptr_serial << "ENTERING LOGIC TASK" << endl;
+//-------------------------------------------------------------------------------------
+/** The logic of this task is fairly straightforward. When initialized, the camera does
+ *  a full sweep of the area, storing that data in the sensor object's initial position
+ *  array. Then, it sweeps from left to right, looking for changes from the initial
+ *  room state. If it finds a change, it proceeds to take a picture of whatever it saw,
+ *  as well as flagging the radio to send out new coordinates. If it detects new info
+ *  from the radio, it reads in that information and moves to the new position
+ *
+ *  I've left all the debug strings in, but commented them out.
+ *  
+ */
 	switch(state){
 		// Initialization state to get base room readings
 		case(GETTING_INIT_READING):
-			//ptr_serial->puts("GETTING_INIT_READING\r\n");
-		*ptr_serial << "INIT READING get motor pos: " << ptr_task_motor->get_current_position() << "\r";
+			//*ptr_serial << "INIT READING get motor pos: " << ptr_task_motor->get_current_position() << "\r";
 			if(ptr_task_motor->position_stable()){
 				ptr_task_sensor->init_sensor_values();
 				ptr_serial->puts("motor is stable, took an init reading\n\r");
@@ -63,7 +79,7 @@ int y_temp;
 			return(GETTING_INIT_READING);
 			break;
 		case(INIT):
-			ptr_serial->puts("INIT\n\r");
+			//ptr_serial->puts("INIT\n\r");
 			if(ptr_task_motor->get_target_position() == 350){
 				if(ptr_task_sensor->check_reading_taken()){
 					turning_positive = false;
@@ -72,7 +88,7 @@ int y_temp;
 			}
 			else if(ptr_task_sensor->reading_taken()){
 				ptr_task_motor->increment_position(10);
-				ptr_serial->puts("increment! +10\n\r");
+			//	ptr_serial->puts("increment! +10\n\r");
 				return(GETTING_INIT_READING);
 			}
 			return(INIT);
@@ -81,13 +97,13 @@ int y_temp;
 			//ptr_serial->puts("SCANNING_POSITIVE\n\r");
 			in_sensor_reading_range = (ptr_task_motor->get_current_position() % 10 < 2 || ptr_task_motor->get_current_position() % 10 > 8);
 			if(in_sensor_reading_range)
-				ptr_serial->puts("In Range!\n\r");
+			//	ptr_serial->puts("In Range!\n\r");
 			if(enable_sensor_reading && in_sensor_reading_range){
 				enable_sensor_reading = false;
 				return(GETTING_READING);
 			}
 			else if(in_sensor_reading_range == false){
-				ptr_serial->puts("Reenabling sensor reading\n\r");
+			//	ptr_serial->puts("Reenabling sensor reading\n\r");
 				enable_sensor_reading = true;
 			}
 			if (ptr_task_radio->check())
@@ -98,7 +114,7 @@ int y_temp;
 		// is a change from the initialized reading value, go to send the coordinates over the
 		// radio
 		case(GETTING_READING):
-			ptr_serial->puts("GETTING_READING\n\r");
+			//ptr_serial->puts("GETTING_READING\n\r");
 			if(reading_requested == false){
 				ptr_task_sensor->take_reading();
 				reading_requested = true;
@@ -106,7 +122,7 @@ int y_temp;
 			// Once reading is taken, if change is detected deal with it, else
 			// go back to scanning
 			if(ptr_task_sensor->check_reading_taken()){
-				ptr_serial->puts("Checking for a change\n\r");
+			//	ptr_serial->puts("Checking for a change\n\r");
 				reading_requested = false;
 				if(ptr_task_sensor->change_detected()){
 					return(CHANGE_DETECTED);
@@ -117,14 +133,14 @@ int y_temp;
 			return(GETTING_READING);
 			break;
 		case(CHANGE_DETECTED):
-			ptr_serial->puts("CHANGE_DETECTED\n\r");
+			//ptr_serial->puts("CHANGE_DETECTED\n\r");
 			ptr_task_motor->enable_brake();
 			ptr_task_solenoid->take_picture();
-			*ptr_serial << "after invoking take picture" << endl;
+			//*ptr_serial << "after invoking take picture" << endl;
 			// calculate with help of triangulation global coords and send Radio coordinates in task_radio
 			ptr_task_radio->setCoords();
 			if(ptr_task_solenoid->picture_done()){
-				*ptr_serial << "inside if statement" << endl;
+			//	*ptr_serial << "inside if statement" << endl;
 				ptr_task_motor->disable_brake();
 				return(SCANNING_POSITIVE);
 			}
@@ -135,9 +151,9 @@ int y_temp;
 			ptr_task_motor->change_position(ptr_triangle->global_to_angle(ptr_task_radio->get_coords(1),ptr_task_radio->get_coords(0)));
 			ptr_task_motor->enable_brake();
 			ptr_task_solenoid->take_picture();
-			*ptr_serial << "after take picture from radio" << endl;
+			//*ptr_serial << "after take picture from radio" << endl;
 			if(ptr_task_solenoid->picture_done()){
-				*ptr_serial << "inside if statement" << endl;
+			//	*ptr_serial << "inside if statement" << endl;
 				ptr_task_motor->disable_brake();
 				return(SCANNING_POSITIVE);
 			}

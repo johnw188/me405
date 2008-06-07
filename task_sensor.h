@@ -1,7 +1,6 @@
 //======================================================================================
-/** \file  task_solenoid.cc
- *  Task which controls the solenoid to keep the camera awake and take pictures when
- *  flagged
+/** \file  task_sensor.h
+ *  Task that deals with sensor readings
  *
  *  Revisions:
  *    \li  05-31-08  Created file
