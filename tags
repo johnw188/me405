@@ -9,24 +9,43 @@ ADC_result	adc_driver.cc	/^typedef union ADC_result$/;"	u	file:
 ADC_result::bytes	adc_driver.cc	/^	char bytes[2];                          \/\/ The bytes in the number$/;"	m	union:ADC_result	file:	access:public
 ADC_result::word	adc_driver.cc	/^	int word;                               \/\/ The whole 16-bit number$/;"	m	union:ADC_result	file:	access:public
 AVARICE	Makefile	/^AVARICE = avarice                # Name of JTAG interface program$/;"	m
+BAUD_DIV	To harrison/solenoid_test.cc	28;"	d	file:
+BAUD_DIV	To harrison/triangulate_test.cc	28;"	d	file:
 BAUD_DIV	adc_test.cc	27;"	d	file:
-BAUD_DIV	camera_controller.cc	24;"	d	file:
-BAUD_DIV	controls_test.cc	28;"	d	file:
+BAUD_DIV	controls_test.cc	29;"	d	file:
+BAUD_DIV	me405project.cc	40;"	d	file:
 BAUD_DIV	motor_test.cc	26;"	d	file:
+BAUD_DIV	radio_test.cc	26;"	d	file:
+BAUD_DIV	solenoid_test.cc	28;"	d	file:
+BAUD_DIV	triangulate_test.cc	28;"	d	file:
 BV	adc_driver.cc	29;"	d	file:
-BV	controls.cc	30;"	d	file:
+BV	controls.cc	22;"	d	file:
 BV	motor_driver.cc	28;"	d	file:
+BV	sharp_sensor_driver.cc	27;"	d	file:
 CC	Makefile	/^CC = avr-gcc                     # Name of compiler program$/;"	m
+CHANGE_DETECTED	To harrison/task_logic.cc	/^const char CHANGE_DETECTED = 5;$/;"	v
+CHANGE_DETECTED	task_logic.cc	/^const char CHANGE_DETECTED = 5;$/;"	v
 CHIP	Makefile	/^CHIP=m128$/;"	m
 DBCMFL	Makefile	/^DBCMFL = gdb.commands            # File containing debugger startup commands$/;"	m
 DEBUGL	Makefile	/^DEBUGL = DEBUG_LEVEL=0           # Option for debugging level$/;"	m
 DEBUGPROG	Makefile	/^DEBUGPROG = \/usr\/avr\/bin\/avr-insight   # Name of debugger, avr-gdb or avr-insight$/;"	m
 DEBUG_CODES	Makefile	/^DEBUG_CODES = $/;"	m
+FROM_RADIO	task_logic.cc	/^const char FROM_RADIO = 6;$/;"	v
+GETTING_INIT_READING	To harrison/task_logic.cc	/^const char GETTING_INIT_READING = 0;$/;"	v
+GETTING_INIT_READING	task_logic.cc	/^const char GETTING_INIT_READING = 0;$/;"	v
+GETTING_READING	To harrison/task_logic.cc	/^const char GETTING_READING = 4;$/;"	v
+GETTING_READING	task_logic.cc	/^const char GETTING_READING = 4;$/;"	v
 HDRS	Makefile	/^HDRS =                           # Not used$/;"	m
 HWARE	Makefile	/^HWARE = bsd                      # Type of cable ('bsd' is parport cable)$/;"	m
+ID	task_rad.h	/^	char ID;			\/\/1$/;"	m	class:task_rad	access:protected
+IDLE	task_rad.cc	34;"	d	file:
+INIT	To harrison/task_logic.cc	/^const char INIT = 1;          $/;"	v
+INIT	task_logic.cc	/^const char INIT = 1;$/;"	v
 IPPORT	Makefile	/^IPPORT = :4242                   # IP port on which Avarice and Insight talk$/;"	m
+ISR	To harrison/stl_us_timer.cc	/^ISR (TIMER1_OVF_vect)$/;"	f	signature:(TIMER1_OVF_vect)
 ISR	controls.cc	/^ISR(INT4_vect){$/;"	f	signature:(INT4_vect)
 ISR	controls.cc	/^ISR(INT5_vect){$/;"	f	signature:(INT5_vect)
+ISR	nRF24L01_text.cc	/^ISR (INT7_vect)$/;"	f	signature:(INT7_vect)
 ISR	stl_us_timer.cc	/^ISR (TIMER1_OVF_vect)$/;"	f	signature:(TIMER1_OVF_vect)
 ISR_encoder_gear_max_value	controls.cc	/^long ISR_encoder_gear_max_value;$/;"	v
 ISR_encoder_max_value	controls.cc	/^int ISR_encoder_max_value;$/;"	v
@@ -37,20 +56,106 @@ ISR_gear_position	controls.cc	/^unsigned long ISR_gear_position;$/;"	v
 ISR_gear_position_degrees	controls.cc	/^int ISR_gear_position_degrees;$/;"	v
 ISR_motor_position	controls.cc	/^unsigned int ISR_motor_position;$/;"	v
 JHWARE	Makefile	/^JHWARE = jtagice                 # Type of JTAG-ICE interface$/;"	m
-JPORT	Makefile	/^JPORT = \/dev\/ttyUSB0             # Port to which JTAG-ICE is connected$/;"	m
+JPORT	Makefile	/^JPORT = \/dev\/avrjtag             # Port to which JTAG-ICE is connected$/;"	m
 LINKMODE	Makefile	/^LINKMODE = -g                    # Linker mode string$/;"	m
 MCU	Makefile	/^MCU=atmega128$/;"	m
-OBJS	Makefile	/^OBJS = $(TARGET).o base_text_serial.o rs232.o motor_driver.o adc_driver.o controls.o$/;"	m
+OBJS	Makefile	/^OBJS = $(TARGET).o base_text_serial.o rs232.o motor_driver.o controls.o task_motor.o adc_driver.o stl_us_timer.o solenoid.o task_solenoid.o stl_task.o task_sensor.o sharp_sensor_driver.o task_logic.o triangle.o m9xstream.o nRF24L01_base.o spi_bb.o nRF24L01_text.o task_rad.o$/;"	m
 OPTIM	Makefile	/^OPTIM = -O2                      # Optimization level for compiler (0, n, s)$/;"	m
+PKT_ACK	packet_n.h	/^    PKT_ACK,                \/\/\/< Acknowledges correct receipt of a packet$/;"	e	enum:pkt_type
+PKT_ANNC	packet_n.h	/^    PKT_ANNC,               \/\/\/< Announcement to anyone receiving$/;"	e	enum:pkt_type
+PKT_DEFSZ	packet_n.h	32;"	d
+PKT_DISC	packet_n.h	/^    PKT_DISC,               \/\/\/< Discovery, for drop-in networking$/;"	e	enum:pkt_type
+PKT_ERROR	packet_n.h	/^    PKT_ERROR               \/\/\/< Packet code shouldn't ever be used$/;"	e	enum:pkt_type
+PKT_INT_ARRAY	packet_n.h	/^    PKT_INT_ARRAY,          \/\/\/< An array of short (16 bit) integers$/;"	e	enum:pkt_type
+PKT_LONG_ARRAY	packet_n.h	/^    PKT_LONG_ARRAY,         \/\/\/< An array of long (32 bit) integers$/;"	e	enum:pkt_type
+PKT_NULL	packet_n.h	/^    PKT_NULL,               \/\/\/< Packet with no meaningful contents$/;"	e	enum:pkt_type
+PKT_PING	packet_n.h	/^    PKT_PING,               \/\/\/< Packet which says hello, expects reply$/;"	e	enum:pkt_type
+PKT_STRING	packet_n.h	/^    PKT_STRING,             \/\/\/< A string of text characters $/;"	e	enum:pkt_type
+PKT_TRACE	packet_n.h	/^    PKT_TRACE,              \/\/\/< Packet traces where it has traveled$/;"	e	enum:pkt_type
+PKT_WXDATA	packet_n.h	/^    PKT_WXDATA,             \/\/\/< Data from a weather measurement station$/;"	e	enum:pkt_type
 PORT	Makefile	/^PORT = \/dev\/parport0             # Port used by avrdude downloader program$/;"	m
+RECEIVE	To harrison/task_comm.cc	/^const char RECEIVE = 2					\/\/ Is receiving a packege	$/;"	v
+RECEIVE	task_comm.cc	/^const char RECEIVE = 2					\/\/ Is receiving a packege	$/;"	v
+RECEIVE	task_rad.cc	36;"	d	file:
 RXC_MASK	rs232.h	37;"	d
 RXC_MASK	rs232.h	41;"	d
 RXC_MASK	rs232.h	45;"	d
 RXC_MASK	rs232.h	49;"	d
 RXC_MASK	rs232.h	53;"	d
 RXC_MASK	rs232.h	57;"	d
+RXC_mask	m9xstream.h	37;"	d
+RXC_mask	m9xstream.h	41;"	d
+RXC_mask	m9xstream.h	45;"	d
+RXC_mask	m9xstream.h	49;"	d
+RXC_mask	m9xstream.h	53;"	d
+RXC_mask	m9xstream.h	57;"	d
+SCANNING_NEGATIVE	To harrison/task_logic.cc	/^const char SCANNING_NEGATIVE = 3;$/;"	v
+SCANNING_NEGATIVE	task_logic.cc	/^const char SCANNING_NEGATIVE = 3;$/;"	v
+SCANNING_POSITIVE	To harrison/task_logic.cc	/^const char SCANNING_POSITIVE = 2;$/;"	v
+SCANNING_POSITIVE	task_logic.cc	/^const char SCANNING_POSITIVE = 2;$/;"	v
+SEND	To harrison/task_comm.cc	/^const char SEND = 1;                    		\/\/ Is sending a coord$/;"	v
+SEND	task_comm.cc	/^const char SEND = 1;                    		\/\/ Is sending a coord$/;"	v
+SEND	task_rad.cc	35;"	d	file:
+SENSORPORT	sharp_sensor_driver.cc	20;"	d	file:
+SPI_BB_DEBUG	To harrison/spi_bb.h	25;"	d
+SPI_BB_DEBUG	spi_bb.h	25;"	d
 STD	Makefile	/^STD = _GNU_SOURCE                # Standard compiler options$/;"	m
-TARGET	Makefile	/^TARGET = controls_test$/;"	m
+STL_DEBUG_PUTCHAR	To harrison/stl_debug.h	38;"	d
+STL_DEBUG_PUTCHAR	To harrison/stl_debug.h	56;"	d
+STL_DEBUG_PUTCHAR	stl_debug.h	38;"	d
+STL_DEBUG_PUTCHAR	stl_debug.h	56;"	d
+STL_DEBUG_PUTS	To harrison/stl_debug.h	39;"	d
+STL_DEBUG_PUTS	To harrison/stl_debug.h	57;"	d
+STL_DEBUG_PUTS	stl_debug.h	39;"	d
+STL_DEBUG_PUTS	stl_debug.h	57;"	d
+STL_DEBUG_TYPE	To harrison/stl_debug.h	27;"	d
+STL_DEBUG_TYPE	To harrison/stl_debug.h	33;"	d
+STL_DEBUG_TYPE	To harrison/stl_debug.h	67;"	d
+STL_DEBUG_TYPE	stl_debug.h	27;"	d
+STL_DEBUG_TYPE	stl_debug.h	33;"	d
+STL_DEBUG_TYPE	stl_debug.h	67;"	d
+STL_DEBUG_WRITE	To harrison/stl_debug.h	40;"	d
+STL_DEBUG_WRITE	To harrison/stl_debug.h	58;"	d
+STL_DEBUG_WRITE	stl_debug.h	40;"	d
+STL_DEBUG_WRITE	stl_debug.h	58;"	d
+STL_DEBUG_WRITE_HEX	To harrison/stl_debug.h	41;"	d
+STL_DEBUG_WRITE_HEX	stl_debug.h	41;"	d
+STL_NO_TRANSITION	To harrison/stl_task.h	/^const char STL_NO_TRANSITION = 0xFF;$/;"	v
+STL_NO_TRANSITION	stl_task.h	/^const char STL_NO_TRANSITION = 0xFF;$/;"	v
+STL_PRINT_PROFILE	To harrison/stl_task.h	38;"	d
+STL_PRINT_PROFILE	To harrison/stl_task.h	40;"	d
+STL_PRINT_PROFILE	stl_task.h	38;"	d
+STL_PRINT_PROFILE	stl_task.h	40;"	d
+STL_SERIAL_DEBUG	To harrison/stl_debug.h	26;"	d
+STL_SERIAL_DEBUG	stl_debug.h	26;"	d
+STL_SERIAL_TRACE	To harrison/stl_debug.h	32;"	d
+STL_SERIAL_TRACE	stl_debug.h	32;"	d
+STL_TRACE_PUTCHAR	To harrison/stl_debug.h	46;"	d
+STL_TRACE_PUTCHAR	To harrison/stl_debug.h	61;"	d
+STL_TRACE_PUTCHAR	stl_debug.h	46;"	d
+STL_TRACE_PUTCHAR	stl_debug.h	61;"	d
+STL_TRACE_PUTS	To harrison/stl_debug.h	47;"	d
+STL_TRACE_PUTS	To harrison/stl_debug.h	62;"	d
+STL_TRACE_PUTS	stl_debug.h	47;"	d
+STL_TRACE_PUTS	stl_debug.h	62;"	d
+STL_TRACE_WRITE	To harrison/stl_debug.h	48;"	d
+STL_TRACE_WRITE	To harrison/stl_debug.h	63;"	d
+STL_TRACE_WRITE	stl_debug.h	48;"	d
+STL_TRACE_WRITE	stl_debug.h	63;"	d
+TAKE_PIC	To harrison/task_solenoid.cc	/^const char TAKE_PIC = 1;                    		\/\/ Is taking a pic$/;"	v
+TAKE_PIC	task_solenoid.cc	/^const char TAKE_PIC = 1;                    		\/\/ Is taking a pic$/;"	v
+TARGET	Makefile	/^TARGET = me405project$/;"	m
+TASK_BLOCKED	To harrison/stl_task.h	/^    TASK_BLOCKED,           \/\/\/< The task cannot run because a resource is unavailable$/;"	e	enum:task_op_state
+TASK_BLOCKED	stl_task.h	/^    TASK_BLOCKED,           \/\/\/< The task cannot run because a resource is unavailable$/;"	e	enum:task_op_state
+TASK_PENDING	To harrison/stl_task.h	/^    TASK_PENDING,           \/\/\/< The task needs to run again as soon as possible$/;"	e	enum:task_op_state
+TASK_PENDING	stl_task.h	/^    TASK_PENDING,           \/\/\/< The task needs to run again as soon as possible$/;"	e	enum:task_op_state
+TASK_RUNNING	To harrison/stl_task.h	/^    TASK_RUNNING,           \/\/\/< The task's run() function is executing$/;"	e	enum:task_op_state
+TASK_RUNNING	stl_task.h	/^    TASK_RUNNING,           \/\/\/< The task's run() function is executing$/;"	e	enum:task_op_state
+TASK_SUSPENDED	To harrison/stl_task.h	/^    TASK_SUSPENDED          \/\/\/< The task is turned off until its resume() is called$/;"	e	enum:task_op_state
+TASK_SUSPENDED	stl_task.h	/^    TASK_SUSPENDED          \/\/\/< The task is turned off until its resume() is called$/;"	e	enum:task_op_state
+TASK_WAITING	To harrison/stl_task.h	/^    TASK_WAITING,           \/\/\/< The task is waiting for its next run time to occur$/;"	e	enum:task_op_state
+TASK_WAITING	stl_task.h	/^    TASK_WAITING,           \/\/\/< The task is waiting for its next run time to occur$/;"	e	enum:task_op_state
+UART_TX_TOUT	m9xstream.h	62;"	d
 UART_TX_TOUT	rs232.h	62;"	d
 UDRE_MASK	rs232.h	36;"	d
 UDRE_MASK	rs232.h	40;"	d
@@ -58,15 +163,58 @@ UDRE_MASK	rs232.h	44;"	d
 UDRE_MASK	rs232.h	48;"	d
 UDRE_MASK	rs232.h	52;"	d
 UDRE_MASK	rs232.h	56;"	d
-USEC_PER_COUNT	stl_us_timer.h	36;"	d
+UDRE_mask	m9xstream.h	36;"	d
+UDRE_mask	m9xstream.h	40;"	d
+UDRE_mask	m9xstream.h	44;"	d
+UDRE_mask	m9xstream.h	48;"	d
+UDRE_mask	m9xstream.h	52;"	d
+UDRE_mask	m9xstream.h	56;"	d
+USEC_PER_COUNT	To harrison/stl_us_timer.h	37;"	d
+USEC_PER_COUNT	stl_us_timer.h	37;"	d
+WAITING	To harrison/task_comm.cc	/^const char WAITING = 0;                  		\/\/ Is waiting for change of state$/;"	v
+WAITING	To harrison/task_solenoid.cc	/^const char WAITING = 0;                  		\/\/ Is waiting for change of state$/;"	v
+WAITING	task_comm.cc	/^const char WAITING = 0;                  		\/\/ Is waiting for change of state$/;"	v
+WAITING	task_solenoid.cc	/^const char WAITING = 0;                  		\/\/ Is waiting for change of state$/;"	v
 _AVR_ADC_H_	adc_driver.h	15;"	d
+_AVR_QUEUE_H_	avr_queue.h	24;"	d
 _BASE_TEXT_SERIAL_H_	base_text_serial.h	25;"	d
+_CONTROLS_H_	controls.h	15;"	d
+_M9XSTREAM_H_	m9xstream.h	26;"	d
 _MOTOR_DRIVER_H_	motor_driver.h	16;"	d
+_NRF24L01_BASE_H_	nRF24L01_base.h	19;"	d
+_NRF24L01_TEXT_H_	nRF24L01_text.h	24;"	d
+_PACKET_N_H_	packet_n.h	28;"	d
 _RS232_H_	rs232.h	26;"	d
+_SHARP_SENSOR_DRIVER_H_	sharp_sensor_driver.h	15;"	d
+_SOLENOID_H_	To harrison/solenoid.h	4;"	d
+_SOLENOID_H_	solenoid.h	4;"	d
+_SPI_BB_H_	To harrison/spi_bb.h	21;"	d
+_SPI_BB_H_	spi_bb.h	21;"	d
+_STL_DEBUG_H	To harrison/stl_debug.h	12;"	d
+_STL_DEBUG_H	stl_debug.h	12;"	d
+_STL_TASK_H_	To harrison/stl_task.h	24;"	d
+_STL_TASK_H_	stl_task.h	24;"	d
+_STL_US_TIMER_H_	To harrison/stl_us_timer.h	26;"	d
 _STL_US_TIMER_H_	stl_us_timer.h	26;"	d
-__anon2::half	stl_us_timer.h	/^    int half[2];                            \/\/\/< The data as an array of 16-bit ints$/;"	m	union:__anon2	access:public
-__anon2::quarters	stl_us_timer.h	/^    char quarters[4];                       \/\/\/< The data as an array of 8-bit chars$/;"	m	union:__anon2	access:public
-__anon2::whole	stl_us_timer.h	/^    long whole;                             \/\/\/< All the data as one 32-bit number$/;"	m	union:__anon2	access:public
+_TASK_COMM_	To harrison/task_comm.h	16;"	d
+_TASK_COMM_	task_comm.h	16;"	d
+_TASK_LOGIC_	To harrison/task_logic.h	16;"	d
+_TASK_LOGIC_	task_logic.h	16;"	d
+_TASK_SENSOR_	To harrison/task_sensor.h	16;"	d
+_TASK_SENSOR_	task_sensor.h	16;"	d
+_TASK_SOLENOID_	To harrison/task_solenoid.h	16;"	d
+_TASK_SOLENOID_	task_solenoid.h	16;"	d
+_TRIANGLE_	To harrison/triangle.h	15;"	d
+_TRIANGLE_	triangle.h	15;"	d
+__anon2::half	To harrison/stl_us_timer.h	/^    int half[2];                            \/\/\/< The data as an array of 16-bit ints$/;"	m	union:__anon2	access:public
+__anon2::quarters	To harrison/stl_us_timer.h	/^    char quarters[4];                       \/\/\/< The data as an array of 8-bit chars$/;"	m	union:__anon2	access:public
+__anon2::whole	To harrison/stl_us_timer.h	/^    long whole;                             \/\/\/< All the data as one 32-bit number$/;"	m	union:__anon2	access:public
+__anon3::half	stl_us_timer.h	/^    int half[2];                            \/\/\/< The data as an array of 16-bit ints$/;"	m	union:__anon3	access:public
+__anon3::quarters	stl_us_timer.h	/^    char quarters[4];                       \/\/\/< The data as an array of 8-bit chars$/;"	m	union:__anon3	access:public
+__anon3::whole	stl_us_timer.h	/^    long whole;                             \/\/\/< All the data as one 32-bit number$/;"	m	union:__anon3	access:public
+_task_rad_H_	task_rad.h	22;"	d
+a_i	task_rad.h	/^	char a_i;			\/\/5$/;"	m	class:task_rad	access:protected
+a_j	task_rad.h	/^	char a_j;			\/\/6$/;"	m	class:task_rad	access:protected
 adc_driver	adc_driver.cc	/^adc_driver::adc_driver (base_text_serial* p_serial_port)$/;"	f	class:adc_driver	signature:(base_text_serial* p_serial_port)
 adc_driver	adc_driver.h	/^        adc_driver (base_text_serial*);$/;"	p	class:adc_driver	access:public	signature:(base_text_serial*)
 adc_driver	adc_driver.h	/^class adc_driver$/;"	c
@@ -75,6 +223,15 @@ adc_driver::adc_driver	adc_driver.h	/^        adc_driver (base_text_serial*);$/;
 adc_driver::ptr_to_serial	adc_driver.h	/^        base_text_serial* ptr_to_serial;$/;"	m	class:adc_driver	access:protected
 adc_driver::read_once	adc_driver.cc	/^unsigned int adc_driver::read_once (unsigned char channel)$/;"	f	class:adc_driver	signature:(unsigned char channel)
 adc_driver::read_once	adc_driver.h	/^        unsigned int read_once (unsigned char);$/;"	p	class:adc_driver	access:public	signature:(unsigned char)
+add_slave	To harrison/spi_bb.cc	/^void spi_bb_port::add_slave (unsigned char ss_mask)$/;"	f	class:spi_bb_port	signature:(unsigned char ss_mask)
+add_slave	To harrison/spi_bb.h	/^        void add_slave (unsigned char);     \/\/ Method to add a slave device connection$/;"	p	class:spi_bb_port	access:public	signature:(unsigned char)
+add_slave	spi_bb.cc	/^void spi_bb_port::add_slave (unsigned char ss_mask)$/;"	f	class:spi_bb_port	signature:(unsigned char ss_mask)
+add_slave	spi_bb.h	/^        void add_slave (unsigned char);     \/\/ Method to add a slave device connection$/;"	p	class:spi_bb_port	access:public	signature:(unsigned char)
+addr_from	packet_n.h	/^        address_type addr_from;$/;"	m	class:packet_n	access:protected
+addr_to	packet_n.h	/^        address_type addr_to;$/;"	m	class:packet_n	access:protected
+angle_to_global	To harrison/triangle.h	/^        void angle_to_global (signed int);$/;"	p	class:triangle	access:public	signature:(signed int)
+angle_to_global	triangle.cc	/^int triangle::angle_to_global (bool vector, signed int loc_angle, signed int distance)$/;"	f	class:triangle	signature:(bool vector, signed int loc_angle, signed int distance)
+angle_to_global	triangle.h	/^	int angle_to_global (bool, signed int, signed int);$/;"	p	class:triangle	access:public	signature:(bool, signed int, signed int)
 base	base_text_serial.h	/^        unsigned char base;$/;"	m	class:base_text_serial	access:protected
 base_text_serial	base_text_serial.cc	/^base_text_serial::base_text_serial (void)$/;"	f	class:base_text_serial	signature:(void)
 base_text_serial	base_text_serial.h	/^        base_text_serial (void);            \/\/ Simple constructor doesn't do much$/;"	p	class:base_text_serial	access:public	signature:(void)
@@ -112,16 +269,46 @@ base_text_serial::transmit_now	base_text_serial.cc	/^void base_text_serial::tran
 base_text_serial::transmit_now	base_text_serial.h	/^        virtual void transmit_now (void);   \/\/ Immediately transmit any buffered data$/;"	p	class:base_text_serial	access:public	signature:(void)
 bin	base_text_serial.h	/^    bin,                    \/\/\/< Print following numbers in base 2 (binary)$/;"	e	enum:__anon1
 brake_on	motor_driver.h	/^	bool direction_of_motor, brake_on;$/;"	m	class:motor_driver	access:protected
+buffer	avr_queue.h	/^        qType buffer[qSize];            \/\/\/< This memory buffer holds the contents$/;"	m	class:queue	access:protected
+buffer	task_rad.h	/^typedef union buffer$/;"	u
+buffer::bytes	task_rad.h	/^    char bytes[8];                          \/\/ The bytes in the number$/;"	m	union:buffer	access:public
+buffer::quad_word	task_rad.h	/^    long int quad_word;                     \/\/ The whole 64-bit number$/;"	m	union:buffer	access:public
 bytes	adc_driver.cc	/^	char bytes[2];                          \/\/ The bytes in the number$/;"	m	union:ADC_result	file:	access:public
+bytes	task_rad.h	/^    char bytes[8];                          \/\/ The bytes in the number$/;"	m	union:buffer	access:public
+cam_init_angle	To harrison/triangle.h	/^	int cam_init_angle;			\/\/ the angle the camera is facing at initialization$/;"	m	class:triangle	access:protected
+cam_init_angle	triangle.h	/^	int cam_init_angle;		\/\/ the angle the camera is facing at initialization$/;"	m	class:triangle	access:protected
+cam_pos_x	To harrison/triangle.h	/^	int cam_pos_x;				\/\/ x-value of global position of camera standard$/;"	m	class:triangle	access:protected
+cam_pos_x	triangle.h	/^	int cam_pos_x;			\/\/ x-value of global position of camera standard$/;"	m	class:triangle	access:protected
+cam_pos_y	To harrison/triangle.h	/^	int cam_pos_y;				\/\/ y-value of global position of camera standard$/;"	m	class:triangle	access:protected
+cam_pos_y	triangle.h	/^	int cam_pos_y;			\/\/ y-value of global position of camera standard$/;"	m	class:triangle	access:protected
 cbi	adc_driver.cc	30;"	d	file:
-cbi	controls.cc	31;"	d	file:
+cbi	controls.cc	23;"	d	file:
 cbi	motor_driver.cc	29;"	d	file:
+cbi	sharp_sensor_driver.cc	28;"	d	file:
+change_detected	To harrison/task_sensor.h	/^	bool change_detected(void);$/;"	p	class:task_sensor	access:public	signature:(void)
+change_detected	task_sensor.h	/^	bool change_detected(void);$/;"	p	class:task_sensor	access:public	signature:(void)
+change_detected_flag	To harrison/task_sensor.h	/^	bool change_detected_flag;$/;"	m	class:task_sensor	access:protected
+change_detected_flag	task_sensor.h	/^	bool change_detected_flag;$/;"	m	class:task_sensor	access:protected
 change_gear_position	controls.cc	/^void controls::change_gear_position(int new_position){$/;"	f	class:controls	signature:(int new_position)
 change_gear_position	controls.h	/^		void change_gear_position(int);$/;"	p	class:controls	access:public	signature:(int)
+check	task_rad.cc	/^bool task_rad::check(void)$/;"	f	class:task_rad	signature:(void)
+check	task_rad.h	/^	bool check (void);$/;"	p	class:task_rad	access:public	signature:(void)
+checkSum	task_rad.cc	/^void task_rad::checkSum()$/;"	f	class:task_rad	signature:()
+checkSum	task_rad.h	/^	void checkSum (void);$/;"	p	class:task_rad	access:public	signature:(void)
 check_for_char	base_text_serial.cc	/^bool base_text_serial::check_for_char (void)$/;"	f	class:base_text_serial	signature:(void)
 check_for_char	base_text_serial.h	/^        virtual bool check_for_char (void); \/\/ Check if a character is in the buffer$/;"	p	class:base_text_serial	access:public	signature:(void)
+check_for_char	m9xstream.cc	/^bool m9XStream::check_for_char (void)$/;"	f	class:m9XStream	signature:(void)
+check_for_char	m9xstream.h	/^        bool check_for_char (void);         \/\/ Check if a character is in the buffer$/;"	p	class:m9XStream	access:public	signature:(void)
+check_for_char	nRF24L01_text.cc	/^bool nRF24L01_text::check_for_char (void)$/;"	f	class:nRF24L01_text	signature:(void)
+check_for_char	nRF24L01_text.h	/^        bool check_for_char (void);         \/\/ Check if a character is in the buffer$/;"	p	class:nRF24L01_text	access:public	signature:(void)
 check_for_char	rs232.cc	/^bool rs232::check_for_char (void)$/;"	f	class:rs232	signature:(void)
 check_for_char	rs232.h	/^        bool check_for_char (void);         \/\/ Check if a character is in the buffer$/;"	p	class:rs232	access:public	signature:(void)
+check_reading_taken	To harrison/task_sensor.h	/^	bool check_reading_taken(void);$/;"	p	class:task_sensor	access:public	signature:(void)
+check_reading_taken	task_sensor.h	/^	bool check_reading_taken(void);$/;"	p	class:task_sensor	access:public	signature:(void)
+checksum	packet_n.h	/^        unsigned char checksum;$/;"	m	class:packet_n	access:protected
+checksum	task_rad.h	/^	char checksum;			\/\/7$/;"	m	class:task_rad	access:protected
+clear_prof_data_method	To harrison/stl_task.h	/^        void clear_prof_data_method (void);     \/\/ Clear profiling data arrays$/;"	p	class:stl_task	access:public	signature:(void)
+clear_prof_data_method	stl_task.h	/^        void clear_prof_data_method (void);     \/\/ Clear profiling data arrays$/;"	p	class:stl_task	access:public	signature:(void)
 controls	controls.cc	/^controls::controls (base_text_serial* p_serial_port) : motor_driver(p_serial_port)$/;"	f	class:controls	signature:(base_text_serial* p_serial_port)
 controls	controls.h	/^		controls(base_text_serial*);$/;"	p	class:controls	access:public	signature:(base_text_serial*)
 controls	controls.h	/^class controls : public motor_driver {$/;"	c	inherits:motor_driver
@@ -148,7 +335,8 @@ controls::get_gear_position_degrees	controls.h	/^		int get_gear_position_degrees
 controls::get_kd	controls.h	/^		int get_kd(void){return kd;}$/;"	f	class:controls	access:public	signature:(void)
 controls::get_ki	controls.h	/^		int get_ki(void){return ki;}$/;"	f	class:controls	access:public	signature:(void)
 controls::get_kp	controls.h	/^		int get_kp(void){return kp;}$/;"	f	class:controls	access:public	signature:(void)
-controls::get_motor_gear_position	controls.h	/^		int get_motor_gear_position(void){return gear_position;}$/;"	f	class:controls	access:public	signature:(void)
+controls::get_motor_gear_position	controls.cc	/^int controls::get_motor_gear_position(){$/;"	f	class:controls	signature:()
+controls::get_motor_gear_position	controls.h	/^		int get_motor_gear_position(void);$/;"	p	class:controls	access:public	signature:(void)
 controls::get_motor_position	controls.h	/^		int get_motor_position(void){return motor_position;}$/;"	f	class:controls	access:public	signature:(void)
 controls::get_motor_position_degrees	controls.h	/^		int get_motor_position_degrees(void){return motor_position_degrees;}$/;"	f	class:controls	access:public	signature:(void)
 controls::kd	controls.h	/^		int kp, ki, kd;$/;"	m	class:controls	access:protected
@@ -183,17 +371,56 @@ controls::update_position_control	controls.h	/^		void update_position_control(vo
 controls::update_velocity_control	controls.h	/^		void update_velocity_control(void);$/;"	p	class:controls	access:public	signature:(void)
 controls::velocity_error	controls.h	/^		int position_error, velocity_error;$/;"	m	class:controls	access:protected
 controls::velocity_error_sum	controls.h	/^		int position_error_sum, velocity_error_sum;$/;"	m	class:controls	access:protected
+copy_payload	packet_n.h	/^        void copy_payload (void* p_buf, unsigned char bytes = payload_size);$/;"	p	class:packet_n	access:public	signature:(void* p_buf, unsigned char bytes = payload_size)
+copy_payload	packet_n.h	/^void packet_n::copy_payload (void* p_data, unsigned char bytes)$/;"	f	class:packet_n	signature:(void* p_data, unsigned char bytes)
+count	task_rad.h	/^	unsigned char count;		    \/\/ Count for receive\/transmit array$/;"	m	class:task_rad	access:protected
+current_state	To harrison/stl_task.h	/^        char current_state;                 \/\/ State in which we're currently running$/;"	m	class:stl_task	access:private
+current_state	stl_task.h	/^        char current_state;                 \/\/ State in which we're currently running$/;"	m	class:stl_task	access:private
+data	To harrison/stl_us_timer.h	/^        time_data_32 data;$/;"	m	class:time_stamp	access:protected
 data	stl_us_timer.h	/^        time_data_32 data;$/;"	m	class:time_stamp	access:protected
+data_ready	nRF24L01_base.cc	/^bool nRF24L01_base::data_ready (void)$/;"	f	class:nRF24L01_base	signature:(void)
+data_ready	nRF24L01_base.h	/^        bool data_ready (void);$/;"	p	class:nRF24L01_base	access:public	signature:(void)
+dbg_port	To harrison/stl_task.h	/^        STL_DEBUG_TYPE* dbg_port;           \/\/ Port for serial debugging information$/;"	m	class:stl_task	access:protected
+dbg_port	stl_task.h	/^        STL_DEBUG_TYPE* dbg_port;           \/\/ Port for serial debugging information$/;"	m	class:stl_task	access:protected
+ddr	To harrison/spi_bb.h	/^        volatile unsigned char* ddr;        \/\/\/< Pointer to data direction register$/;"	m	class:spi_bb_port	access:protected
+ddr	spi_bb.h	/^        volatile unsigned char* ddr;        \/\/\/< Pointer to data direction register$/;"	m	class:spi_bb_port	access:protected
 dec	base_text_serial.h	/^    dec,                    \/\/\/< Print following numbers in base 10 (decimal)$/;"	e	enum:__anon1
 desired_gear_position	controls.h	/^		long desired_gear_position, desired_position;$/;"	m	class:controls	access:protected
 desired_position	controls.h	/^		long desired_gear_position, desired_position;$/;"	m	class:controls	access:protected
 direction_of_motor	motor_driver.h	/^	bool direction_of_motor, brake_on;$/;"	m	class:motor_driver	access:protected
+dump_regs	nRF24L01_base.cc	/^void nRF24L01_base::dump_regs (base_text_serial* p_serial, ser_manipulator base)$/;"	f	class:nRF24L01_base	signature:(base_text_serial* p_serial, ser_manipulator base)
+dump_regs	nRF24L01_base.h	/^        void dump_regs (base_text_serial*, ser_manipulator = bin);$/;"	p	class:nRF24L01_base	access:public	signature:(base_text_serial*, ser_manipulator = bin)
+enable_sensor_reading	task_logic.cc	/^bool enable_sensor_reading = true;$/;"	v
 encoder_gear_max_value	controls.h	/^		long encoder_gear_max_value;$/;"	m	class:controls	access:protected
 encoder_max_value	controls.h	/^		int encoder_max_value;$/;"	m	class:controls	access:protected
 encoder_pin_A	controls.h	/^		bool encoder_pin_A, encoder_pin_B;$/;"	m	class:controls	access:protected
 encoder_pin_B	controls.h	/^		bool encoder_pin_A, encoder_pin_B;$/;"	m	class:controls	access:protected
+end_of_packet	task_rad.h	/^	char end_of_packet;		\/\/8$/;"	m	class:task_rad	access:protected
 endl	base_text_serial.h	/^    endl,                   \/\/\/< Print a carriage return and linefeed$/;"	e	enum:__anon1
 error_count	controls.h	/^		int error_count;$/;"	m	class:controls	access:protected
+error_stop	To harrison/stl_task.cc	/^void stl_task::error_stop (char const* message)$/;"	f	class:stl_task	signature:(char const* message)
+error_stop	To harrison/stl_task.h	/^        void error_stop (char const*);      \/\/ Complain and stop the processor$/;"	p	class:stl_task	access:public	signature:(char const*)
+error_stop	stl_task.cc	/^void stl_task::error_stop (char const* message)$/;"	f	class:stl_task	signature:(char const* message)
+error_stop	stl_task.h	/^        void error_stop (char const*);      \/\/ Complain and stop the processor$/;"	p	class:stl_task	access:public	signature:(char const*)
+exch_byte	To harrison/spi_bb.cc	/^void spi_bb_port::exch_byte (unsigned char* byte)$/;"	f	class:spi_bb_port	signature:(unsigned char* byte)
+exch_byte	To harrison/spi_bb.h	/^        void exch_byte (unsigned char*);    \/\/ Method to exchange one byte with slave$/;"	p	class:spi_bb_port	access:public	signature:(unsigned char*)
+exch_byte	spi_bb.cc	/^void spi_bb_port::exch_byte (unsigned char* byte)$/;"	f	class:spi_bb_port	signature:(unsigned char* byte)
+exch_byte	spi_bb.h	/^        void exch_byte (unsigned char*);    \/\/ Method to exchange one byte with slave$/;"	p	class:spi_bb_port	access:public	signature:(unsigned char*)
+exch_cmd	To harrison/spi_bb.cc	/^void spi_bb_port::exch_cmd (unsigned char* command, unsigned char slave_mask)$/;"	f	class:spi_bb_port	signature:(unsigned char* command, unsigned char slave_mask)
+exch_cmd	To harrison/spi_bb.h	/^        void exch_cmd (unsigned char*, unsigned char);$/;"	p	class:spi_bb_port	access:public	signature:(unsigned char*, unsigned char)
+exch_cmd	spi_bb.cc	/^void spi_bb_port::exch_cmd (unsigned char* command, unsigned char slave_mask)$/;"	f	class:spi_bb_port	signature:(unsigned char* command, unsigned char slave_mask)
+exch_cmd	spi_bb.h	/^        void exch_cmd (unsigned char*, unsigned char);$/;"	p	class:spi_bb_port	access:public	signature:(unsigned char*, unsigned char)
+exch_data	To harrison/spi_bb.cc	/^void spi_bb_port::exch_data (unsigned char* bytes, char size, unsigned char slave_mask)$/;"	f	class:spi_bb_port	signature:(unsigned char* bytes, char size, unsigned char slave_mask)
+exch_data	To harrison/spi_bb.h	/^        void exch_data (unsigned char*, char, unsigned char);$/;"	p	class:spi_bb_port	access:public	signature:(unsigned char*, char, unsigned char)
+exch_data	spi_bb.cc	/^void spi_bb_port::exch_data (unsigned char* bytes, char size, unsigned char slave_mask)$/;"	f	class:spi_bb_port	signature:(unsigned char* bytes, char size, unsigned char slave_mask)
+exch_data	spi_bb.h	/^        void exch_data (unsigned char*, char, unsigned char);$/;"	p	class:spi_bb_port	access:public	signature:(unsigned char*, char, unsigned char)
+fill_payload	packet_n.h	/^        void fill_payload (void* p_buf, unsigned char bytes = payload_size);$/;"	p	class:packet_n	access:public	signature:(void* p_buf, unsigned char bytes = payload_size)
+fill_payload	packet_n.h	/^void packet_n::fill_payload (void* p_data, unsigned char bytes)$/;"	f	class:packet_n	signature:(void* p_data, unsigned char bytes)
+flush	avr_queue.h	/^        void flush (void);              \/\/ Empty out the whole buffer$/;"	p	class:queue	access:public	signature:(void)
+flush	avr_queue.h	/^void queue<qType, qIndexType, qSize>::flush (void)$/;"	f	class:queue	signature:(void)
+g_RX_queue	nRF24L01_text.cc	/^queue<unsigned char, unsigned char, 64> g_RX_queue;$/;"	v
+g_p_spi	nRF24L01_text.cc	/^spi_bb_port* g_p_spi;$/;"	v
+g_slave_mask	nRF24L01_text.cc	/^unsigned char g_slave_mask;$/;"	v
 gear_position	controls.h	/^		unsigned long gear_position;$/;"	m	class:controls	access:protected
 gear_position_degrees	controls.h	/^		int gear_position_degrees;$/;"	m	class:controls	access:protected
 gear_position_error	controls.h	/^		long gear_position_error, gear_velocity_error;$/;"	m	class:controls	access:protected
@@ -201,35 +428,132 @@ gear_position_error_sum	controls.h	/^		long gear_position_error_sum, gear_veloci
 gear_ratio	controls.h	/^		int gear_ratio;$/;"	m	class:controls	access:protected
 gear_velocity_error	controls.h	/^		long gear_position_error, gear_velocity_error;$/;"	m	class:controls	access:protected
 gear_velocity_error_sum	controls.h	/^		long gear_position_error_sum, gear_velocity_error_sum;$/;"	m	class:controls	access:protected
+get	avr_queue.h	/^        qType get (void);               \/\/ Gets an item from the queue$/;"	p	class:queue	access:public	signature:(void)
+get	avr_queue.h	/^qType queue<qType, qIndexType, qSize>::get (void)$/;"	f	class:queue	signature:(void)
+get_coords	task_rad.cc	/^int task_rad::get_coords(bool vector){$/;"	f	class:task_rad	signature:(bool vector)
+get_coords	task_rad.h	/^	int get_coords(bool);$/;"	p	class:task_rad	access:public	signature:(bool)
+get_ddr	To harrison/spi_bb.h	/^        volatile unsigned char* get_ddr (void) { return (ddr); }$/;"	f	class:spi_bb_port	access:public	signature:(void)
+get_ddr	spi_bb.h	/^        volatile unsigned char* get_ddr (void) { return (ddr); }$/;"	f	class:spi_bb_port	access:public	signature:(void)
+get_destination_address	packet_n.h	/^        address_type get_destination_address (void) { return (addr_to); }$/;"	f	class:packet_n	access:public	signature:(void)
+get_distance	sharp_sensor_driver.cc	/^int sharp_sensor_driver::get_distance(void){$/;"	f	class:sharp_sensor_driver	signature:(void)
+get_distance	sharp_sensor_driver.h	/^		int get_distance(void);			\/\/ Converts analog reading into Distance with the help of lookup table$/;"	p	class:sharp_sensor_driver	access:public	signature:(void)
 get_errors	controls.h	/^		int get_errors(void){return error_count;}$/;"	f	class:controls	access:public	signature:(void)
 get_gear_position_degrees	controls.h	/^		int get_gear_position_degrees(void){return gear_position_degrees;}$/;"	f	class:controls	access:public	signature:(void)
+get_inport	To harrison/spi_bb.h	/^        volatile unsigned char* get_inport (void) { return (inport); }$/;"	f	class:spi_bb_port	access:public	signature:(void)
+get_inport	spi_bb.h	/^        volatile unsigned char* get_inport (void) { return (inport); }$/;"	f	class:spi_bb_port	access:public	signature:(void)
 get_kd	controls.h	/^		int get_kd(void){return kd;}$/;"	f	class:controls	access:public	signature:(void)
 get_ki	controls.h	/^		int get_ki(void){return ki;}$/;"	f	class:controls	access:public	signature:(void)
 get_kp	controls.h	/^		int get_kp(void){return kp;}$/;"	f	class:controls	access:public	signature:(void)
+get_microsec	To harrison/stl_us_timer.cc	/^long time_stamp::get_microsec (void)$/;"	f	class:time_stamp	signature:(void)
+get_microsec	To harrison/stl_us_timer.h	/^        long get_microsec (void);$/;"	p	class:time_stamp	access:public	signature:(void)
 get_microsec	stl_us_timer.cc	/^long time_stamp::get_microsec (void)$/;"	f	class:time_stamp	signature:(void)
 get_microsec	stl_us_timer.h	/^        long get_microsec (void);$/;"	p	class:time_stamp	access:public	signature:(void)
-get_motor_gear_position	controls.h	/^		int get_motor_gear_position(void){return gear_position;}$/;"	f	class:controls	access:public	signature:(void)
+get_motor_gear_position	controls.cc	/^int controls::get_motor_gear_position(){$/;"	f	class:controls	signature:()
+get_motor_gear_position	controls.h	/^		int get_motor_gear_position(void);$/;"	p	class:controls	access:public	signature:(void)
 get_motor_position	controls.h	/^		int get_motor_position(void){return motor_position;}$/;"	f	class:controls	access:public	signature:(void)
 get_motor_position_degrees	controls.h	/^		int get_motor_position_degrees(void){return motor_position_degrees;}$/;"	f	class:controls	access:public	signature:(void)
+get_op_state	To harrison/stl_task.h	/^        task_op_state get_op_state (void) { return (op_state); }$/;"	f	class:stl_task	access:public	signature:(void)
+get_op_state	stl_task.h	/^        task_op_state get_op_state (void) { return (op_state); }$/;"	f	class:stl_task	access:public	signature:(void)
+get_outport	To harrison/spi_bb.h	/^        volatile unsigned char* get_outport (void) { return (outport); }$/;"	f	class:spi_bb_port	access:public	signature:(void)
+get_outport	spi_bb.h	/^        volatile unsigned char* get_outport (void) { return (outport); }$/;"	f	class:spi_bb_port	access:public	signature:(void)
+get_payload_size	packet_n.h	/^        unsigned char get_payload_size (void) { return (payload_size); }$/;"	f	class:packet_n	access:public	signature:(void)
+get_position	triangle.cc	/^int triangle::get_position(bool vector){$/;"	f	class:triangle	signature:(bool vector)
+get_position	triangle.h	/^	int get_position(bool);$/;"	p	class:triangle	access:public	signature:(bool)
+get_reading	sharp_sensor_driver.cc	/^int sharp_sensor_driver::get_reading(void){$/;"	f	class:sharp_sensor_driver	signature:(void)
+get_reading	sharp_sensor_driver.h	/^		int get_reading(void);			\/\/ Get analog reading$/;"	p	class:sharp_sensor_driver	access:public	signature:(void)
+get_seconds	To harrison/stl_us_timer.cc	/^int time_stamp::get_seconds (void)$/;"	f	class:time_stamp	signature:(void)
+get_seconds	To harrison/stl_us_timer.h	/^        int get_seconds (void);$/;"	p	class:time_stamp	access:public	signature:(void)
 get_seconds	stl_us_timer.cc	/^int time_stamp::get_seconds (void)$/;"	f	class:time_stamp	signature:(void)
 get_seconds	stl_us_timer.h	/^        int get_seconds (void);$/;"	p	class:time_stamp	access:public	signature:(void)
+get_serial_number	To harrison/stl_task.h	/^        char get_serial_number (void) { return (serial_number); }$/;"	f	class:stl_task	access:public	signature:(void)
+get_serial_number	stl_task.h	/^        char get_serial_number (void) { return (serial_number); }$/;"	f	class:stl_task	access:public	signature:(void)
+get_source_address	packet_n.h	/^        address_type get_source_address (void) { return (addr_from); }$/;"	f	class:packet_n	access:public	signature:(void)
+get_time	To harrison/stl_us_timer.cc	/^void time_stamp::get_time (long& an_item)$/;"	f	class:time_stamp	signature:(long& an_item)
+get_time	To harrison/stl_us_timer.h	/^        void get_time (long&);$/;"	p	class:time_stamp	access:public	signature:(long&)
 get_time	stl_us_timer.cc	/^void time_stamp::get_time (long& an_item)$/;"	f	class:time_stamp	signature:(long& an_item)
 get_time	stl_us_timer.h	/^        void get_time (long&);$/;"	p	class:time_stamp	access:public	signature:(long&)
+get_time_now	To harrison/stl_us_timer.cc	/^time_stamp& task_timer::get_time_now (void)$/;"	f	class:task_timer	signature:(void)
+get_time_now	To harrison/stl_us_timer.h	/^        time_stamp& get_time_now (void);    \/\/\/ Get the current time$/;"	p	class:task_timer	access:public	signature:(void)
 get_time_now	stl_us_timer.cc	/^time_stamp& task_timer::get_time_now (void)$/;"	f	class:task_timer	signature:(void)
 get_time_now	stl_us_timer.h	/^        time_stamp& get_time_now (void);    \/\/\/ Get the current time$/;"	p	class:task_timer	access:public	signature:(void)
 getchar	base_text_serial.cc	/^char base_text_serial::getchar (void)$/;"	f	class:base_text_serial	signature:(void)
 getchar	base_text_serial.h	/^        virtual char getchar (void);        \/\/ Get a character; wait if none is ready$/;"	p	class:base_text_serial	access:public	signature:(void)
+getchar	m9xstream.cc	/^char m9XStream::getchar (void)$/;"	f	class:m9XStream	signature:(void)
+getchar	m9xstream.h	/^        char getchar (void);                \/\/ Get a character; wait if none is ready$/;"	p	class:m9XStream	access:public	signature:(void)
+getchar	nRF24L01_text.cc	/^char nRF24L01_text::getchar (void)$/;"	f	class:nRF24L01_text	signature:(void)
+getchar	nRF24L01_text.h	/^        char getchar (void);                \/\/ Get a character; wait if none is ready$/;"	p	class:nRF24L01_text	access:public	signature:(void)
 getchar	rs232.cc	/^char rs232::getchar (void)$/;"	f	class:rs232	signature:(void)
 getchar	rs232.h	/^        char getchar (void);                \/\/ Get a character; wait if none is ready$/;"	p	class:rs232	access:public	signature:(void)
-half	stl_us_timer.h	/^    int half[2];                            \/\/\/< The data as an array of 16-bit ints$/;"	m	union:__anon2	access:public
+global_to_angle	To harrison/triangle.cc	/^int triangle::global_to_angle (signed int x_global, signed int y_global)$/;"	f	class:triangle	signature:(signed int x_global, signed int y_global)
+global_to_angle	To harrison/triangle.h	/^        int global_to_angle (signed int, signed int);$/;"	p	class:triangle	access:public	signature:(signed int, signed int)
+global_to_angle	triangle.cc	/^int triangle::global_to_angle (signed int x_global, signed int y_global)$/;"	f	class:triangle	signature:(signed int x_global, signed int y_global)
+global_to_angle	triangle.h	/^        int global_to_angle (signed int, signed int);$/;"	p	class:triangle	access:public	signature:(signed int, signed int)
+half	To harrison/stl_us_timer.h	/^    int half[2];                            \/\/\/< The data as an array of 16-bit ints$/;"	m	union:__anon2	access:public
+half	stl_us_timer.h	/^    int half[2];                            \/\/\/< The data as an array of 16-bit ints$/;"	m	union:__anon3	access:public
 hex	base_text_serial.h	/^    hex,                    \/\/\/< Print following numbers in base 16 (hexadecimal)$/;"	e	enum:__anon1
+how_full	avr_queue.h	/^        qIndexType how_full;            \/\/\/< How many elements are full at this time$/;"	m	class:queue	access:protected
+i_get	avr_queue.h	/^        qIndexType i_get;               \/\/\/< Index where oldest data was written$/;"	m	class:queue	access:protected
+i_put	avr_queue.h	/^        qIndexType i_put;               \/\/\/< Index where newest data will be written$/;"	m	class:queue	access:protected
+in_sensor_reading_range	task_logic.cc	/^bool in_sensor_reading_range;$/;"	v
+init_sensor_values	To harrison/task_sensor.h	/^	void init_sensor_values(void);$/;"	p	class:task_sensor	access:public	signature:(void)
+init_sensor_values	sharp_sensor_driver.cc	/^void sharp_sensor_driver::init_sensor_values(int angle){$/;"	f	class:sharp_sensor_driver	signature:(int angle)
+init_sensor_values	sharp_sensor_driver.h	/^		void init_sensor_values(int);		\/\/Fills the array with initial values, gets angle in degrees$/;"	p	class:sharp_sensor_driver	access:public	signature:(int)
+init_sensor_values	task_sensor.h	/^	void init_sensor_values(void);$/;"	p	class:task_sensor	access:public	signature:(void)
+inport	To harrison/spi_bb.h	/^        volatile unsigned char* inport;     \/\/\/< Pointer to input port to be used$/;"	m	class:spi_bb_port	access:protected
+inport	spi_bb.h	/^        volatile unsigned char* inport;     \/\/\/< Pointer to input port to be used$/;"	m	class:spi_bb_port	access:protected
+input_char	To harrison/triangulate_test.cc	/^char input_char;$/;"	v
+input_char	triangulate_test.cc	/^char input_char;$/;"	v
+interval	To harrison/stl_task.h	/^        time_stamp interval;                \/\/ Time interval between runs of the task$/;"	m	class:stl_task	access:protected
+interval	stl_task.h	/^        time_stamp interval;                \/\/ Time interval between runs of the task$/;"	m	class:stl_task	access:protected
+is_empty	avr_queue.h	/^        bool is_empty (void);           \/\/ Is the queue empty or not?$/;"	p	class:queue	access:public	signature:(void)
+is_empty	avr_queue.h	/^bool queue<qType, qIndexType, qSize>::is_empty (void)$/;"	f	class:queue	signature:(void)
+jam	avr_queue.h	/^        bool jam (qType);               \/\/ Force entry even if queue full$/;"	p	class:queue	access:public	signature:(qType)
+jam	avr_queue.h	/^bool queue<qType, qIndexType, qSize>::jam (qType data)$/;"	f	class:queue	signature:(qType data)
 kd	controls.h	/^		int kp, ki, kd;$/;"	m	class:controls	access:protected
 ki	controls.h	/^		int kp, ki, kd;$/;"	m	class:controls	access:protected
 kp	controls.h	/^		int kp, ki, kd;$/;"	m	class:controls	access:protected
+latest_reading	To harrison/task_sensor.h	/^	int latest_reading;     \/\/Variable to hold the latest value recorded from the sensor$/;"	m	class:task_sensor	access:protected
+latest_reading	task_sensor.h	/^	int latest_reading;     \/\/Variable to hold the latest value recorded from the sensor$/;"	m	class:task_sensor	access:protected
+lookupt_cm	sharp_sensor_driver.cc	/^int lookupt_cm[14][2] ={{75,632},$/;"	v
+m9XStream	m9xstream.cc	/^m9XStream::m9XStream (unsigned char divisor, volatile unsigned char& CTS_port, $/;"	f	class:m9XStream	signature:(unsigned char divisor, volatile unsigned char& CTS_port, unsigned char CTS_mask, unsigned char port_number)
+m9XStream	m9xstream.h	/^        m9XStream (unsigned char, volatile unsigned char&, unsigned char, $/;"	p	class:m9XStream	access:public	signature:(unsigned char, volatile unsigned char&, unsigned char, unsigned char = 0)
+m9XStream	m9xstream.h	/^class m9XStream : public base_text_serial$/;"	c	inherits:base_text_serial
+m9XStream::check_for_char	m9xstream.cc	/^bool m9XStream::check_for_char (void)$/;"	f	class:m9XStream	signature:(void)
+m9XStream::check_for_char	m9xstream.h	/^        bool check_for_char (void);         \/\/ Check if a character is in the buffer$/;"	p	class:m9XStream	access:public	signature:(void)
+m9XStream::getchar	m9xstream.cc	/^char m9XStream::getchar (void)$/;"	f	class:m9XStream	signature:(void)
+m9XStream::getchar	m9xstream.h	/^        char getchar (void);                \/\/ Get a character; wait if none is ready$/;"	p	class:m9XStream	access:public	signature:(void)
+m9XStream::m9XStream	m9xstream.cc	/^m9XStream::m9XStream (unsigned char divisor, volatile unsigned char& CTS_port, $/;"	f	class:m9XStream	signature:(unsigned char divisor, volatile unsigned char& CTS_port, unsigned char CTS_mask, unsigned char port_number)
+m9XStream::m9XStream	m9xstream.h	/^        m9XStream (unsigned char, volatile unsigned char&, unsigned char, $/;"	p	class:m9XStream	access:public	signature:(unsigned char, volatile unsigned char&, unsigned char, unsigned char = 0)
+m9XStream::mask_CTS	m9xstream.h	/^        unsigned char mask_CTS;$/;"	m	class:m9XStream	access:protected
+m9XStream::p_CTS_port	m9xstream.h	/^        volatile unsigned char* p_CTS_port;$/;"	m	class:m9XStream	access:protected
+m9XStream::p_UCR	m9xstream.h	/^        volatile unsigned char* p_UCR;$/;"	m	class:m9XStream	access:protected
+m9XStream::p_UDR	m9xstream.h	/^        volatile unsigned char* p_UDR;$/;"	m	class:m9XStream	access:protected
+m9XStream::p_USR	m9xstream.h	/^        volatile unsigned char* p_USR;$/;"	m	class:m9XStream	access:protected
+m9XStream::putchar	m9xstream.cc	/^bool m9XStream::putchar (char chout)$/;"	f	class:m9XStream	signature:(char chout)
+m9XStream::putchar	m9xstream.h	/^        bool putchar (char);                \/\/ Write one character to serial port$/;"	p	class:m9XStream	access:public	signature:(char)
+m9XStream::puts	m9xstream.cc	/^void m9XStream::puts (char const* str)$/;"	f	class:m9XStream	signature:(char const* str)
+m9XStream::puts	m9xstream.h	/^        void puts (char const*);            \/\/ Write a string constant to serial port$/;"	p	class:m9XStream	access:public	signature:(char const*)
+m9XStream::ready_to_send	m9xstream.cc	/^bool m9XStream::ready_to_send (void)$/;"	f	class:m9XStream	signature:(void)
+m9XStream::ready_to_send	m9xstream.h	/^        bool ready_to_send (void);          \/\/ Check if the port is ready to transmit$/;"	p	class:m9XStream	access:public	signature:(void)
+main	To harrison/solenoid_test.cc	/^int main ()$/;"	f	signature:()
+main	To harrison/triangulate_test.cc	/^int main ()$/;"	f	signature:()
 main	adc_test.cc	/^int main ()$/;"	f	signature:()
 main	controls_test.cc	/^int main ()$/;"	f	signature:()
 main	cpptests.cc	/^int main(){$/;"	f	signature:()
+main	me405project.cc	/^int main ()$/;"	f	signature:()
 main	motor_test.cc	/^int main ()$/;"	f	signature:()
+main	radio_test.cc	/^int main ()$/;"	f	signature:()
+main	solenoid_test.cc	/^int main ()$/;"	f	signature:()
+main	triangulate_test.cc	/^int main ()$/;"	f	signature:()
+mask_CE	nRF24L01_base.h	/^        unsigned char mask_CE;$/;"	m	class:nRF24L01_base	access:protected
+mask_CTS	m9xstream.h	/^        unsigned char mask_CTS;$/;"	m	class:m9XStream	access:protected
+mask_IRQ	nRF24L01_base.h	/^        unsigned char mask_IRQ;$/;"	m	class:nRF24L01_base	access:protected
+max_run_runtime	To harrison/stl_task.h	/^        long *max_run_runtime;              \/\/ test functions take to run $/;"	m	class:stl_task	access:protected
+max_run_runtime	stl_task.h	/^        long *max_run_runtime;              \/\/ test functions take to run $/;"	m	class:stl_task	access:protected
+miso_mask	To harrison/spi_bb.h	/^        unsigned char miso_mask;            \/\/\/< Bitmask for MISO pin$/;"	m	class:spi_bb_port	access:protected
+miso_mask	spi_bb.h	/^        unsigned char miso_mask;            \/\/\/< Bitmask for MISO pin$/;"	m	class:spi_bb_port	access:protected
+mosi_mask	To harrison/spi_bb.h	/^        unsigned char mosi_mask;            \/\/\/< Bitmask for MOSI pin$/;"	m	class:spi_bb_port	access:protected
+mosi_mask	spi_bb.h	/^        unsigned char mosi_mask;            \/\/\/< Bitmask for MOSI pin$/;"	m	class:spi_bb_port	access:protected
 motor_driver	motor_driver.cc	/^motor_driver::motor_driver (base_text_serial* p_serial_port)$/;"	f	class:motor_driver	signature:(base_text_serial* p_serial_port)
 motor_driver	motor_driver.h	/^        motor_driver (base_text_serial*);$/;"	p	class:motor_driver	access:public	signature:(base_text_serial*)
 motor_driver	motor_driver.h	/^class motor_driver$/;"	c
@@ -248,16 +572,157 @@ motor_driver::set_power_pct	motor_driver.h	/^	bool set_power_pct (int);$/;"	p	cl
 motor_position	controls.h	/^		unsigned int motor_position;$/;"	m	class:controls	access:protected
 motor_position_degrees	controls.h	/^		int motor_position_degrees;$/;"	m	class:controls	access:protected
 motor_setting	controls.h	/^		int motor_setting;$/;"	m	class:controls	access:protected
+nRF24L01_base	nRF24L01_base.cc	/^nRF24L01_base::nRF24L01_base (volatile unsigned char& CE_port, volatile unsigned char& $/;"	f	class:nRF24L01_base	signature:(volatile unsigned char& CE_port, volatile unsigned char& CE_ddr, unsigned char CE_mask, volatile unsigned char& IRQ_port, volatile unsigned char& IRQ_ddr, unsigned char IRQ_mask, spi_bb_port* p_spi_port, unsigned char slave_mask, base_text_serial* debug_port)
+nRF24L01_base	nRF24L01_base.h	/^        nRF24L01_base (volatile unsigned char&, volatile unsigned char&, unsigned char,$/;"	p	class:nRF24L01_base	access:public	signature:(volatile unsigned char&, volatile unsigned char&, unsigned char, volatile unsigned char&, volatile unsigned char&, unsigned char, spi_bb_port*, unsigned char slave_mask, base_text_serial* = NULL)
+nRF24L01_base	nRF24L01_base.h	/^class nRF24L01_base$/;"	c
+nRF24L01_base::data_ready	nRF24L01_base.cc	/^bool nRF24L01_base::data_ready (void)$/;"	f	class:nRF24L01_base	signature:(void)
+nRF24L01_base::data_ready	nRF24L01_base.h	/^        bool data_ready (void);$/;"	p	class:nRF24L01_base	access:public	signature:(void)
+nRF24L01_base::dump_regs	nRF24L01_base.cc	/^void nRF24L01_base::dump_regs (base_text_serial* p_serial, ser_manipulator base)$/;"	f	class:nRF24L01_base	signature:(base_text_serial* p_serial, ser_manipulator base)
+nRF24L01_base::dump_regs	nRF24L01_base.h	/^        void dump_regs (base_text_serial*, ser_manipulator = bin);$/;"	p	class:nRF24L01_base	access:public	signature:(base_text_serial*, ser_manipulator = bin)
+nRF24L01_base::mask_CE	nRF24L01_base.h	/^        unsigned char mask_CE;$/;"	m	class:nRF24L01_base	access:protected
+nRF24L01_base::mask_IRQ	nRF24L01_base.h	/^        unsigned char mask_IRQ;$/;"	m	class:nRF24L01_base	access:protected
+nRF24L01_base::nRF24L01_base	nRF24L01_base.cc	/^nRF24L01_base::nRF24L01_base (volatile unsigned char& CE_port, volatile unsigned char& $/;"	f	class:nRF24L01_base	signature:(volatile unsigned char& CE_port, volatile unsigned char& CE_ddr, unsigned char CE_mask, volatile unsigned char& IRQ_port, volatile unsigned char& IRQ_ddr, unsigned char IRQ_mask, spi_bb_port* p_spi_port, unsigned char slave_mask, base_text_serial* debug_port)
+nRF24L01_base::nRF24L01_base	nRF24L01_base.h	/^        nRF24L01_base (volatile unsigned char&, volatile unsigned char&, unsigned char,$/;"	p	class:nRF24L01_base	access:public	signature:(volatile unsigned char&, volatile unsigned char&, unsigned char, volatile unsigned char&, volatile unsigned char&, unsigned char, spi_bb_port*, unsigned char slave_mask, base_text_serial* = NULL)
+nRF24L01_base::p_serport	nRF24L01_base.h	/^        base_text_serial* p_serport;$/;"	m	class:nRF24L01_base	access:protected
+nRF24L01_base::p_spi	nRF24L01_base.h	/^        spi_bb_port* p_spi;$/;"	m	class:nRF24L01_base	access:protected
+nRF24L01_base::port_CE	nRF24L01_base.h	/^        volatile unsigned char* port_CE;$/;"	m	class:nRF24L01_base	access:protected
+nRF24L01_base::port_IRQ	nRF24L01_base.h	/^        volatile unsigned char* port_IRQ;$/;"	m	class:nRF24L01_base	access:protected
+nRF24L01_base::ready_to_send	nRF24L01_base.cc	/^bool nRF24L01_base::ready_to_send (void)$/;"	f	class:nRF24L01_base	signature:(void)
+nRF24L01_base::ready_to_send	nRF24L01_base.h	/^        bool ready_to_send (void);          \/\/ Check if the port is ready to transmit$/;"	p	class:nRF24L01_base	access:public	signature:(void)
+nRF24L01_base::reset	nRF24L01_base.cc	/^void nRF24L01_base::reset (void)$/;"	f	class:nRF24L01_base	signature:(void)
+nRF24L01_base::reset	nRF24L01_base.h	/^        void reset (void);                  \/\/ Reset radio module to starting state$/;"	p	class:nRF24L01_base	access:public	signature:(void)
+nRF24L01_base::set_RX_address	nRF24L01_base.cc	/^void nRF24L01_base::set_RX_address (unsigned char* addr, unsigned char pipe)$/;"	f	class:nRF24L01_base	signature:(unsigned char* addr, unsigned char pipe)
+nRF24L01_base::set_RX_address	nRF24L01_base.h	/^        void set_RX_address (unsigned char*, unsigned char = 0);$/;"	p	class:nRF24L01_base	access:public	signature:(unsigned char*, unsigned char = 0)
+nRF24L01_base::set_TX_address	nRF24L01_base.cc	/^void nRF24L01_base::set_TX_address (unsigned char* addr)$/;"	f	class:nRF24L01_base	signature:(unsigned char* addr)
+nRF24L01_base::set_TX_address	nRF24L01_base.h	/^        void set_TX_address (unsigned char*);$/;"	p	class:nRF24L01_base	access:public	signature:(unsigned char*)
+nRF24L01_base::set_payload_width	nRF24L01_base.cc	/^void nRF24L01_base::set_payload_width (unsigned char bytes, unsigned char pipe)$/;"	f	class:nRF24L01_base	signature:(unsigned char bytes, unsigned char pipe)
+nRF24L01_base::set_payload_width	nRF24L01_base.h	/^        void set_payload_width (unsigned char, unsigned char = 0);$/;"	p	class:nRF24L01_base	access:public	signature:(unsigned char, unsigned char = 0)
+nRF24L01_base::set_receive_mode	nRF24L01_base.cc	/^void nRF24L01_base::set_receive_mode (void)$/;"	f	class:nRF24L01_base	signature:(void)
+nRF24L01_base::set_receive_mode	nRF24L01_base.h	/^        void set_receive_mode (void);$/;"	p	class:nRF24L01_base	access:public	signature:(void)
+nRF24L01_base::set_transmit_mode	nRF24L01_base.cc	/^void nRF24L01_base::set_transmit_mode (void)$/;"	f	class:nRF24L01_base	signature:(void)
+nRF24L01_base::set_transmit_mode	nRF24L01_base.h	/^        void set_transmit_mode (void);$/;"	p	class:nRF24L01_base	access:public	signature:(void)
+nRF24L01_base::slave_msk	nRF24L01_base.h	/^        unsigned char slave_msk;$/;"	m	class:nRF24L01_base	access:protected
+nRF24L01_base::transmit	nRF24L01_base.cc	/^bool nRF24L01_base::transmit (unsigned char* buffer)$/;"	f	class:nRF24L01_base	signature:(unsigned char* buffer)
+nRF24L01_base::transmit	nRF24L01_base.h	/^        bool transmit (unsigned char*);$/;"	p	class:nRF24L01_base	access:public	signature:(unsigned char*)
+nRF24L01_text	nRF24L01_text.cc	/^nRF24L01_text::nRF24L01_text (volatile unsigned char& CE_port, volatile unsigned char& $/;"	f	class:nRF24L01_text	signature:(volatile unsigned char& CE_port, volatile unsigned char& CE_ddr, unsigned char CE_mask, volatile unsigned char& IRQ_port, volatile unsigned char& IRQ_ddr, unsigned char IRQ_mask, spi_bb_port* p_spi_port, unsigned char slave_mask, base_text_serial* debug_port)
+nRF24L01_text	nRF24L01_text.h	/^        nRF24L01_text (volatile unsigned char&, volatile unsigned char&, unsigned char,$/;"	p	class:nRF24L01_text	access:public	signature:(volatile unsigned char&, volatile unsigned char&, unsigned char, volatile unsigned char&, volatile unsigned char&, unsigned char, spi_bb_port*, unsigned char slave_mask, base_text_serial* = NULL)
+nRF24L01_text	nRF24L01_text.h	/^class nRF24L01_text: public nRF24L01_base, public base_text_serial$/;"	c	inherits:nRF24L01_base,base_text_serial
+nRF24L01_text::check_for_char	nRF24L01_text.cc	/^bool nRF24L01_text::check_for_char (void)$/;"	f	class:nRF24L01_text	signature:(void)
+nRF24L01_text::check_for_char	nRF24L01_text.h	/^        bool check_for_char (void);         \/\/ Check if a character is in the buffer$/;"	p	class:nRF24L01_text	access:public	signature:(void)
+nRF24L01_text::getchar	nRF24L01_text.cc	/^char nRF24L01_text::getchar (void)$/;"	f	class:nRF24L01_text	signature:(void)
+nRF24L01_text::getchar	nRF24L01_text.h	/^        char getchar (void);                \/\/ Get a character; wait if none is ready$/;"	p	class:nRF24L01_text	access:public	signature:(void)
+nRF24L01_text::nRF24L01_text	nRF24L01_text.cc	/^nRF24L01_text::nRF24L01_text (volatile unsigned char& CE_port, volatile unsigned char& $/;"	f	class:nRF24L01_text	signature:(volatile unsigned char& CE_port, volatile unsigned char& CE_ddr, unsigned char CE_mask, volatile unsigned char& IRQ_port, volatile unsigned char& IRQ_ddr, unsigned char IRQ_mask, spi_bb_port* p_spi_port, unsigned char slave_mask, base_text_serial* debug_port)
+nRF24L01_text::nRF24L01_text	nRF24L01_text.h	/^        nRF24L01_text (volatile unsigned char&, volatile unsigned char&, unsigned char,$/;"	p	class:nRF24L01_text	access:public	signature:(volatile unsigned char&, volatile unsigned char&, unsigned char, volatile unsigned char&, volatile unsigned char&, unsigned char, spi_bb_port*, unsigned char slave_mask, base_text_serial* = NULL)
+nRF24L01_text::putchar	nRF24L01_text.cc	/^bool nRF24L01_text::putchar (char chout)$/;"	f	class:nRF24L01_text	signature:(char chout)
+nRF24L01_text::putchar	nRF24L01_text.h	/^        bool putchar (char);                \/\/ Write one character to serial port$/;"	p	class:nRF24L01_text	access:public	signature:(char)
+nRF24L01_text::puts	nRF24L01_text.cc	/^void nRF24L01_text::puts (char const* str)$/;"	f	class:nRF24L01_text	signature:(char const* str)
+nRF24L01_text::puts	nRF24L01_text.h	/^        void puts (char const*);            \/\/ Write a string to serial port$/;"	p	class:nRF24L01_text	access:public	signature:(char const*)
+nRF24L01_text::puts32	nRF24L01_text.cc	/^void nRF24L01_text::puts32 (char const* str)$/;"	f	class:nRF24L01_text	signature:(char const* str)
+nRF24L01_text::puts32	nRF24L01_text.h	/^        void puts32 (const char*);          \/\/ Sends 32-char string chunks to radio$/;"	p	class:nRF24L01_text	access:protected	signature:(const char*)
+nRF24_AW_3	nRF24L01_base.h	52;"	d
+nRF24_AW_4	nRF24L01_base.h	53;"	d
+nRF24_AW_5	nRF24L01_base.h	54;"	d
+nRF24_A_ACK_OFF	nRF24L01_base.h	49;"	d
+nRF24_A_ACK_ON	nRF24L01_base.h	48;"	d
+nRF24_CRCO	nRF24L01_base.h	119;"	d
+nRF24_CRC_1_BYTE	nRF24L01_base.h	44;"	d
+nRF24_CRC_2_BYTE	nRF24L01_base.h	45;"	d
+nRF24_CRC_OFF	nRF24L01_base.h	43;"	d
+nRF24_CRC_ON	nRF24L01_base.h	42;"	d
+nRF24_DR_1M	nRF24L01_base.h	57;"	d
+nRF24_DR_2M	nRF24L01_base.h	58;"	d
+nRF24_EN_CRC	nRF24L01_base.h	118;"	d
+nRF24_FLUSH_RX	nRF24L01_base.h	78;"	d
+nRF24_FLUSH_TX	nRF24L01_base.h	77;"	d
+nRF24_INT_M_RT	nRF24L01_base.h	35;"	d
+nRF24_INT_RX	nRF24L01_base.h	33;"	d
+nRF24_INT_TX	nRF24L01_base.h	34;"	d
+nRF24_IRQ_OFF	nRF24L01_base.h	39;"	d
+nRF24_IRQ_ON	nRF24L01_base.h	38;"	d
+nRF24_MAX_PKT_SZ	nRF24L01_base.h	26;"	d
+nRF24_MAX_RT	nRF24L01_base.h	113;"	d
+nRF24_NOP	nRF24L01_base.h	80;"	d
+nRF24_PIPE_0	nRF24L01_base.h	65;"	d
+nRF24_PIPE_1	nRF24L01_base.h	66;"	d
+nRF24_PIPE_2	nRF24L01_base.h	67;"	d
+nRF24_PIPE_3	nRF24L01_base.h	68;"	d
+nRF24_PIPE_4	nRF24L01_base.h	69;"	d
+nRF24_PIPE_5	nRF24L01_base.h	70;"	d
+nRF24_PRIM_RX	nRF24L01_base.h	121;"	d
+nRF24_PWR_UP	nRF24L01_base.h	120;"	d
+nRF24_RD_PLD	nRF24L01_base.h	75;"	d
+nRF24_RD_REG	nRF24L01_base.h	73;"	d
+nRF24_RECEIVE	nRF24L01_base.h	30;"	d
+nRF24_RECV_MODE	nRF24L01_base.h	124;"	d
+nRF24_REG_CD	nRF24L01_base.h	93;"	d
+nRF24_REG_CONF	nRF24L01_base.h	83;"	d
+nRF24_REG_EN_AA	nRF24L01_base.h	84;"	d
+nRF24_REG_EN_RXADDR	nRF24L01_base.h	85;"	d
+nRF24_REG_FIFO_STATUS	nRF24L01_base.h	108;"	d
+nRF24_REG_OBS_TX	nRF24L01_base.h	92;"	d
+nRF24_REG_PW_P0	nRF24L01_base.h	101;"	d
+nRF24_REG_PW_P1	nRF24L01_base.h	103;"	d
+nRF24_REG_PW_P2	nRF24L01_base.h	104;"	d
+nRF24_REG_PW_P3	nRF24L01_base.h	105;"	d
+nRF24_REG_PW_P4	nRF24L01_base.h	106;"	d
+nRF24_REG_PW_P5	nRF24L01_base.h	107;"	d
+nRF24_REG_RF_CH	nRF24L01_base.h	88;"	d
+nRF24_REG_RF_SETUP	nRF24L01_base.h	89;"	d
+nRF24_REG_RX_ADDR_P0	nRF24L01_base.h	94;"	d
+nRF24_REG_RX_ADDR_P1	nRF24L01_base.h	95;"	d
+nRF24_REG_RX_ADDR_P2	nRF24L01_base.h	96;"	d
+nRF24_REG_RX_ADDR_P3	nRF24L01_base.h	97;"	d
+nRF24_REG_RX_ADDR_P4	nRF24L01_base.h	98;"	d
+nRF24_REG_RX_ADDR_P5	nRF24L01_base.h	99;"	d
+nRF24_REG_SETUP_AW	nRF24L01_base.h	86;"	d
+nRF24_REG_SETUP_RETR	nRF24L01_base.h	87;"	d
+nRF24_REG_STATUS	nRF24L01_base.h	90;"	d
+nRF24_REG_TX_ADDR	nRF24L01_base.h	100;"	d
+nRF24_REUSE_TX_PLD	nRF24L01_base.h	79;"	d
+nRF24_RF_POW_0	nRF24L01_base.h	59;"	d
+nRF24_RF_POW_N12	nRF24L01_base.h	61;"	d
+nRF24_RF_POW_N18	nRF24L01_base.h	62;"	d
+nRF24_RF_POW_N6	nRF24L01_base.h	60;"	d
+nRF24_RX_DR	nRF24L01_base.h	111;"	d
+nRF24_RX_P_NO	nRF24L01_base.h	114;"	d
+nRF24_SPI_MODE	nRF24L01_base.h	128;"	d
+nRF24_SPI_TIMEOUT	nRF24L01_base.h	27;"	d
+nRF24_TRANSMIT	nRF24L01_base.h	29;"	d
+nRF24_TX_DS	nRF24L01_base.h	112;"	d
+nRF24_TX_FULL	nRF24L01_base.h	115;"	d
+nRF24_WR_PLD	nRF24L01_base.h	76;"	d
+nRF24_WR_REG	nRF24L01_base.h	74;"	d
+nRF24_XMIT_MODE	nRF24L01_base.h	126;"	d
+next_run_time	To harrison/stl_task.h	/^        time_stamp next_run_time;           \/\/ Time when task should run next$/;"	m	class:stl_task	access:protected
+next_run_time	stl_task.h	/^        time_stamp next_run_time;           \/\/ Time when task should run next$/;"	m	class:stl_task	access:protected
+now_time	To harrison/stl_us_timer.h	/^        time_stamp now_time;$/;"	m	class:task_timer	access:protected
 now_time	stl_us_timer.h	/^        time_stamp now_time;$/;"	m	class:task_timer	access:protected
+num_items	avr_queue.h	/^        qIndexType num_items (void) { return (how_full); }$/;"	f	class:queue	access:public	signature:(void)
+num_runs	To harrison/stl_task.h	/^        int *num_runs;                      \/\/ All these variables are for collecting$/;"	m	class:stl_task	access:protected
+num_runs	stl_task.h	/^        int *num_runs;                      \/\/ All these variables are for collecting$/;"	m	class:stl_task	access:protected
+obj_pos_x	To harrison/triangle.h	/^	int obj_pos_x;				\/\/ detected object by the camera, to be calculated by angle_to_global$/;"	m	class:triangle	access:protected
+obj_pos_y	To harrison/triangle.h	/^	int obj_pos_y;$/;"	m	class:triangle	access:protected
 oct	base_text_serial.h	/^    oct,                    \/\/\/< Print following numbers in base 8 (octal)$/;"	e	enum:__anon1
+op_state	To harrison/stl_task.h	/^        task_op_state op_state;             \/\/ Operational state of this task$/;"	m	class:stl_task	access:private
+op_state	stl_task.h	/^        task_op_state op_state;             \/\/ Operational state of this task$/;"	m	class:stl_task	access:private
+operator +	To harrison/stl_us_timer.cc	/^time_stamp time_stamp::operator + (const time_stamp& addend)$/;"	f	class:time_stamp	signature:(const time_stamp& addend)
+operator +	To harrison/stl_us_timer.h	/^        time_stamp operator + (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
 operator +	stl_us_timer.cc	/^time_stamp time_stamp::operator + (const time_stamp& addend)$/;"	f	class:time_stamp	signature:(const time_stamp& addend)
 operator +	stl_us_timer.h	/^        time_stamp operator + (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
+operator +=	To harrison/stl_us_timer.cc	/^void time_stamp::operator += (const time_stamp& addend)$/;"	f	class:time_stamp	signature:(const time_stamp& addend)
+operator +=	To harrison/stl_us_timer.h	/^        void operator += (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
 operator +=	stl_us_timer.cc	/^void time_stamp::operator += (const time_stamp& addend)$/;"	f	class:time_stamp	signature:(const time_stamp& addend)
 operator +=	stl_us_timer.h	/^        void operator += (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
+operator -	To harrison/stl_us_timer.cc	/^time_stamp time_stamp::operator - (const time_stamp& previous)$/;"	f	class:time_stamp	signature:(const time_stamp& previous)
+operator -	To harrison/stl_us_timer.h	/^        time_stamp operator - (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
 operator -	stl_us_timer.cc	/^time_stamp time_stamp::operator - (const time_stamp& previous)$/;"	f	class:time_stamp	signature:(const time_stamp& previous)
 operator -	stl_us_timer.h	/^        time_stamp operator - (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
+operator -=	To harrison/stl_us_timer.cc	/^void time_stamp::operator -= (const time_stamp& previous)$/;"	f	class:time_stamp	signature:(const time_stamp& previous)
+operator -=	To harrison/stl_us_timer.h	/^        void operator -= (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
 operator -=	stl_us_timer.cc	/^void time_stamp::operator -= (const time_stamp& previous)$/;"	f	class:time_stamp	signature:(const time_stamp& previous)
 operator -=	stl_us_timer.h	/^        void operator -= (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
+operator <<	To harrison/stl_us_timer.cc	/^base_text_serial& operator<< (base_text_serial& serial, time_stamp& stamp)$/;"	f	signature:(base_text_serial& serial, time_stamp& stamp)
+operator <<	To harrison/stl_us_timer.h	/^base_text_serial& operator<< (base_text_serial&, time_stamp&);$/;"	p	signature:(base_text_serial&, time_stamp&)
 operator <<	adc_driver.cc	/^base_text_serial& operator<< (base_text_serial& serial, adc_driver& my_adc)$/;"	f	signature:(base_text_serial& serial, adc_driver& my_adc)
 operator <<	adc_driver.h	/^base_text_serial& operator<< (base_text_serial&, adc_driver&);$/;"	p	signature:(base_text_serial&, adc_driver&)
 operator <<	base_text_serial.cc	/^base_text_serial& base_text_serial::operator<< (bool value)$/;"	f	class:base_text_serial	signature:(bool value)
@@ -282,31 +747,168 @@ operator <<	controls.cc	/^base_text_serial& operator<< (base_text_serial& serial
 operator <<	controls.h	/^base_text_serial& operator<< (base_text_serial&, controls&);$/;"	p	signature:(base_text_serial&, controls&)
 operator <<	stl_us_timer.cc	/^base_text_serial& operator<< (base_text_serial& serial, time_stamp& stamp)$/;"	f	signature:(base_text_serial& serial, time_stamp& stamp)
 operator <<	stl_us_timer.h	/^base_text_serial& operator<< (base_text_serial&, time_stamp&);$/;"	p	signature:(base_text_serial&, time_stamp&)
+operator ==	To harrison/stl_us_timer.cc	/^bool time_stamp::operator == (const time_stamp& other)$/;"	f	class:time_stamp	signature:(const time_stamp& other)
+operator ==	To harrison/stl_us_timer.h	/^        bool operator == (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
 operator ==	stl_us_timer.cc	/^bool time_stamp::operator == (const time_stamp& other)$/;"	f	class:time_stamp	signature:(const time_stamp& other)
 operator ==	stl_us_timer.h	/^        bool operator == (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
+operator >=	To harrison/stl_us_timer.cc	/^bool time_stamp::operator >= (const time_stamp& other)$/;"	f	class:time_stamp	signature:(const time_stamp& other)
+operator >=	To harrison/stl_us_timer.h	/^        bool operator >= (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
 operator >=	stl_us_timer.cc	/^bool time_stamp::operator >= (const time_stamp& other)$/;"	f	class:time_stamp	signature:(const time_stamp& other)
 operator >=	stl_us_timer.h	/^        bool operator >= (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
+operator []	packet_n.h	/^        unsigned char& operator [] (unsigned char i) { return payload[i]; }$/;"	f	class:packet_n	access:public	signature:(unsigned char i)
+outport	To harrison/spi_bb.h	/^        volatile unsigned char* outport;    \/\/\/< Pointer to data direction register$/;"	m	class:spi_bb_port	access:protected
+outport	spi_bb.h	/^        volatile unsigned char* outport;    \/\/\/< Pointer to data direction register$/;"	m	class:spi_bb_port	access:protected
+p_CTS_port	m9xstream.h	/^        volatile unsigned char* p_CTS_port;$/;"	m	class:m9XStream	access:protected
+p_UCR	m9xstream.h	/^        volatile unsigned char* p_UCR;$/;"	m	class:m9XStream	access:protected
 p_UCR	rs232.h	/^        volatile unsigned char* p_UCR;$/;"	m	class:rs232	access:protected
+p_UDR	m9xstream.h	/^        volatile unsigned char* p_UDR;$/;"	m	class:m9XStream	access:protected
 p_UDR	rs232.h	/^        volatile unsigned char* p_UDR;$/;"	m	class:rs232	access:protected
+p_USR	m9xstream.h	/^        volatile unsigned char* p_USR;$/;"	m	class:m9XStream	access:protected
 p_USR	rs232.h	/^        volatile unsigned char* p_USR;$/;"	m	class:rs232	access:protected
+p_radio	task_rad.h	/^        nRF24L01_text* p_radio;             \/\/ Pointer to a radio object$/;"	m	class:task_rad	access:protected
+p_serial	task_rad.h	/^        base_text_serial* p_serial;         \/\/ Pointer to a serial port for messages$/;"	m	class:task_rad	access:protected
+p_serport	nRF24L01_base.h	/^        base_text_serial* p_serport;$/;"	m	class:nRF24L01_base	access:protected
+p_spi	nRF24L01_base.h	/^        spi_bb_port* p_spi;$/;"	m	class:nRF24L01_base	access:protected
+packet_n	packet_n.h	/^        packet_n (address_type, address_type, pkt_type, void*, $/;"	p	class:packet_n	access:public	signature:(address_type, address_type, pkt_type, void*, unsigned char bytes = payload_size)
+packet_n	packet_n.h	/^        packet_n (void);                    \/\/\/< Default constructor makes empty packet$/;"	p	class:packet_n	access:public	signature:(void)
+packet_n	packet_n.h	/^class packet_n$/;"	c
+packet_n	packet_n.h	/^packet_n::packet_n (address_type where_to, address_type where_from, pkt_type a_type,$/;"	f	class:packet_n	signature:(address_type where_to, address_type where_from, pkt_type a_type, void* p_data, unsigned char bytes = payload_size)
+packet_n	packet_n.h	/^packet_n::packet_n (void)$/;"	f	class:packet_n	signature:(void)
+packet_n::addr_from	packet_n.h	/^        address_type addr_from;$/;"	m	class:packet_n	access:protected
+packet_n::addr_to	packet_n.h	/^        address_type addr_to;$/;"	m	class:packet_n	access:protected
+packet_n::checksum	packet_n.h	/^        unsigned char checksum;$/;"	m	class:packet_n	access:protected
+packet_n::copy_payload	packet_n.h	/^        void copy_payload (void* p_buf, unsigned char bytes = payload_size);$/;"	p	class:packet_n	access:public	signature:(void* p_buf, unsigned char bytes = payload_size)
+packet_n::copy_payload	packet_n.h	/^void packet_n::copy_payload (void* p_data, unsigned char bytes)$/;"	f	class:packet_n	signature:(void* p_data, unsigned char bytes)
+packet_n::fill_payload	packet_n.h	/^        void fill_payload (void* p_buf, unsigned char bytes = payload_size);$/;"	p	class:packet_n	access:public	signature:(void* p_buf, unsigned char bytes = payload_size)
+packet_n::fill_payload	packet_n.h	/^void packet_n::fill_payload (void* p_data, unsigned char bytes)$/;"	f	class:packet_n	signature:(void* p_data, unsigned char bytes)
+packet_n::get_destination_address	packet_n.h	/^        address_type get_destination_address (void) { return (addr_to); }$/;"	f	class:packet_n	access:public	signature:(void)
+packet_n::get_payload_size	packet_n.h	/^        unsigned char get_payload_size (void) { return (payload_size); }$/;"	f	class:packet_n	access:public	signature:(void)
+packet_n::get_source_address	packet_n.h	/^        address_type get_source_address (void) { return (addr_from); }$/;"	f	class:packet_n	access:public	signature:(void)
+packet_n::operator []	packet_n.h	/^        unsigned char& operator [] (unsigned char i) { return payload[i]; }$/;"	f	class:packet_n	access:public	signature:(unsigned char i)
+packet_n::packet_n	packet_n.h	/^        packet_n (address_type, address_type, pkt_type, void*, $/;"	p	class:packet_n	access:public	signature:(address_type, address_type, pkt_type, void*, unsigned char bytes = payload_size)
+packet_n::packet_n	packet_n.h	/^        packet_n (void);                    \/\/\/< Default constructor makes empty packet$/;"	p	class:packet_n	access:public	signature:(void)
+packet_n::packet_n	packet_n.h	/^packet_n::packet_n (address_type where_to, address_type where_from, pkt_type a_type,$/;"	f	class:packet_n	signature:(address_type where_to, address_type where_from, pkt_type a_type, void* p_data, unsigned char bytes = payload_size)
+packet_n::packet_n	packet_n.h	/^packet_n::packet_n (void)$/;"	f	class:packet_n	signature:(void)
+packet_n::payload	packet_n.h	/^        unsigned char payload[payload_size];$/;"	m	class:packet_n	access:protected
+packet_n::set_destination_address	packet_n.h	/^        void set_destination_address (address_type to) { addr_to = to; }$/;"	f	class:packet_n	access:public	signature:(address_type to)
+packet_n::set_source_address	packet_n.h	/^        void set_source_address (address_type from) { addr_from = from; }$/;"	f	class:packet_n	access:public	signature:(address_type from)
+packet_n::set_type	packet_n.h	/^        void set_type (pkt_type new_type) { type = new_type; }$/;"	f	class:packet_n	access:public	signature:(pkt_type new_type)
+packet_n::type	packet_n.h	/^        pkt_type type;$/;"	m	class:packet_n	access:protected
+packet_type	task_rad.h	/^	char packet_type;		\/\/2$/;"	m	class:task_rad	access:protected
+payload	packet_n.h	/^        unsigned char payload[payload_size];$/;"	m	class:packet_n	access:protected
+picture_done	task_solenoid.cc	/^bool task_solenoid::picture_done(void){$/;"	f	class:task_solenoid	signature:(void)
+picture_done	task_solenoid.h	/^	bool picture_done(void);$/;"	p	class:task_solenoid	access:public	signature:(void)
+picture_done_flag	task_solenoid.h	/^	bool picture_done_flag;$/;"	m	class:task_solenoid	access:protected
+pkt_type	packet_n.h	/^typedef enum pkt_type {$/;"	g
+port_CE	nRF24L01_base.h	/^        volatile unsigned char* port_CE;$/;"	m	class:nRF24L01_base	access:protected
+port_IRQ	nRF24L01_base.h	/^        volatile unsigned char* port_IRQ;$/;"	m	class:nRF24L01_base	access:protected
 position_error	controls.h	/^		int position_error, velocity_error;$/;"	m	class:controls	access:protected
 position_error_sum	controls.h	/^		int position_error_sum, velocity_error_sum;$/;"	m	class:controls	access:protected
 power_level	motor_driver.h	/^	unsigned char power_level;$/;"	m	class:motor_driver	access:protected
+print_profile_method	To harrison/stl_task.cc	/^void stl_task::print_profile_method (avr_uart* a_port)$/;"	f	class:stl_task	signature:(avr_uart* a_port)
+print_profile_method	To harrison/stl_task.h	/^        void print_profile_method (avr_uart*);  \/\/ Display execution time profile data$/;"	p	class:stl_task	access:public	signature:(avr_uart*)
+print_profile_method	stl_task.cc	/^void stl_task::print_profile_method (avr_uart* a_port)$/;"	f	class:stl_task	signature:(avr_uart* a_port)
+print_profile_method	stl_task.h	/^        void print_profile_method (avr_uart*);  \/\/ Display execution time profile data$/;"	p	class:stl_task	access:public	signature:(avr_uart*)
+ptr_serial	To harrison/task_comm.h	/^        base_text_serial* ptr_serial;         	\/\/ Pointer to a serial port for messages$/;"	m	class:task_comm	access:protected
+ptr_serial	To harrison/task_logic.h	/^        base_text_serial* ptr_serial;         	\/\/ Pointer to a serial port for messages$/;"	m	class:task_logic	access:protected
+ptr_serial	To harrison/task_sensor.h	/^        base_text_serial* ptr_serial;         	\/\/ Pointer to a serial port for messages$/;"	m	class:task_sensor	access:protected
+ptr_serial	To harrison/task_solenoid.h	/^        base_text_serial* ptr_serial;         	\/\/ Pointer to a serial port for messages$/;"	m	class:task_solenoid	access:protected
+ptr_serial	task_comm.h	/^        base_text_serial* ptr_serial;         	\/\/ Pointer to a serial port for messages$/;"	m	class:task_comm	access:protected
+ptr_serial	task_logic.h	/^        base_text_serial* ptr_serial;         	\/\/ Pointer to a serial port for messages$/;"	m	class:task_logic	access:protected
+ptr_serial	task_sensor.h	/^        base_text_serial* ptr_serial;         	\/\/ Pointer to a serial port for messages$/;"	m	class:task_sensor	access:protected
+ptr_serial	task_solenoid.h	/^        base_text_serial* ptr_serial;         	\/\/ Pointer to a serial port for messages$/;"	m	class:task_solenoid	access:protected
+ptr_sharp_sensor_driver	To harrison/task_sensor.h	/^        sharp_sensor_driver* ptr_sharp_sensor_driver;                 \/\/ Pointer to solenoid object$/;"	m	class:task_sensor	access:protected
+ptr_sharp_sensor_driver	task_rad.h	/^	sharp_sensor_driver* ptr_sharp_sensor_driver;$/;"	m	class:task_rad	access:protected
+ptr_sharp_sensor_driver	task_sensor.h	/^        sharp_sensor_driver* ptr_sharp_sensor_driver;                 \/\/ Pointer to solenoid object$/;"	m	class:task_sensor	access:protected
+ptr_solenoid	To harrison/task_comm.h	/^        solenoid* ptr_solenoid;                 \/\/ Pointer to solenoid object$/;"	m	class:task_comm	access:protected
+ptr_solenoid	To harrison/task_solenoid.h	/^        solenoid* ptr_solenoid;                 \/\/ Pointer to solenoid object$/;"	m	class:task_solenoid	access:protected
+ptr_solenoid	task_comm.h	/^        solenoid* ptr_solenoid;                 \/\/ Pointer to solenoid object$/;"	m	class:task_comm	access:protected
+ptr_solenoid	task_solenoid.h	/^        solenoid* ptr_solenoid;                 \/\/ Pointer to solenoid object$/;"	m	class:task_solenoid	access:protected
+ptr_task_motor	To harrison/task_logic.h	/^	task_motor* ptr_task_motor;$/;"	m	class:task_logic	access:protected
+ptr_task_motor	To harrison/task_sensor.h	/^	task_motor* ptr_task_motor;$/;"	m	class:task_sensor	access:protected
+ptr_task_motor	task_logic.h	/^	task_motor* ptr_task_motor;$/;"	m	class:task_logic	access:protected
+ptr_task_motor	task_rad.h	/^	task_motor* ptr_task_motor;$/;"	m	class:task_rad	access:protected
+ptr_task_motor	task_sensor.h	/^	task_motor* ptr_task_motor;$/;"	m	class:task_sensor	access:protected
+ptr_task_radio	task_logic.h	/^	task_rad* ptr_task_radio;$/;"	m	class:task_logic	access:protected
+ptr_task_sensor	To harrison/task_logic.h	/^	task_sensor* ptr_task_sensor;$/;"	m	class:task_logic	access:protected
+ptr_task_sensor	task_logic.h	/^	task_sensor* ptr_task_sensor;$/;"	m	class:task_logic	access:protected
+ptr_task_solenoid	To harrison/task_logic.h	/^        task_solenoid* ptr_task_solenoid;                 \/\/ Pointer to solenoid object$/;"	m	class:task_logic	access:protected
+ptr_task_solenoid	task_logic.h	/^        task_solenoid* ptr_task_solenoid;                 \/\/ Pointer to solenoid object$/;"	m	class:task_logic	access:protected
+ptr_to_serial	To harrison/solenoid.h	/^    base_text_serial* ptr_to_serial;$/;"	m	class:solenoid	access:protected
+ptr_to_serial	To harrison/triangle.h	/^        base_text_serial* ptr_to_serial;$/;"	m	class:triangle	access:protected
 ptr_to_serial	adc_driver.h	/^        base_text_serial* ptr_to_serial;$/;"	m	class:adc_driver	access:protected
 ptr_to_serial	motor_driver.h	/^        base_text_serial* ptr_to_serial;$/;"	m	class:motor_driver	access:protected
+ptr_to_serial	solenoid.h	/^    base_text_serial* ptr_to_serial;$/;"	m	class:solenoid	access:protected
+ptr_to_serial	triangle.h	/^        base_text_serial* ptr_to_serial;$/;"	m	class:triangle	access:protected
+ptr_triangle	task_logic.h	/^	triangle* ptr_triangle;$/;"	m	class:task_logic	access:protected
+ptr_triangle	task_rad.h	/^	triangle* ptr_triangle;$/;"	m	class:task_rad	access:protected
+put	avr_queue.h	/^        bool put (qType);               \/\/ Adds one item into queue$/;"	p	class:queue	access:public	signature:(qType)
+put	avr_queue.h	/^bool queue<qType, qIndexType, qSize>::put (qType data)$/;"	f	class:queue	signature:(qType data)
 putchar	base_text_serial.h	/^        virtual bool putchar (char) { }     \/\/\/< Virtual and not defined in base class$/;"	f	class:base_text_serial	access:public	signature:(char)
+putchar	m9xstream.cc	/^bool m9XStream::putchar (char chout)$/;"	f	class:m9XStream	signature:(char chout)
+putchar	m9xstream.h	/^        bool putchar (char);                \/\/ Write one character to serial port$/;"	p	class:m9XStream	access:public	signature:(char)
+putchar	nRF24L01_text.cc	/^bool nRF24L01_text::putchar (char chout)$/;"	f	class:nRF24L01_text	signature:(char chout)
+putchar	nRF24L01_text.h	/^        bool putchar (char);                \/\/ Write one character to serial port$/;"	p	class:nRF24L01_text	access:public	signature:(char)
 putchar	rs232.cc	/^bool rs232::putchar (char chout)$/;"	f	class:rs232	signature:(char chout)
 putchar	rs232.h	/^        bool putchar (char);                \/\/ Write one character to serial port$/;"	p	class:rs232	access:public	signature:(char)
 puts	base_text_serial.h	/^        virtual void puts (char const*) { } \/\/\/< Virtual and not defined in base class$/;"	f	class:base_text_serial	access:public	signature:(char const*)
+puts	m9xstream.cc	/^void m9XStream::puts (char const* str)$/;"	f	class:m9XStream	signature:(char const* str)
+puts	m9xstream.h	/^        void puts (char const*);            \/\/ Write a string constant to serial port$/;"	p	class:m9XStream	access:public	signature:(char const*)
+puts	nRF24L01_text.cc	/^void nRF24L01_text::puts (char const* str)$/;"	f	class:nRF24L01_text	signature:(char const* str)
+puts	nRF24L01_text.h	/^        void puts (char const*);            \/\/ Write a string to serial port$/;"	p	class:nRF24L01_text	access:public	signature:(char const*)
 puts	rs232.cc	/^void rs232::puts (char const* str)$/;"	f	class:rs232	signature:(char const* str)
 puts	rs232.h	/^        void puts (char const*);            \/\/ Write a string constant to serial port$/;"	p	class:rs232	access:public	signature:(char const*)
-quarters	stl_us_timer.h	/^    char quarters[4];                       \/\/\/< The data as an array of 8-bit chars$/;"	m	union:__anon2	access:public
+puts32	nRF24L01_text.cc	/^void nRF24L01_text::puts32 (char const* str)$/;"	f	class:nRF24L01_text	signature:(char const* str)
+puts32	nRF24L01_text.h	/^        void puts32 (const char*);          \/\/ Sends 32-char string chunks to radio$/;"	p	class:nRF24L01_text	access:protected	signature:(const char*)
+quad_word	task_rad.h	/^    long int quad_word;                     \/\/ The whole 64-bit number$/;"	m	union:buffer	access:public
+quarters	To harrison/stl_us_timer.h	/^    char quarters[4];                       \/\/\/< The data as an array of 8-bit chars$/;"	m	union:__anon2	access:public
+quarters	stl_us_timer.h	/^    char quarters[4];                       \/\/\/< The data as an array of 8-bit chars$/;"	m	union:__anon3	access:public
+queue	avr_queue.h	/^        queue (void);                   \/\/ Constructor$/;"	p	class:queue	access:public	signature:(void)
+queue	avr_queue.h	/^class queue$/;"	c
+queue	avr_queue.h	/^queue<qType, qIndexType, qSize>::queue (void)$/;"	f	class:queue	signature:(void)
+queue::buffer	avr_queue.h	/^        qType buffer[qSize];            \/\/\/< This memory buffer holds the contents$/;"	m	class:queue	access:protected
+queue::flush	avr_queue.h	/^        void flush (void);              \/\/ Empty out the whole buffer$/;"	p	class:queue	access:public	signature:(void)
+queue::flush	avr_queue.h	/^void queue<qType, qIndexType, qSize>::flush (void)$/;"	f	class:queue	signature:(void)
+queue::get	avr_queue.h	/^        qType get (void);               \/\/ Gets an item from the queue$/;"	p	class:queue	access:public	signature:(void)
+queue::get	avr_queue.h	/^qType queue<qType, qIndexType, qSize>::get (void)$/;"	f	class:queue	signature:(void)
+queue::how_full	avr_queue.h	/^        qIndexType how_full;            \/\/\/< How many elements are full at this time$/;"	m	class:queue	access:protected
+queue::i_get	avr_queue.h	/^        qIndexType i_get;               \/\/\/< Index where oldest data was written$/;"	m	class:queue	access:protected
+queue::i_put	avr_queue.h	/^        qIndexType i_put;               \/\/\/< Index where newest data will be written$/;"	m	class:queue	access:protected
+queue::is_empty	avr_queue.h	/^        bool is_empty (void);           \/\/ Is the queue empty or not?$/;"	p	class:queue	access:public	signature:(void)
+queue::is_empty	avr_queue.h	/^bool queue<qType, qIndexType, qSize>::is_empty (void)$/;"	f	class:queue	signature:(void)
+queue::jam	avr_queue.h	/^        bool jam (qType);               \/\/ Force entry even if queue full$/;"	p	class:queue	access:public	signature:(qType)
+queue::jam	avr_queue.h	/^bool queue<qType, qIndexType, qSize>::jam (qType data)$/;"	f	class:queue	signature:(qType data)
+queue::num_items	avr_queue.h	/^        qIndexType num_items (void) { return (how_full); }$/;"	f	class:queue	access:public	signature:(void)
+queue::put	avr_queue.h	/^        bool put (qType);               \/\/ Adds one item into queue$/;"	p	class:queue	access:public	signature:(qType)
+queue::put	avr_queue.h	/^bool queue<qType, qIndexType, qSize>::put (qType data)$/;"	f	class:queue	signature:(qType data)
+queue::queue	avr_queue.h	/^        queue (void);                   \/\/ Constructor$/;"	p	class:queue	access:public	signature:(void)
+queue::queue	avr_queue.h	/^queue<qType, qIndexType, qSize>::queue (void)$/;"	f	class:queue	signature:(void)
 read_once	adc_driver.cc	/^unsigned int adc_driver::read_once (unsigned char channel)$/;"	f	class:adc_driver	signature:(unsigned char channel)
 read_once	adc_driver.h	/^        unsigned int read_once (unsigned char);$/;"	p	class:adc_driver	access:public	signature:(unsigned char)
+reading_requested	To harrison/task_logic.cc	/^bool reading_requested = false;$/;"	v
+reading_requested	task_logic.cc	/^bool reading_requested = false;$/;"	v
+reading_taken	To harrison/task_sensor.h	/^	bool reading_taken(void);$/;"	p	class:task_sensor	access:public	signature:(void)
+reading_taken	task_sensor.h	/^	bool reading_taken(void);$/;"	p	class:task_sensor	access:public	signature:(void)
+reading_taken_flag	To harrison/task_sensor.h	/^	bool reading_taken_flag;$/;"	m	class:task_sensor	access:protected
+reading_taken_flag	task_sensor.h	/^	bool reading_taken_flag;$/;"	m	class:task_sensor	access:protected
+ready	To harrison/stl_task.h	/^        inline bool ready (void) { return (op_state == TASK_PENDING $/;"	f	class:stl_task	access:public	signature:(void)
+ready	stl_task.h	/^        inline bool ready (void) { return (op_state == TASK_PENDING $/;"	f	class:stl_task	access:public	signature:(void)
 ready_to_send	base_text_serial.cc	/^bool base_text_serial::ready_to_send (void)$/;"	f	class:base_text_serial	signature:(void)
 ready_to_send	base_text_serial.h	/^        virtual bool ready_to_send (void);  \/\/ Virtual and not defined in base class$/;"	p	class:base_text_serial	access:public	signature:(void)
+ready_to_send	m9xstream.cc	/^bool m9XStream::ready_to_send (void)$/;"	f	class:m9XStream	signature:(void)
+ready_to_send	m9xstream.h	/^        bool ready_to_send (void);          \/\/ Check if the port is ready to transmit$/;"	p	class:m9XStream	access:public	signature:(void)
+ready_to_send	nRF24L01_base.cc	/^bool nRF24L01_base::ready_to_send (void)$/;"	f	class:nRF24L01_base	signature:(void)
+ready_to_send	nRF24L01_base.h	/^        bool ready_to_send (void);          \/\/ Check if the port is ready to transmit$/;"	p	class:nRF24L01_base	access:public	signature:(void)
 ready_to_send	rs232.cc	/^bool rs232::ready_to_send (void)$/;"	f	class:rs232	signature:(void)
 ready_to_send	rs232.h	/^        bool ready_to_send (void);          \/\/ Check if the port is ready to transmit$/;"	p	class:rs232	access:public	signature:(void)
+receive	task_rad.h	/^	bool receive;		    \/\/ True if data has been received$/;"	m	class:task_rad	access:protected
+receive_buffer	task_rad.h	/^	buffer receive_buffer;		    \/\/ 8-character receive buffer$/;"	m	class:task_rad	access:protected
+reset	nRF24L01_base.cc	/^void nRF24L01_base::reset (void)$/;"	f	class:nRF24L01_base	signature:(void)
+reset	nRF24L01_base.h	/^        void reset (void);                  \/\/ Reset radio module to starting state$/;"	p	class:nRF24L01_base	access:public	signature:(void)
+resume	To harrison/stl_task.cc	/^void stl_task::resume (void)$/;"	f	class:stl_task	signature:(void)
+resume	To harrison/stl_task.h	/^        void resume (void);                 \/\/ Un-suspend a task so it can run again$/;"	p	class:stl_task	access:public	signature:(void)
+resume	stl_task.cc	/^void stl_task::resume (void)$/;"	f	class:stl_task	signature:(void)
+resume	stl_task.h	/^        void resume (void);                 \/\/ Un-suspend a task so it can run again$/;"	p	class:stl_task	access:public	signature:(void)
 rs232	rs232.cc	/^rs232::rs232 (unsigned char divisor, unsigned char port_number)$/;"	f	class:rs232	signature:(unsigned char divisor, unsigned char port_number)
 rs232	rs232.h	/^        rs232 (unsigned char, unsigned char = 0);$/;"	p	class:rs232	access:public	signature:(unsigned char, unsigned char = 0)
 rs232	rs232.h	/^class rs232 : public base_text_serial$/;"	c	inherits:base_text_serial
@@ -325,30 +927,222 @@ rs232::ready_to_send	rs232.cc	/^bool rs232::ready_to_send (void)$/;"	f	class:rs2
 rs232::ready_to_send	rs232.h	/^        bool ready_to_send (void);          \/\/ Check if the port is ready to transmit$/;"	p	class:rs232	access:public	signature:(void)
 rs232::rs232	rs232.cc	/^rs232::rs232 (unsigned char divisor, unsigned char port_number)$/;"	f	class:rs232	signature:(unsigned char divisor, unsigned char port_number)
 rs232::rs232	rs232.h	/^        rs232 (unsigned char, unsigned char = 0);$/;"	p	class:rs232	access:public	signature:(unsigned char, unsigned char = 0)
+run	To harrison/stl_task.cc	/^char stl_task::run (char a_state)$/;"	f	class:stl_task	signature:(char a_state)
+run	To harrison/stl_task.h	/^        virtual char run (char);            \/\/ Base method which the user overloads$/;"	p	class:stl_task	access:public	signature:(char)
+run	To harrison/task_comm.cc	/^char task_solenoid::run (char state)$/;"	f	class:task_solenoid	signature:(char state)
+run	To harrison/task_comm.h	/^        char run(char);$/;"	p	class:task_comm	access:public	signature:(char)
+run	To harrison/task_logic.cc	/^char task_logic::run(char state){$/;"	f	class:task_logic	signature:(char state)
+run	To harrison/task_logic.h	/^        char run(char);$/;"	p	class:task_logic	access:public	signature:(char)
+run	To harrison/task_sensor.h	/^        char run(char);$/;"	p	class:task_sensor	access:public	signature:(char)
+run	To harrison/task_solenoid.cc	/^char task_solenoid::run (char state)$/;"	f	class:task_solenoid	signature:(char state)
+run	To harrison/task_solenoid.h	/^        char run(char);$/;"	p	class:task_solenoid	access:public	signature:(char)
+run	stl_task.cc	/^char stl_task::run (char a_state)$/;"	f	class:stl_task	signature:(char a_state)
+run	stl_task.h	/^        virtual char run (char);            \/\/ Base method which the user overloads$/;"	p	class:stl_task	access:public	signature:(char)
+run	task_comm.cc	/^char task_comm::run (char state)$/;"	f	class:task_comm	signature:(char state)
+run	task_comm.h	/^        char run(char);$/;"	p	class:task_comm	access:public	signature:(char)
+run	task_logic.cc	/^char task_logic::run(char state){$/;"	f	class:task_logic	signature:(char state)
+run	task_logic.h	/^        char run(char);$/;"	p	class:task_logic	access:public	signature:(char)
+run	task_rad.cc	/^char task_rad::run (char state)$/;"	f	class:task_rad	signature:(char state)
+run	task_rad.h	/^        char run(char);$/;"	p	class:task_rad	access:public	signature:(char)
+run	task_sensor.h	/^        char run(char);$/;"	p	class:task_sensor	access:public	signature:(char)
+run	task_solenoid.cc	/^char task_solenoid::run (char state)$/;"	f	class:task_solenoid	signature:(char state)
+run	task_solenoid.h	/^        char run(char);$/;"	p	class:task_solenoid	access:public	signature:(char)
+run_again_ASAP	To harrison/stl_task.h	/^        inline void run_again_ASAP (void) { op_state = TASK_PENDING; }$/;"	f	class:stl_task	access:public	signature:(void)
+run_again_ASAP	stl_task.h	/^        inline void run_again_ASAP (void) { op_state = TASK_PENDING; }$/;"	f	class:stl_task	access:public	signature:(void)
+save_op_state	To harrison/stl_task.h	/^        task_op_state save_op_state;        \/\/ For saving states of suspended tasks$/;"	m	class:stl_task	access:private
+save_op_state	stl_task.h	/^        task_op_state save_op_state;        \/\/ For saving states of suspended tasks$/;"	m	class:stl_task	access:private
+save_time_stamp	To harrison/stl_us_timer.cc	/^void task_timer::save_time_stamp (time_stamp& the_stamp)$/;"	f	class:task_timer	signature:(time_stamp& the_stamp)
+save_time_stamp	To harrison/stl_us_timer.h	/^        void save_time_stamp (time_stamp&); \/\/\/ Save current time in a timestamp$/;"	p	class:task_timer	access:public	signature:(time_stamp&)
 save_time_stamp	stl_us_timer.cc	/^void task_timer::save_time_stamp (time_stamp& the_stamp)$/;"	f	class:task_timer	signature:(time_stamp& the_stamp)
 save_time_stamp	stl_us_timer.h	/^        void save_time_stamp (time_stamp&); \/\/\/ Save current time in a timestamp$/;"	p	class:task_timer	access:public	signature:(time_stamp&)
 sbi	adc_driver.cc	31;"	d	file:
-sbi	controls.cc	32;"	d	file:
+sbi	controls.cc	24;"	d	file:
 sbi	motor_driver.cc	30;"	d	file:
+sbi	sharp_sensor_driver.cc	29;"	d	file:
+schedule	To harrison/stl_task.cc	/^bool stl_task::schedule (time_stamp& the_time)$/;"	f	class:stl_task	signature:(time_stamp& the_time)
+schedule	To harrison/stl_task.h	/^        bool schedule (time_stamp&);        \/\/ Scheduler calls this to try to run task$/;"	p	class:stl_task	access:public	signature:(time_stamp&)
+schedule	stl_task.cc	/^bool stl_task::schedule (time_stamp& the_time)$/;"	f	class:stl_task	signature:(time_stamp& the_time)
+schedule	stl_task.h	/^        bool schedule (time_stamp&);        \/\/ Scheduler calls this to try to run task$/;"	p	class:stl_task	access:public	signature:(time_stamp&)
+sck_mask	To harrison/spi_bb.h	/^        unsigned char sck_mask;             \/\/\/< Bitmask for SCK (serial clock) pin$/;"	m	class:spi_bb_port	access:protected
+sck_mask	spi_bb.h	/^        unsigned char sck_mask;             \/\/\/< Bitmask for SCK (serial clock) pin$/;"	m	class:spi_bb_port	access:protected
+send	task_rad.h	/^        bool send;		    \/\/ True if radio is transmitting$/;"	m	class:task_rad	access:protected
 send_now	base_text_serial.h	/^    send_now                \/\/\/< Tell some radio devices to send data immediately$/;"	e	enum:__anon1
+sensor_distance	sharp_sensor_driver.h	/^		int sensor_distance;		\/\/ Returns distance in centimeters$/;"	m	class:sharp_sensor_driver	access:protected
+sensor_distances	sharp_sensor_driver.cc	/^int sensor_distances[36]; 		\/\/ Initial Values for each 10 degrees$/;"	v
+sensor_value	sharp_sensor_driver.h	/^		int sensor_value;		\/\/ Returns raw sensor data$/;"	m	class:sharp_sensor_driver	access:protected
 ser_manipulator	base_text_serial.h	/^    } ser_manipulator;$/;"	t	typeref:enum:__anon1
+serial_counter	To harrison/stl_task.cc	/^char stl_task::serial_counter = 0;$/;"	m	class:stl_task	file:
+serial_counter	To harrison/stl_task.h	/^        static char serial_counter;         \/\/ Counter for automatic serial numbers$/;"	m	class:stl_task	access:private
+serial_counter	stl_task.cc	/^char stl_task::serial_counter = 0;$/;"	m	class:stl_task	file:
+serial_counter	stl_task.h	/^        static char serial_counter;         \/\/ Counter for automatic serial numbers$/;"	m	class:stl_task	access:private
+serial_number	To harrison/stl_task.h	/^        char serial_number;                 \/\/ Each task has a serial number$/;"	m	class:stl_task	access:private
+serial_number	stl_task.h	/^        char serial_number;                 \/\/ Each task has a serial number$/;"	m	class:stl_task	access:private
+setAngles	task_rad.cc	/^void task_rad::setAngles (char new_i, char new_j)$/;"	f	class:task_rad	signature:(char new_i, char new_j)
+setAngles	task_rad.h	/^	void setAngles (char, char);$/;"	p	class:task_rad	access:public	signature:(char, char)
+setCoords	task_rad.cc	/^void task_rad::setCoords (void)$/;"	f	class:task_rad	signature:(void)
+setCoords	task_rad.h	/^	void setCoords (void);$/;"	p	class:task_rad	access:public	signature:(void)
+set_RX_address	nRF24L01_base.cc	/^void nRF24L01_base::set_RX_address (unsigned char* addr, unsigned char pipe)$/;"	f	class:nRF24L01_base	signature:(unsigned char* addr, unsigned char pipe)
+set_RX_address	nRF24L01_base.h	/^        void set_RX_address (unsigned char*, unsigned char = 0);$/;"	p	class:nRF24L01_base	access:public	signature:(unsigned char*, unsigned char = 0)
+set_TX_address	nRF24L01_base.cc	/^void nRF24L01_base::set_TX_address (unsigned char* addr)$/;"	f	class:nRF24L01_base	signature:(unsigned char* addr)
+set_TX_address	nRF24L01_base.h	/^        void set_TX_address (unsigned char*);$/;"	p	class:nRF24L01_base	access:public	signature:(unsigned char*)
 set_brake	motor_driver.cc	/^bool motor_driver::set_brake (bool brake)$/;"	f	class:motor_driver	signature:(bool brake)
 set_brake	motor_driver.h	/^	bool set_brake (bool);$/;"	p	class:motor_driver	access:public	signature:(bool)
+set_destination_address	packet_n.h	/^        void set_destination_address (address_type to) { addr_to = to; }$/;"	f	class:packet_n	access:public	signature:(address_type to)
+set_focus_time	To harrison/solenoid.cc	/^bool solenoid::set_focus_time (int time)$/;"	f	class:solenoid	signature:(int time)
+set_focus_time	To harrison/solenoid.h	/^    bool set_focus_time (int);$/;"	p	class:solenoid	access:public	signature:(int)
+set_focus_time	solenoid.cc	/^bool solenoid::set_focus_time (int time)$/;"	f	class:solenoid	signature:(int time)
+set_focus_time	solenoid.h	/^    bool set_focus_time (int);$/;"	p	class:solenoid	access:public	signature:(int)
+set_initial_state	To harrison/stl_task.cc	/^void stl_task::set_initial_state (char init_state)$/;"	f	class:stl_task	signature:(char init_state)
+set_initial_state	To harrison/stl_task.h	/^        void set_initial_state (char);      \/\/ Set a new state in which to start up$/;"	p	class:stl_task	access:public	signature:(char)
+set_initial_state	stl_task.cc	/^void stl_task::set_initial_state (char init_state)$/;"	f	class:stl_task	signature:(char init_state)
+set_initial_state	stl_task.h	/^        void set_initial_state (char);      \/\/ Set a new state in which to start up$/;"	p	class:stl_task	access:public	signature:(char)
+set_interval	To harrison/stl_task.cc	/^void stl_task::set_interval (const time_stamp& time_interval)$/;"	f	class:stl_task	signature:(const time_stamp& time_interval)
+set_interval	To harrison/stl_task.h	/^        void set_interval (const time_stamp&);$/;"	p	class:stl_task	access:public	signature:(const time_stamp&)
+set_interval	stl_task.cc	/^void stl_task::set_interval (const time_stamp& time_interval)$/;"	f	class:stl_task	signature:(const time_stamp& time_interval)
+set_interval	stl_task.h	/^        void set_interval (const time_stamp&);$/;"	p	class:stl_task	access:public	signature:(const time_stamp&)
 set_kd	controls.h	/^		void set_kd(int value){kd = value;}$/;"	f	class:controls	access:public	signature:(int value)
 set_ki	controls.h	/^		void set_ki(int value){ki = value;}$/;"	f	class:controls	access:public	signature:(int value)
 set_kp	controls.h	/^		void set_kp(int value){kp = value;}$/;"	f	class:controls	access:public	signature:(int value)
+set_next_run_time	To harrison/stl_task.cc	/^void stl_task::set_next_run_time (const time_stamp& next_time)$/;"	f	class:stl_task	signature:(const time_stamp& next_time)
+set_next_run_time	To harrison/stl_task.h	/^        void set_next_run_time (const time_stamp&);$/;"	p	class:stl_task	access:public	signature:(const time_stamp&)
+set_next_run_time	stl_task.cc	/^void stl_task::set_next_run_time (const time_stamp& next_time)$/;"	f	class:stl_task	signature:(const time_stamp& next_time)
+set_next_run_time	stl_task.h	/^        void set_next_run_time (const time_stamp&);$/;"	p	class:stl_task	access:public	signature:(const time_stamp&)
+set_payload_width	nRF24L01_base.cc	/^void nRF24L01_base::set_payload_width (unsigned char bytes, unsigned char pipe)$/;"	f	class:nRF24L01_base	signature:(unsigned char bytes, unsigned char pipe)
+set_payload_width	nRF24L01_base.h	/^        void set_payload_width (unsigned char, unsigned char = 0);$/;"	p	class:nRF24L01_base	access:public	signature:(unsigned char, unsigned char = 0)
+set_pic_time	To harrison/solenoid.cc	/^bool solenoid::set_pic_time (int time)$/;"	f	class:solenoid	signature:(int time)
+set_pic_time	To harrison/solenoid.h	/^    bool set_pic_time (int);$/;"	p	class:solenoid	access:public	signature:(int)
+set_pic_time	solenoid.cc	/^bool solenoid::set_pic_time (int time)$/;"	f	class:solenoid	signature:(int time)
+set_pic_time	solenoid.h	/^    bool set_pic_time (int);$/;"	p	class:solenoid	access:public	signature:(int)
+set_position	To harrison/triangle.cc	/^void triangle::set_position(int pos_x, int pos_y, int init_a){$/;"	f	class:triangle	signature:(int pos_x, int pos_y, int init_a)
+set_position	To harrison/triangle.h	/^	void set_position(int, int, int);$/;"	p	class:triangle	access:public	signature:(int, int, int)
+set_position	triangle.cc	/^void triangle::set_position(int pos_x, int pos_y, int init_a){$/;"	f	class:triangle	signature:(int pos_x, int pos_y, int init_a)
+set_position	triangle.h	/^	void set_position(int, int, int);$/;"	p	class:triangle	access:public	signature:(int, int, int)
 set_power	motor_driver.cc	/^bool motor_driver::set_power (int power)$/;"	f	class:motor_driver	signature:(int power)
 set_power	motor_driver.h	/^        bool set_power (int);$/;"	p	class:motor_driver	access:public	signature:(int)
 set_power_pct	motor_driver.cc	/^bool motor_driver::set_power_pct (int power_pct)$/;"	f	class:motor_driver	signature:(int power_pct)
 set_power_pct	motor_driver.h	/^	bool set_power_pct (int);$/;"	p	class:motor_driver	access:public	signature:(int)
+set_receive_mode	nRF24L01_base.cc	/^void nRF24L01_base::set_receive_mode (void)$/;"	f	class:nRF24L01_base	signature:(void)
+set_receive_mode	nRF24L01_base.h	/^        void set_receive_mode (void);$/;"	p	class:nRF24L01_base	access:public	signature:(void)
 set_reference_position	controls.cc	/^void controls::set_reference_position(){$/;"	f	class:controls	signature:()
 set_reference_position	controls.h	/^		void set_reference_position(void);$/;"	p	class:controls	access:public	signature:(void)
+set_source_address	packet_n.h	/^        void set_source_address (address_type from) { addr_from = from; }$/;"	f	class:packet_n	access:public	signature:(address_type from)
+set_time	To harrison/stl_us_timer.cc	/^bool task_timer::set_time (time_stamp& t_stamp)$/;"	f	class:task_timer	signature:(time_stamp& t_stamp)
+set_time	To harrison/stl_us_timer.cc	/^void time_stamp::set_time (int sec, long microsec)$/;"	f	class:time_stamp	signature:(int sec, long microsec)
+set_time	To harrison/stl_us_timer.cc	/^void time_stamp::set_time (long a_time)$/;"	f	class:time_stamp	signature:(long a_time)
+set_time	To harrison/stl_us_timer.h	/^        bool set_time (time_stamp&);$/;"	p	class:task_timer	access:public	signature:(time_stamp&)
+set_time	To harrison/stl_us_timer.h	/^        void set_time (int, long);$/;"	p	class:time_stamp	access:public	signature:(int, long)
+set_time	To harrison/stl_us_timer.h	/^        void set_time (long);$/;"	p	class:time_stamp	access:public	signature:(long)
 set_time	stl_us_timer.cc	/^bool task_timer::set_time (time_stamp& t_stamp)$/;"	f	class:task_timer	signature:(time_stamp& t_stamp)
 set_time	stl_us_timer.cc	/^void time_stamp::set_time (int sec, long microsec)$/;"	f	class:time_stamp	signature:(int sec, long microsec)
 set_time	stl_us_timer.cc	/^void time_stamp::set_time (long a_time)$/;"	f	class:time_stamp	signature:(long a_time)
 set_time	stl_us_timer.h	/^        bool set_time (time_stamp&);$/;"	p	class:task_timer	access:public	signature:(time_stamp&)
 set_time	stl_us_timer.h	/^        void set_time (int, long);$/;"	p	class:time_stamp	access:public	signature:(int, long)
 set_time	stl_us_timer.h	/^        void set_time (long);$/;"	p	class:time_stamp	access:public	signature:(long)
+set_transmit_mode	nRF24L01_base.cc	/^void nRF24L01_base::set_transmit_mode (void)$/;"	f	class:nRF24L01_base	signature:(void)
+set_transmit_mode	nRF24L01_base.h	/^        void set_transmit_mode (void);$/;"	p	class:nRF24L01_base	access:public	signature:(void)
+set_type	packet_n.h	/^        void set_type (pkt_type new_type) { type = new_type; }$/;"	f	class:packet_n	access:public	signature:(pkt_type new_type)
+sharp_sensor_driver	sharp_sensor_driver.cc	/^sharp_sensor_driver::sharp_sensor_driver(base_text_serial* p_serial_port) : adc_driver(p_serial_port){$/;"	f	class:sharp_sensor_driver	signature:(base_text_serial* p_serial_port)
+sharp_sensor_driver	sharp_sensor_driver.h	/^		sharp_sensor_driver(base_text_serial*);$/;"	p	class:sharp_sensor_driver	access:public	signature:(base_text_serial*)
+sharp_sensor_driver	sharp_sensor_driver.h	/^class sharp_sensor_driver : public adc_driver {$/;"	c	inherits:adc_driver
+sharp_sensor_driver::get_distance	sharp_sensor_driver.cc	/^int sharp_sensor_driver::get_distance(void){$/;"	f	class:sharp_sensor_driver	signature:(void)
+sharp_sensor_driver::get_distance	sharp_sensor_driver.h	/^		int get_distance(void);			\/\/ Converts analog reading into Distance with the help of lookup table$/;"	p	class:sharp_sensor_driver	access:public	signature:(void)
+sharp_sensor_driver::get_reading	sharp_sensor_driver.cc	/^int sharp_sensor_driver::get_reading(void){$/;"	f	class:sharp_sensor_driver	signature:(void)
+sharp_sensor_driver::get_reading	sharp_sensor_driver.h	/^		int get_reading(void);			\/\/ Get analog reading$/;"	p	class:sharp_sensor_driver	access:public	signature:(void)
+sharp_sensor_driver::init_sensor_values	sharp_sensor_driver.cc	/^void sharp_sensor_driver::init_sensor_values(int angle){$/;"	f	class:sharp_sensor_driver	signature:(int angle)
+sharp_sensor_driver::init_sensor_values	sharp_sensor_driver.h	/^		void init_sensor_values(int);		\/\/Fills the array with initial values, gets angle in degrees$/;"	p	class:sharp_sensor_driver	access:public	signature:(int)
+sharp_sensor_driver::sensor_distance	sharp_sensor_driver.h	/^		int sensor_distance;		\/\/ Returns distance in centimeters$/;"	m	class:sharp_sensor_driver	access:protected
+sharp_sensor_driver::sensor_value	sharp_sensor_driver.h	/^		int sensor_value;		\/\/ Returns raw sensor data$/;"	m	class:sharp_sensor_driver	access:protected
+sharp_sensor_driver::sharp_sensor_driver	sharp_sensor_driver.cc	/^sharp_sensor_driver::sharp_sensor_driver(base_text_serial* p_serial_port) : adc_driver(p_serial_port){$/;"	f	class:sharp_sensor_driver	signature:(base_text_serial* p_serial_port)
+sharp_sensor_driver::sharp_sensor_driver	sharp_sensor_driver.h	/^		sharp_sensor_driver(base_text_serial*);$/;"	p	class:sharp_sensor_driver	access:public	signature:(base_text_serial*)
+sharp_sensor_driver::something_changed	sharp_sensor_driver.cc	/^bool sharp_sensor_driver::something_changed(int angle, int previous_reading){$/;"	f	class:sharp_sensor_driver	signature:(int angle, int previous_reading)
+sharp_sensor_driver::something_changed	sharp_sensor_driver.h	/^		bool something_changed(int, int);	\/\/ Compare reading to initialization reading, takes an angle in degrees to compare$/;"	p	class:sharp_sensor_driver	access:public	signature:(int, int)
+slave_msk	nRF24L01_base.h	/^        unsigned char slave_msk;$/;"	m	class:nRF24L01_base	access:protected
+solenoid	To harrison/solenoid.cc	/^solenoid::solenoid (base_text_serial* p_serial_port)$/;"	f	class:solenoid	signature:(base_text_serial* p_serial_port)
+solenoid	To harrison/solenoid.h	/^    solenoid (base_text_serial*);$/;"	p	class:solenoid	access:public	signature:(base_text_serial*)
+solenoid	To harrison/solenoid.h	/^class solenoid$/;"	c
+solenoid	solenoid.cc	/^solenoid::solenoid (base_text_serial* p_serial_port)$/;"	f	class:solenoid	signature:(base_text_serial* p_serial_port)
+solenoid	solenoid.h	/^    solenoid (base_text_serial*);$/;"	p	class:solenoid	access:public	signature:(base_text_serial*)
+solenoid	solenoid.h	/^class solenoid$/;"	c
+solenoid::ptr_to_serial	To harrison/solenoid.h	/^    base_text_serial* ptr_to_serial;$/;"	m	class:solenoid	access:protected
+solenoid::ptr_to_serial	solenoid.h	/^    base_text_serial* ptr_to_serial;$/;"	m	class:solenoid	access:protected
+solenoid::set_focus_time	To harrison/solenoid.cc	/^bool solenoid::set_focus_time (int time)$/;"	f	class:solenoid	signature:(int time)
+solenoid::set_focus_time	To harrison/solenoid.h	/^    bool set_focus_time (int);$/;"	p	class:solenoid	access:public	signature:(int)
+solenoid::set_focus_time	solenoid.cc	/^bool solenoid::set_focus_time (int time)$/;"	f	class:solenoid	signature:(int time)
+solenoid::set_focus_time	solenoid.h	/^    bool set_focus_time (int);$/;"	p	class:solenoid	access:public	signature:(int)
+solenoid::set_pic_time	To harrison/solenoid.cc	/^bool solenoid::set_pic_time (int time)$/;"	f	class:solenoid	signature:(int time)
+solenoid::set_pic_time	To harrison/solenoid.h	/^    bool set_pic_time (int);$/;"	p	class:solenoid	access:public	signature:(int)
+solenoid::set_pic_time	solenoid.cc	/^bool solenoid::set_pic_time (int time)$/;"	f	class:solenoid	signature:(int time)
+solenoid::set_pic_time	solenoid.h	/^    bool set_pic_time (int);$/;"	p	class:solenoid	access:public	signature:(int)
+solenoid::solenoid	To harrison/solenoid.cc	/^solenoid::solenoid (base_text_serial* p_serial_port)$/;"	f	class:solenoid	signature:(base_text_serial* p_serial_port)
+solenoid::solenoid	To harrison/solenoid.h	/^    solenoid (base_text_serial*);$/;"	p	class:solenoid	access:public	signature:(base_text_serial*)
+solenoid::solenoid	solenoid.cc	/^solenoid::solenoid (base_text_serial* p_serial_port)$/;"	f	class:solenoid	signature:(base_text_serial* p_serial_port)
+solenoid::solenoid	solenoid.h	/^    solenoid (base_text_serial*);$/;"	p	class:solenoid	access:public	signature:(base_text_serial*)
+solenoid::solenoid_on	To harrison/solenoid.h	/^    bool solenoid_on;$/;"	m	class:solenoid	access:protected
+solenoid::solenoid_on	solenoid.h	/^    bool solenoid_on;$/;"	m	class:solenoid	access:protected
+solenoid::time_for_focus	To harrison/solenoid.h	/^    int time_for_focus;$/;"	m	class:solenoid	access:protected
+solenoid::time_for_focus	solenoid.h	/^    int time_for_focus;$/;"	m	class:solenoid	access:protected
+solenoid::time_for_pic	To harrison/solenoid.h	/^    int time_for_pic;$/;"	m	class:solenoid	access:protected
+solenoid::time_for_pic	solenoid.h	/^    int time_for_pic;$/;"	m	class:solenoid	access:protected
+solenoid::turn_off	To harrison/solenoid.cc	/^void solenoid::turn_off (void)$/;"	f	class:solenoid	signature:(void)
+solenoid::turn_off	To harrison/solenoid.h	/^    void turn_off (void);$/;"	p	class:solenoid	access:public	signature:(void)
+solenoid::turn_off	solenoid.cc	/^void solenoid::turn_off (void)$/;"	f	class:solenoid	signature:(void)
+solenoid::turn_off	solenoid.h	/^    void turn_off (void);$/;"	p	class:solenoid	access:public	signature:(void)
+solenoid::turn_on	To harrison/solenoid.cc	/^void solenoid::turn_on (void)$/;"	f	class:solenoid	signature:(void)
+solenoid::turn_on	To harrison/solenoid.h	/^    void turn_on (void);$/;"	p	class:solenoid	access:public	signature:(void)
+solenoid::turn_on	solenoid.cc	/^void solenoid::turn_on (void)$/;"	f	class:solenoid	signature:(void)
+solenoid::turn_on	solenoid.h	/^    void turn_on (void);$/;"	p	class:solenoid	access:public	signature:(void)
+solenoid_on	To harrison/solenoid.h	/^    bool solenoid_on;$/;"	m	class:solenoid	access:protected
+solenoid_on	solenoid.h	/^    bool solenoid_on;$/;"	m	class:solenoid	access:protected
+something_changed	sharp_sensor_driver.cc	/^bool sharp_sensor_driver::something_changed(int angle, int previous_reading){$/;"	f	class:sharp_sensor_driver	signature:(int angle, int previous_reading)
+something_changed	sharp_sensor_driver.h	/^		bool something_changed(int, int);	\/\/ Compare reading to initialization reading, takes an angle in degrees to compare$/;"	p	class:sharp_sensor_driver	access:public	signature:(int, int)
+spi_bb_port	To harrison/spi_bb.cc	/^spi_bb_port::spi_bb_port (volatile unsigned char& input_port, $/;"	f	class:spi_bb_port	signature:(volatile unsigned char& input_port, volatile unsigned char& output_port, volatile unsigned char& ddr_port, unsigned char sck_msk, unsigned char miso_msk, unsigned char mosi_msk)
+spi_bb_port	To harrison/spi_bb.h	/^        spi_bb_port (volatile unsigned char&, volatile unsigned char&, $/;"	p	class:spi_bb_port	access:public	signature:(volatile unsigned char&, volatile unsigned char&, volatile unsigned char&, unsigned char, unsigned char, unsigned char)
+spi_bb_port	To harrison/spi_bb.h	/^class spi_bb_port$/;"	c
+spi_bb_port	spi_bb.cc	/^spi_bb_port::spi_bb_port (volatile unsigned char& input_port, $/;"	f	class:spi_bb_port	signature:(volatile unsigned char& input_port, volatile unsigned char& output_port, volatile unsigned char& ddr_port, unsigned char sck_msk, unsigned char miso_msk, unsigned char mosi_msk)
+spi_bb_port	spi_bb.h	/^        spi_bb_port (volatile unsigned char&, volatile unsigned char&, $/;"	p	class:spi_bb_port	access:public	signature:(volatile unsigned char&, volatile unsigned char&, volatile unsigned char&, unsigned char, unsigned char, unsigned char)
+spi_bb_port	spi_bb.h	/^class spi_bb_port$/;"	c
+spi_bb_port::add_slave	To harrison/spi_bb.cc	/^void spi_bb_port::add_slave (unsigned char ss_mask)$/;"	f	class:spi_bb_port	signature:(unsigned char ss_mask)
+spi_bb_port::add_slave	To harrison/spi_bb.h	/^        void add_slave (unsigned char);     \/\/ Method to add a slave device connection$/;"	p	class:spi_bb_port	access:public	signature:(unsigned char)
+spi_bb_port::add_slave	spi_bb.cc	/^void spi_bb_port::add_slave (unsigned char ss_mask)$/;"	f	class:spi_bb_port	signature:(unsigned char ss_mask)
+spi_bb_port::add_slave	spi_bb.h	/^        void add_slave (unsigned char);     \/\/ Method to add a slave device connection$/;"	p	class:spi_bb_port	access:public	signature:(unsigned char)
+spi_bb_port::ddr	To harrison/spi_bb.h	/^        volatile unsigned char* ddr;        \/\/\/< Pointer to data direction register$/;"	m	class:spi_bb_port	access:protected
+spi_bb_port::ddr	spi_bb.h	/^        volatile unsigned char* ddr;        \/\/\/< Pointer to data direction register$/;"	m	class:spi_bb_port	access:protected
+spi_bb_port::exch_byte	To harrison/spi_bb.cc	/^void spi_bb_port::exch_byte (unsigned char* byte)$/;"	f	class:spi_bb_port	signature:(unsigned char* byte)
+spi_bb_port::exch_byte	To harrison/spi_bb.h	/^        void exch_byte (unsigned char*);    \/\/ Method to exchange one byte with slave$/;"	p	class:spi_bb_port	access:public	signature:(unsigned char*)
+spi_bb_port::exch_byte	spi_bb.cc	/^void spi_bb_port::exch_byte (unsigned char* byte)$/;"	f	class:spi_bb_port	signature:(unsigned char* byte)
+spi_bb_port::exch_byte	spi_bb.h	/^        void exch_byte (unsigned char*);    \/\/ Method to exchange one byte with slave$/;"	p	class:spi_bb_port	access:public	signature:(unsigned char*)
+spi_bb_port::exch_cmd	To harrison/spi_bb.cc	/^void spi_bb_port::exch_cmd (unsigned char* command, unsigned char slave_mask)$/;"	f	class:spi_bb_port	signature:(unsigned char* command, unsigned char slave_mask)
+spi_bb_port::exch_cmd	To harrison/spi_bb.h	/^        void exch_cmd (unsigned char*, unsigned char);$/;"	p	class:spi_bb_port	access:public	signature:(unsigned char*, unsigned char)
+spi_bb_port::exch_cmd	spi_bb.cc	/^void spi_bb_port::exch_cmd (unsigned char* command, unsigned char slave_mask)$/;"	f	class:spi_bb_port	signature:(unsigned char* command, unsigned char slave_mask)
+spi_bb_port::exch_cmd	spi_bb.h	/^        void exch_cmd (unsigned char*, unsigned char);$/;"	p	class:spi_bb_port	access:public	signature:(unsigned char*, unsigned char)
+spi_bb_port::exch_data	To harrison/spi_bb.cc	/^void spi_bb_port::exch_data (unsigned char* bytes, char size, unsigned char slave_mask)$/;"	f	class:spi_bb_port	signature:(unsigned char* bytes, char size, unsigned char slave_mask)
+spi_bb_port::exch_data	To harrison/spi_bb.h	/^        void exch_data (unsigned char*, char, unsigned char);$/;"	p	class:spi_bb_port	access:public	signature:(unsigned char*, char, unsigned char)
+spi_bb_port::exch_data	spi_bb.cc	/^void spi_bb_port::exch_data (unsigned char* bytes, char size, unsigned char slave_mask)$/;"	f	class:spi_bb_port	signature:(unsigned char* bytes, char size, unsigned char slave_mask)
+spi_bb_port::exch_data	spi_bb.h	/^        void exch_data (unsigned char*, char, unsigned char);$/;"	p	class:spi_bb_port	access:public	signature:(unsigned char*, char, unsigned char)
+spi_bb_port::get_ddr	To harrison/spi_bb.h	/^        volatile unsigned char* get_ddr (void) { return (ddr); }$/;"	f	class:spi_bb_port	access:public	signature:(void)
+spi_bb_port::get_ddr	spi_bb.h	/^        volatile unsigned char* get_ddr (void) { return (ddr); }$/;"	f	class:spi_bb_port	access:public	signature:(void)
+spi_bb_port::get_inport	To harrison/spi_bb.h	/^        volatile unsigned char* get_inport (void) { return (inport); }$/;"	f	class:spi_bb_port	access:public	signature:(void)
+spi_bb_port::get_inport	spi_bb.h	/^        volatile unsigned char* get_inport (void) { return (inport); }$/;"	f	class:spi_bb_port	access:public	signature:(void)
+spi_bb_port::get_outport	To harrison/spi_bb.h	/^        volatile unsigned char* get_outport (void) { return (outport); }$/;"	f	class:spi_bb_port	access:public	signature:(void)
+spi_bb_port::get_outport	spi_bb.h	/^        volatile unsigned char* get_outport (void) { return (outport); }$/;"	f	class:spi_bb_port	access:public	signature:(void)
+spi_bb_port::inport	To harrison/spi_bb.h	/^        volatile unsigned char* inport;     \/\/\/< Pointer to input port to be used$/;"	m	class:spi_bb_port	access:protected
+spi_bb_port::inport	spi_bb.h	/^        volatile unsigned char* inport;     \/\/\/< Pointer to input port to be used$/;"	m	class:spi_bb_port	access:protected
+spi_bb_port::miso_mask	To harrison/spi_bb.h	/^        unsigned char miso_mask;            \/\/\/< Bitmask for MISO pin$/;"	m	class:spi_bb_port	access:protected
+spi_bb_port::miso_mask	spi_bb.h	/^        unsigned char miso_mask;            \/\/\/< Bitmask for MISO pin$/;"	m	class:spi_bb_port	access:protected
+spi_bb_port::mosi_mask	To harrison/spi_bb.h	/^        unsigned char mosi_mask;            \/\/\/< Bitmask for MOSI pin$/;"	m	class:spi_bb_port	access:protected
+spi_bb_port::mosi_mask	spi_bb.h	/^        unsigned char mosi_mask;            \/\/\/< Bitmask for MOSI pin$/;"	m	class:spi_bb_port	access:protected
+spi_bb_port::outport	To harrison/spi_bb.h	/^        volatile unsigned char* outport;    \/\/\/< Pointer to data direction register$/;"	m	class:spi_bb_port	access:protected
+spi_bb_port::outport	spi_bb.h	/^        volatile unsigned char* outport;    \/\/\/< Pointer to data direction register$/;"	m	class:spi_bb_port	access:protected
+spi_bb_port::sck_mask	To harrison/spi_bb.h	/^        unsigned char sck_mask;             \/\/\/< Bitmask for SCK (serial clock) pin$/;"	m	class:spi_bb_port	access:protected
+spi_bb_port::sck_mask	spi_bb.h	/^        unsigned char sck_mask;             \/\/\/< Bitmask for SCK (serial clock) pin$/;"	m	class:spi_bb_port	access:protected
+spi_bb_port::spi_bb_port	To harrison/spi_bb.cc	/^spi_bb_port::spi_bb_port (volatile unsigned char& input_port, $/;"	f	class:spi_bb_port	signature:(volatile unsigned char& input_port, volatile unsigned char& output_port, volatile unsigned char& ddr_port, unsigned char sck_msk, unsigned char miso_msk, unsigned char mosi_msk)
+spi_bb_port::spi_bb_port	To harrison/spi_bb.h	/^        spi_bb_port (volatile unsigned char&, volatile unsigned char&, $/;"	p	class:spi_bb_port	access:public	signature:(volatile unsigned char&, volatile unsigned char&, volatile unsigned char&, unsigned char, unsigned char, unsigned char)
+spi_bb_port::spi_bb_port	spi_bb.cc	/^spi_bb_port::spi_bb_port (volatile unsigned char& input_port, $/;"	f	class:spi_bb_port	signature:(volatile unsigned char& input_port, volatile unsigned char& output_port, volatile unsigned char& ddr_port, unsigned char sck_msk, unsigned char miso_msk, unsigned char mosi_msk)
+spi_bb_port::spi_bb_port	spi_bb.h	/^        spi_bb_port (volatile unsigned char&, volatile unsigned char&, $/;"	p	class:spi_bb_port	access:public	signature:(volatile unsigned char&, volatile unsigned char&, volatile unsigned char&, unsigned char, unsigned char, unsigned char)
+spi_bb_port::transfer	To harrison/spi_bb.cc	/^void spi_bb_port::transfer (unsigned char* bytes, char size, unsigned char slave_mask)$/;"	f	class:spi_bb_port	signature:(unsigned char* bytes, char size, unsigned char slave_mask)
+spi_bb_port::transfer	To harrison/spi_bb.h	/^        void transfer (unsigned char*, char, unsigned char);$/;"	p	class:spi_bb_port	access:public	signature:(unsigned char*, char, unsigned char)
+spi_bb_port::transfer	spi_bb.cc	/^void spi_bb_port::transfer (unsigned char* bytes, char size, unsigned char slave_mask)$/;"	f	class:spi_bb_port	signature:(unsigned char* bytes, char size, unsigned char slave_mask)
+spi_bb_port::transfer	spi_bb.h	/^        void transfer (unsigned char*, char, unsigned char);$/;"	p	class:spi_bb_port	access:public	signature:(unsigned char*, char, unsigned char)
 start_geared_position_control	controls.cc	/^void controls::start_geared_position_control(int desired_position_degrees){$/;"	f	class:controls	signature:(int desired_position_degrees)
 start_geared_position_control	controls.cc	/^void controls::start_geared_position_control(int desired_position_degrees, int kp_val, int ki_val){$/;"	f	class:controls	signature:(int desired_position_degrees, int kp_val, int ki_val)
 start_geared_position_control	controls.h	/^		void start_geared_position_control(int);$/;"	p	class:controls	access:public	signature:(int)
@@ -359,19 +1153,299 @@ start_position_control	controls.h	/^		void start_position_control(int);$/;"	p	cl
 start_position_control	controls.h	/^		void start_position_control(int, int, int);$/;"	p	class:controls	access:public	signature:(int, int, int)
 start_velocity_control	controls.h	/^		void start_velocity_control(int);$/;"	p	class:controls	access:public	signature:(int)
 start_velocity_control	controls.h	/^		void start_velocity_control(int, int, int);$/;"	p	class:controls	access:public	signature:(int, int, int)
+sth_received	task_rad.h	/^	bool sth_received;		\/\/ tells that sth was received!	$/;"	m	class:task_rad	access:protected
+stl_task	To harrison/stl_task.cc	/^stl_task::stl_task (const time_stamp& time_interval, STL_DEBUG_TYPE* debug_port)$/;"	f	class:stl_task	signature:(const time_stamp& time_interval, STL_DEBUG_TYPE* debug_port)
+stl_task	To harrison/stl_task.h	/^        stl_task (const time_stamp&, STL_DEBUG_TYPE* = NULL);$/;"	p	class:stl_task	access:public	signature:(const time_stamp&, STL_DEBUG_TYPE* = NULL)
+stl_task	To harrison/stl_task.h	/^class stl_task$/;"	c
+stl_task	stl_task.cc	/^stl_task::stl_task (const time_stamp& time_interval, STL_DEBUG_TYPE* debug_port)$/;"	f	class:stl_task	signature:(const time_stamp& time_interval, STL_DEBUG_TYPE* debug_port)
+stl_task	stl_task.h	/^        stl_task (const time_stamp&, STL_DEBUG_TYPE* = NULL);$/;"	p	class:stl_task	access:public	signature:(const time_stamp&, STL_DEBUG_TYPE* = NULL)
+stl_task	stl_task.h	/^class stl_task$/;"	c
+stl_task::clear_prof_data_method	To harrison/stl_task.h	/^        void clear_prof_data_method (void);     \/\/ Clear profiling data arrays$/;"	p	class:stl_task	access:public	signature:(void)
+stl_task::clear_prof_data_method	stl_task.h	/^        void clear_prof_data_method (void);     \/\/ Clear profiling data arrays$/;"	p	class:stl_task	access:public	signature:(void)
+stl_task::current_state	To harrison/stl_task.h	/^        char current_state;                 \/\/ State in which we're currently running$/;"	m	class:stl_task	access:private
+stl_task::current_state	stl_task.h	/^        char current_state;                 \/\/ State in which we're currently running$/;"	m	class:stl_task	access:private
+stl_task::dbg_port	To harrison/stl_task.h	/^        STL_DEBUG_TYPE* dbg_port;           \/\/ Port for serial debugging information$/;"	m	class:stl_task	access:protected
+stl_task::dbg_port	stl_task.h	/^        STL_DEBUG_TYPE* dbg_port;           \/\/ Port for serial debugging information$/;"	m	class:stl_task	access:protected
+stl_task::error_stop	To harrison/stl_task.cc	/^void stl_task::error_stop (char const* message)$/;"	f	class:stl_task	signature:(char const* message)
+stl_task::error_stop	To harrison/stl_task.h	/^        void error_stop (char const*);      \/\/ Complain and stop the processor$/;"	p	class:stl_task	access:public	signature:(char const*)
+stl_task::error_stop	stl_task.cc	/^void stl_task::error_stop (char const* message)$/;"	f	class:stl_task	signature:(char const* message)
+stl_task::error_stop	stl_task.h	/^        void error_stop (char const*);      \/\/ Complain and stop the processor$/;"	p	class:stl_task	access:public	signature:(char const*)
+stl_task::get_op_state	To harrison/stl_task.h	/^        task_op_state get_op_state (void) { return (op_state); }$/;"	f	class:stl_task	access:public	signature:(void)
+stl_task::get_op_state	stl_task.h	/^        task_op_state get_op_state (void) { return (op_state); }$/;"	f	class:stl_task	access:public	signature:(void)
+stl_task::get_serial_number	To harrison/stl_task.h	/^        char get_serial_number (void) { return (serial_number); }$/;"	f	class:stl_task	access:public	signature:(void)
+stl_task::get_serial_number	stl_task.h	/^        char get_serial_number (void) { return (serial_number); }$/;"	f	class:stl_task	access:public	signature:(void)
+stl_task::interval	To harrison/stl_task.h	/^        time_stamp interval;                \/\/ Time interval between runs of the task$/;"	m	class:stl_task	access:protected
+stl_task::interval	stl_task.h	/^        time_stamp interval;                \/\/ Time interval between runs of the task$/;"	m	class:stl_task	access:protected
+stl_task::max_run_runtime	To harrison/stl_task.h	/^        long *max_run_runtime;              \/\/ test functions take to run $/;"	m	class:stl_task	access:protected
+stl_task::max_run_runtime	stl_task.h	/^        long *max_run_runtime;              \/\/ test functions take to run $/;"	m	class:stl_task	access:protected
+stl_task::next_run_time	To harrison/stl_task.h	/^        time_stamp next_run_time;           \/\/ Time when task should run next$/;"	m	class:stl_task	access:protected
+stl_task::next_run_time	stl_task.h	/^        time_stamp next_run_time;           \/\/ Time when task should run next$/;"	m	class:stl_task	access:protected
+stl_task::num_runs	To harrison/stl_task.h	/^        int *num_runs;                      \/\/ All these variables are for collecting$/;"	m	class:stl_task	access:protected
+stl_task::num_runs	stl_task.h	/^        int *num_runs;                      \/\/ All these variables are for collecting$/;"	m	class:stl_task	access:protected
+stl_task::op_state	To harrison/stl_task.h	/^        task_op_state op_state;             \/\/ Operational state of this task$/;"	m	class:stl_task	access:private
+stl_task::op_state	stl_task.h	/^        task_op_state op_state;             \/\/ Operational state of this task$/;"	m	class:stl_task	access:private
+stl_task::print_profile_method	To harrison/stl_task.cc	/^void stl_task::print_profile_method (avr_uart* a_port)$/;"	f	class:stl_task	signature:(avr_uart* a_port)
+stl_task::print_profile_method	To harrison/stl_task.h	/^        void print_profile_method (avr_uart*);  \/\/ Display execution time profile data$/;"	p	class:stl_task	access:public	signature:(avr_uart*)
+stl_task::print_profile_method	stl_task.cc	/^void stl_task::print_profile_method (avr_uart* a_port)$/;"	f	class:stl_task	signature:(avr_uart* a_port)
+stl_task::print_profile_method	stl_task.h	/^        void print_profile_method (avr_uart*);  \/\/ Display execution time profile data$/;"	p	class:stl_task	access:public	signature:(avr_uart*)
+stl_task::ready	To harrison/stl_task.h	/^        inline bool ready (void) { return (op_state == TASK_PENDING $/;"	f	class:stl_task	access:public	signature:(void)
+stl_task::ready	stl_task.h	/^        inline bool ready (void) { return (op_state == TASK_PENDING $/;"	f	class:stl_task	access:public	signature:(void)
+stl_task::resume	To harrison/stl_task.cc	/^void stl_task::resume (void)$/;"	f	class:stl_task	signature:(void)
+stl_task::resume	To harrison/stl_task.h	/^        void resume (void);                 \/\/ Un-suspend a task so it can run again$/;"	p	class:stl_task	access:public	signature:(void)
+stl_task::resume	stl_task.cc	/^void stl_task::resume (void)$/;"	f	class:stl_task	signature:(void)
+stl_task::resume	stl_task.h	/^        void resume (void);                 \/\/ Un-suspend a task so it can run again$/;"	p	class:stl_task	access:public	signature:(void)
+stl_task::run	To harrison/stl_task.cc	/^char stl_task::run (char a_state)$/;"	f	class:stl_task	signature:(char a_state)
+stl_task::run	To harrison/stl_task.h	/^        virtual char run (char);            \/\/ Base method which the user overloads$/;"	p	class:stl_task	access:public	signature:(char)
+stl_task::run	stl_task.cc	/^char stl_task::run (char a_state)$/;"	f	class:stl_task	signature:(char a_state)
+stl_task::run	stl_task.h	/^        virtual char run (char);            \/\/ Base method which the user overloads$/;"	p	class:stl_task	access:public	signature:(char)
+stl_task::run_again_ASAP	To harrison/stl_task.h	/^        inline void run_again_ASAP (void) { op_state = TASK_PENDING; }$/;"	f	class:stl_task	access:public	signature:(void)
+stl_task::run_again_ASAP	stl_task.h	/^        inline void run_again_ASAP (void) { op_state = TASK_PENDING; }$/;"	f	class:stl_task	access:public	signature:(void)
+stl_task::save_op_state	To harrison/stl_task.h	/^        task_op_state save_op_state;        \/\/ For saving states of suspended tasks$/;"	m	class:stl_task	access:private
+stl_task::save_op_state	stl_task.h	/^        task_op_state save_op_state;        \/\/ For saving states of suspended tasks$/;"	m	class:stl_task	access:private
+stl_task::schedule	To harrison/stl_task.cc	/^bool stl_task::schedule (time_stamp& the_time)$/;"	f	class:stl_task	signature:(time_stamp& the_time)
+stl_task::schedule	To harrison/stl_task.h	/^        bool schedule (time_stamp&);        \/\/ Scheduler calls this to try to run task$/;"	p	class:stl_task	access:public	signature:(time_stamp&)
+stl_task::schedule	stl_task.cc	/^bool stl_task::schedule (time_stamp& the_time)$/;"	f	class:stl_task	signature:(time_stamp& the_time)
+stl_task::schedule	stl_task.h	/^        bool schedule (time_stamp&);        \/\/ Scheduler calls this to try to run task$/;"	p	class:stl_task	access:public	signature:(time_stamp&)
+stl_task::serial_counter	To harrison/stl_task.cc	/^char stl_task::serial_counter = 0;$/;"	m	class:stl_task	file:
+stl_task::serial_counter	To harrison/stl_task.h	/^        static char serial_counter;         \/\/ Counter for automatic serial numbers$/;"	m	class:stl_task	access:private
+stl_task::serial_counter	stl_task.cc	/^char stl_task::serial_counter = 0;$/;"	m	class:stl_task	file:
+stl_task::serial_counter	stl_task.h	/^        static char serial_counter;         \/\/ Counter for automatic serial numbers$/;"	m	class:stl_task	access:private
+stl_task::serial_number	To harrison/stl_task.h	/^        char serial_number;                 \/\/ Each task has a serial number$/;"	m	class:stl_task	access:private
+stl_task::serial_number	stl_task.h	/^        char serial_number;                 \/\/ Each task has a serial number$/;"	m	class:stl_task	access:private
+stl_task::set_initial_state	To harrison/stl_task.cc	/^void stl_task::set_initial_state (char init_state)$/;"	f	class:stl_task	signature:(char init_state)
+stl_task::set_initial_state	To harrison/stl_task.h	/^        void set_initial_state (char);      \/\/ Set a new state in which to start up$/;"	p	class:stl_task	access:public	signature:(char)
+stl_task::set_initial_state	stl_task.cc	/^void stl_task::set_initial_state (char init_state)$/;"	f	class:stl_task	signature:(char init_state)
+stl_task::set_initial_state	stl_task.h	/^        void set_initial_state (char);      \/\/ Set a new state in which to start up$/;"	p	class:stl_task	access:public	signature:(char)
+stl_task::set_interval	To harrison/stl_task.cc	/^void stl_task::set_interval (const time_stamp& time_interval)$/;"	f	class:stl_task	signature:(const time_stamp& time_interval)
+stl_task::set_interval	To harrison/stl_task.h	/^        void set_interval (const time_stamp&);$/;"	p	class:stl_task	access:public	signature:(const time_stamp&)
+stl_task::set_interval	stl_task.cc	/^void stl_task::set_interval (const time_stamp& time_interval)$/;"	f	class:stl_task	signature:(const time_stamp& time_interval)
+stl_task::set_interval	stl_task.h	/^        void set_interval (const time_stamp&);$/;"	p	class:stl_task	access:public	signature:(const time_stamp&)
+stl_task::set_next_run_time	To harrison/stl_task.cc	/^void stl_task::set_next_run_time (const time_stamp& next_time)$/;"	f	class:stl_task	signature:(const time_stamp& next_time)
+stl_task::set_next_run_time	To harrison/stl_task.h	/^        void set_next_run_time (const time_stamp&);$/;"	p	class:stl_task	access:public	signature:(const time_stamp&)
+stl_task::set_next_run_time	stl_task.cc	/^void stl_task::set_next_run_time (const time_stamp& next_time)$/;"	f	class:stl_task	signature:(const time_stamp& next_time)
+stl_task::set_next_run_time	stl_task.h	/^        void set_next_run_time (const time_stamp&);$/;"	p	class:stl_task	access:public	signature:(const time_stamp&)
+stl_task::stl_task	To harrison/stl_task.cc	/^stl_task::stl_task (const time_stamp& time_interval, STL_DEBUG_TYPE* debug_port)$/;"	f	class:stl_task	signature:(const time_stamp& time_interval, STL_DEBUG_TYPE* debug_port)
+stl_task::stl_task	To harrison/stl_task.h	/^        stl_task (const time_stamp&, STL_DEBUG_TYPE* = NULL);$/;"	p	class:stl_task	access:public	signature:(const time_stamp&, STL_DEBUG_TYPE* = NULL)
+stl_task::stl_task	stl_task.cc	/^stl_task::stl_task (const time_stamp& time_interval, STL_DEBUG_TYPE* debug_port)$/;"	f	class:stl_task	signature:(const time_stamp& time_interval, STL_DEBUG_TYPE* debug_port)
+stl_task::stl_task	stl_task.h	/^        stl_task (const time_stamp&, STL_DEBUG_TYPE* = NULL);$/;"	p	class:stl_task	access:public	signature:(const time_stamp&, STL_DEBUG_TYPE* = NULL)
+stl_task::sum_run_runtime	To harrison/stl_task.h	/^        long *sum_run_runtime;$/;"	m	class:stl_task	access:protected
+stl_task::sum_run_runtime	stl_task.h	/^        long *sum_run_runtime;$/;"	m	class:stl_task	access:protected
+stl_task::suspend	To harrison/stl_task.cc	/^void stl_task::suspend (void)$/;"	f	class:stl_task	signature:(void)
+stl_task::suspend	To harrison/stl_task.h	/^        void suspend (void);                \/\/ Set operational state to suspended$/;"	p	class:stl_task	access:public	signature:(void)
+stl_task::suspend	stl_task.cc	/^void stl_task::suspend (void)$/;"	f	class:stl_task	signature:(void)
+stl_task::suspend	stl_task.h	/^        void suspend (void);                \/\/ Set operational state to suspended$/;"	p	class:stl_task	access:public	signature:(void)
+sum_run_runtime	To harrison/stl_task.h	/^        long *sum_run_runtime;$/;"	m	class:stl_task	access:protected
+sum_run_runtime	stl_task.h	/^        long *sum_run_runtime;$/;"	m	class:stl_task	access:protected
+suspend	To harrison/stl_task.cc	/^void stl_task::suspend (void)$/;"	f	class:stl_task	signature:(void)
+suspend	To harrison/stl_task.h	/^        void suspend (void);                \/\/ Set operational state to suspended$/;"	p	class:stl_task	access:public	signature:(void)
+suspend	stl_task.cc	/^void stl_task::suspend (void)$/;"	f	class:stl_task	signature:(void)
+suspend	stl_task.h	/^        void suspend (void);                \/\/ Set operational state to suspended$/;"	p	class:stl_task	access:public	signature:(void)
+take_initial_reading_flag	To harrison/task_sensor.h	/^	bool take_initial_reading_flag;$/;"	m	class:task_sensor	access:protected
+take_initial_reading_flag	task_sensor.h	/^	bool take_initial_reading_flag;$/;"	m	class:task_sensor	access:protected
+take_picture	To harrison/task_comm.cc	/^void task_solenoid::take_picture (void)$/;"	f	class:task_solenoid	signature:(void)
+take_picture	To harrison/task_comm.h	/^	void take_picture(void);$/;"	p	class:task_comm	access:public	signature:(void)
+take_picture	To harrison/task_solenoid.cc	/^void task_solenoid::take_picture (void)$/;"	f	class:task_solenoid	signature:(void)
+take_picture	To harrison/task_solenoid.h	/^	void take_picture(void);$/;"	p	class:task_solenoid	access:public	signature:(void)
+take_picture	task_comm.cc	/^void task_solenoid::take_picture (void)$/;"	f	class:task_solenoid	signature:(void)
+take_picture	task_comm.h	/^	void take_picture(void);$/;"	p	class:task_comm	access:public	signature:(void)
+take_picture	task_solenoid.cc	/^void task_solenoid::take_picture (void)$/;"	f	class:task_solenoid	signature:(void)
+take_picture	task_solenoid.h	/^	void take_picture(void);$/;"	p	class:task_solenoid	access:public	signature:(void)
+take_picture_flag	To harrison/task_comm.h	/^	bool take_picture_flag;$/;"	m	class:task_comm	access:protected
+take_picture_flag	To harrison/task_logic.h	/^	bool take_picture_flag;$/;"	m	class:task_logic	access:protected
+take_picture_flag	To harrison/task_solenoid.h	/^	bool take_picture_flag;$/;"	m	class:task_solenoid	access:protected
+take_picture_flag	task_comm.h	/^	bool take_picture_flag;$/;"	m	class:task_comm	access:protected
+take_picture_flag	task_logic.h	/^	bool take_picture_flag;$/;"	m	class:task_logic	access:protected
+take_picture_flag	task_solenoid.h	/^	bool take_picture_flag;$/;"	m	class:task_solenoid	access:protected
+take_reading	To harrison/task_sensor.h	/^	void take_reading(void);$/;"	p	class:task_sensor	access:public	signature:(void)
+take_reading	task_sensor.h	/^	void take_reading(void);$/;"	p	class:task_sensor	access:public	signature:(void)
+take_reading_flag	To harrison/task_sensor.h	/^	bool take_reading_flag;$/;"	m	class:task_sensor	access:protected
+take_reading_flag	task_sensor.h	/^	bool take_reading_flag;$/;"	m	class:task_sensor	access:protected
+task_comm	To harrison/task_comm.cc	/^task_comm::task_comm (time_stamp* t_stamp, solenoid* p_solenoid, base_text_serial* p_ser)$/;"	f	class:task_comm	signature:(time_stamp* t_stamp, solenoid* p_solenoid, base_text_serial* p_ser)
+task_comm	To harrison/task_comm.h	/^        task_comm(time_stamp*, solenoid*, base_text_serial*);$/;"	p	class:task_comm	access:public	signature:(time_stamp*, solenoid*, base_text_serial*)
+task_comm	To harrison/task_comm.h	/^class task_comm : public stl_task$/;"	c	inherits:stl_task
+task_comm	task_comm.cc	/^task_comm::task_comm (time_stamp* t_stamp, base_text_serial* p_ser)$/;"	f	class:task_comm	signature:(time_stamp* t_stamp, base_text_serial* p_ser)
+task_comm	task_comm.h	/^        task_comm(time_stamp*, solenoid*, base_text_serial*);$/;"	p	class:task_comm	access:public	signature:(time_stamp*, solenoid*, base_text_serial*)
+task_comm	task_comm.h	/^class task_comm : public stl_task$/;"	c	inherits:stl_task
+task_comm::ptr_serial	To harrison/task_comm.h	/^        base_text_serial* ptr_serial;         	\/\/ Pointer to a serial port for messages$/;"	m	class:task_comm	access:protected
+task_comm::ptr_serial	task_comm.h	/^        base_text_serial* ptr_serial;         	\/\/ Pointer to a serial port for messages$/;"	m	class:task_comm	access:protected
+task_comm::ptr_solenoid	To harrison/task_comm.h	/^        solenoid* ptr_solenoid;                 \/\/ Pointer to solenoid object$/;"	m	class:task_comm	access:protected
+task_comm::ptr_solenoid	task_comm.h	/^        solenoid* ptr_solenoid;                 \/\/ Pointer to solenoid object$/;"	m	class:task_comm	access:protected
+task_comm::run	To harrison/task_comm.h	/^        char run(char);$/;"	p	class:task_comm	access:public	signature:(char)
+task_comm::run	task_comm.cc	/^char task_comm::run (char state)$/;"	f	class:task_comm	signature:(char state)
+task_comm::run	task_comm.h	/^        char run(char);$/;"	p	class:task_comm	access:public	signature:(char)
+task_comm::take_picture	To harrison/task_comm.h	/^	void take_picture(void);$/;"	p	class:task_comm	access:public	signature:(void)
+task_comm::take_picture	task_comm.h	/^	void take_picture(void);$/;"	p	class:task_comm	access:public	signature:(void)
+task_comm::take_picture_flag	To harrison/task_comm.h	/^	bool take_picture_flag;$/;"	m	class:task_comm	access:protected
+task_comm::take_picture_flag	task_comm.h	/^	bool take_picture_flag;$/;"	m	class:task_comm	access:protected
+task_comm::task_comm	To harrison/task_comm.cc	/^task_comm::task_comm (time_stamp* t_stamp, solenoid* p_solenoid, base_text_serial* p_ser)$/;"	f	class:task_comm	signature:(time_stamp* t_stamp, solenoid* p_solenoid, base_text_serial* p_ser)
+task_comm::task_comm	To harrison/task_comm.h	/^        task_comm(time_stamp*, solenoid*, base_text_serial*);$/;"	p	class:task_comm	access:public	signature:(time_stamp*, solenoid*, base_text_serial*)
+task_comm::task_comm	task_comm.cc	/^task_comm::task_comm (time_stamp* t_stamp, base_text_serial* p_ser)$/;"	f	class:task_comm	signature:(time_stamp* t_stamp, base_text_serial* p_ser)
+task_comm::task_comm	task_comm.h	/^        task_comm(time_stamp*, solenoid*, base_text_serial*);$/;"	p	class:task_comm	access:public	signature:(time_stamp*, solenoid*, base_text_serial*)
+task_logic	To harrison/task_logic.cc	/^task_logic::task_logic(time_stamp* t_stamp, task_solenoid* p_task_solenoid, task_sensor* p_task_sensor,$/;"	f	class:task_logic	signature:(time_stamp* t_stamp, task_solenoid* p_task_solenoid, task_sensor* p_task_sensor, task_motor* p_task_motor, base_text_serial* p_ser)
+task_logic	To harrison/task_logic.h	/^        task_logic(time_stamp*, task_solenoid*, task_sensor*, task_motor*, base_text_serial*);$/;"	p	class:task_logic	access:public	signature:(time_stamp*, task_solenoid*, task_sensor*, task_motor*, base_text_serial*)
+task_logic	To harrison/task_logic.h	/^class task_logic : public stl_task$/;"	c	inherits:stl_task
+task_logic	task_logic.cc	/^task_logic::task_logic(time_stamp* t_stamp, task_solenoid* p_task_solenoid, task_sensor* p_task_sensor,$/;"	f	class:task_logic	signature:(time_stamp* t_stamp, task_solenoid* p_task_solenoid, task_sensor* p_task_sensor, task_motor* p_task_motor, task_rad* p_task_radio, triangle* p_triangle, base_text_serial* p_ser)
+task_logic	task_logic.h	/^        task_logic(time_stamp*, task_solenoid*, task_sensor*, task_motor*, task_rad*, triangle*, base_text_serial*);$/;"	p	class:task_logic	access:public	signature:(time_stamp*, task_solenoid*, task_sensor*, task_motor*, task_rad*, triangle*, base_text_serial*)
+task_logic	task_logic.h	/^class task_logic : public stl_task$/;"	c	inherits:stl_task
+task_logic::ptr_serial	To harrison/task_logic.h	/^        base_text_serial* ptr_serial;         	\/\/ Pointer to a serial port for messages$/;"	m	class:task_logic	access:protected
+task_logic::ptr_serial	task_logic.h	/^        base_text_serial* ptr_serial;         	\/\/ Pointer to a serial port for messages$/;"	m	class:task_logic	access:protected
+task_logic::ptr_task_motor	To harrison/task_logic.h	/^	task_motor* ptr_task_motor;$/;"	m	class:task_logic	access:protected
+task_logic::ptr_task_motor	task_logic.h	/^	task_motor* ptr_task_motor;$/;"	m	class:task_logic	access:protected
+task_logic::ptr_task_radio	task_logic.h	/^	task_rad* ptr_task_radio;$/;"	m	class:task_logic	access:protected
+task_logic::ptr_task_sensor	To harrison/task_logic.h	/^	task_sensor* ptr_task_sensor;$/;"	m	class:task_logic	access:protected
+task_logic::ptr_task_sensor	task_logic.h	/^	task_sensor* ptr_task_sensor;$/;"	m	class:task_logic	access:protected
+task_logic::ptr_task_solenoid	To harrison/task_logic.h	/^        task_solenoid* ptr_task_solenoid;                 \/\/ Pointer to solenoid object$/;"	m	class:task_logic	access:protected
+task_logic::ptr_task_solenoid	task_logic.h	/^        task_solenoid* ptr_task_solenoid;                 \/\/ Pointer to solenoid object$/;"	m	class:task_logic	access:protected
+task_logic::ptr_triangle	task_logic.h	/^	triangle* ptr_triangle;$/;"	m	class:task_logic	access:protected
+task_logic::run	To harrison/task_logic.cc	/^char task_logic::run(char state){$/;"	f	class:task_logic	signature:(char state)
+task_logic::run	To harrison/task_logic.h	/^        char run(char);$/;"	p	class:task_logic	access:public	signature:(char)
+task_logic::run	task_logic.cc	/^char task_logic::run(char state){$/;"	f	class:task_logic	signature:(char state)
+task_logic::run	task_logic.h	/^        char run(char);$/;"	p	class:task_logic	access:public	signature:(char)
+task_logic::take_picture_flag	To harrison/task_logic.h	/^	bool take_picture_flag;$/;"	m	class:task_logic	access:protected
+task_logic::take_picture_flag	task_logic.h	/^	bool take_picture_flag;$/;"	m	class:task_logic	access:protected
+task_logic::task_logic	To harrison/task_logic.cc	/^task_logic::task_logic(time_stamp* t_stamp, task_solenoid* p_task_solenoid, task_sensor* p_task_sensor,$/;"	f	class:task_logic	signature:(time_stamp* t_stamp, task_solenoid* p_task_solenoid, task_sensor* p_task_sensor, task_motor* p_task_motor, base_text_serial* p_ser)
+task_logic::task_logic	To harrison/task_logic.h	/^        task_logic(time_stamp*, task_solenoid*, task_sensor*, task_motor*, base_text_serial*);$/;"	p	class:task_logic	access:public	signature:(time_stamp*, task_solenoid*, task_sensor*, task_motor*, base_text_serial*)
+task_logic::task_logic	task_logic.cc	/^task_logic::task_logic(time_stamp* t_stamp, task_solenoid* p_task_solenoid, task_sensor* p_task_sensor,$/;"	f	class:task_logic	signature:(time_stamp* t_stamp, task_solenoid* p_task_solenoid, task_sensor* p_task_sensor, task_motor* p_task_motor, task_rad* p_task_radio, triangle* p_triangle, base_text_serial* p_ser)
+task_logic::task_logic	task_logic.h	/^        task_logic(time_stamp*, task_solenoid*, task_sensor*, task_motor*, task_rad*, triangle*, base_text_serial*);$/;"	p	class:task_logic	access:public	signature:(time_stamp*, task_solenoid*, task_sensor*, task_motor*, task_rad*, triangle*, base_text_serial*)
+task_op_state	To harrison/stl_task.h	/^typedef enum task_op_state $/;"	g
+task_op_state	stl_task.h	/^typedef enum task_op_state $/;"	g
+task_rad	task_rad.cc	/^task_rad::task_rad (unsigned char cameraID, unsigned char packetType, $/;"	f	class:task_rad	signature:(unsigned char cameraID, unsigned char packetType, time_stamp* t_stamp, nRF24L01_text* p_rad, rs232* p_ser, task_motor* p_task_motor, triangle* p_triangle, sharp_sensor_driver* p_sharp_sensor_driver)
+task_rad	task_rad.h	/^        task_rad (unsigned char, unsigned char, time_stamp*, nRF24L01_text*, rs232*, task_motor*, triangle*, sharp_sensor_driver*);$/;"	p	class:task_rad	access:public	signature:(unsigned char, unsigned char, time_stamp*, nRF24L01_text*, rs232*, task_motor*, triangle*, sharp_sensor_driver*)
+task_rad	task_rad.h	/^class task_rad : public stl_task$/;"	c	inherits:stl_task
+task_rad::ID	task_rad.h	/^	char ID;			\/\/1$/;"	m	class:task_rad	access:protected
+task_rad::a_i	task_rad.h	/^	char a_i;			\/\/5$/;"	m	class:task_rad	access:protected
+task_rad::a_j	task_rad.h	/^	char a_j;			\/\/6$/;"	m	class:task_rad	access:protected
+task_rad::check	task_rad.cc	/^bool task_rad::check(void)$/;"	f	class:task_rad	signature:(void)
+task_rad::check	task_rad.h	/^	bool check (void);$/;"	p	class:task_rad	access:public	signature:(void)
+task_rad::checkSum	task_rad.cc	/^void task_rad::checkSum()$/;"	f	class:task_rad	signature:()
+task_rad::checkSum	task_rad.h	/^	void checkSum (void);$/;"	p	class:task_rad	access:public	signature:(void)
+task_rad::checksum	task_rad.h	/^	char checksum;			\/\/7$/;"	m	class:task_rad	access:protected
+task_rad::count	task_rad.h	/^	unsigned char count;		    \/\/ Count for receive\/transmit array$/;"	m	class:task_rad	access:protected
+task_rad::end_of_packet	task_rad.h	/^	char end_of_packet;		\/\/8$/;"	m	class:task_rad	access:protected
+task_rad::get_coords	task_rad.cc	/^int task_rad::get_coords(bool vector){$/;"	f	class:task_rad	signature:(bool vector)
+task_rad::get_coords	task_rad.h	/^	int get_coords(bool);$/;"	p	class:task_rad	access:public	signature:(bool)
+task_rad::p_radio	task_rad.h	/^        nRF24L01_text* p_radio;             \/\/ Pointer to a radio object$/;"	m	class:task_rad	access:protected
+task_rad::p_serial	task_rad.h	/^        base_text_serial* p_serial;         \/\/ Pointer to a serial port for messages$/;"	m	class:task_rad	access:protected
+task_rad::packet_type	task_rad.h	/^	char packet_type;		\/\/2$/;"	m	class:task_rad	access:protected
+task_rad::ptr_sharp_sensor_driver	task_rad.h	/^	sharp_sensor_driver* ptr_sharp_sensor_driver;$/;"	m	class:task_rad	access:protected
+task_rad::ptr_task_motor	task_rad.h	/^	task_motor* ptr_task_motor;$/;"	m	class:task_rad	access:protected
+task_rad::ptr_triangle	task_rad.h	/^	triangle* ptr_triangle;$/;"	m	class:task_rad	access:protected
+task_rad::receive	task_rad.h	/^	bool receive;		    \/\/ True if data has been received$/;"	m	class:task_rad	access:protected
+task_rad::receive_buffer	task_rad.h	/^	buffer receive_buffer;		    \/\/ 8-character receive buffer$/;"	m	class:task_rad	access:protected
+task_rad::run	task_rad.cc	/^char task_rad::run (char state)$/;"	f	class:task_rad	signature:(char state)
+task_rad::run	task_rad.h	/^        char run(char);$/;"	p	class:task_rad	access:public	signature:(char)
+task_rad::send	task_rad.h	/^        bool send;		    \/\/ True if radio is transmitting$/;"	m	class:task_rad	access:protected
+task_rad::setAngles	task_rad.cc	/^void task_rad::setAngles (char new_i, char new_j)$/;"	f	class:task_rad	signature:(char new_i, char new_j)
+task_rad::setAngles	task_rad.h	/^	void setAngles (char, char);$/;"	p	class:task_rad	access:public	signature:(char, char)
+task_rad::setCoords	task_rad.cc	/^void task_rad::setCoords (void)$/;"	f	class:task_rad	signature:(void)
+task_rad::setCoords	task_rad.h	/^	void setCoords (void);$/;"	p	class:task_rad	access:public	signature:(void)
+task_rad::sth_received	task_rad.h	/^	bool sth_received;		\/\/ tells that sth was received!	$/;"	m	class:task_rad	access:protected
+task_rad::task_rad	task_rad.cc	/^task_rad::task_rad (unsigned char cameraID, unsigned char packetType, $/;"	f	class:task_rad	signature:(unsigned char cameraID, unsigned char packetType, time_stamp* t_stamp, nRF24L01_text* p_rad, rs232* p_ser, task_motor* p_task_motor, triangle* p_triangle, sharp_sensor_driver* p_sharp_sensor_driver)
+task_rad::task_rad	task_rad.h	/^        task_rad (unsigned char, unsigned char, time_stamp*, nRF24L01_text*, rs232*, task_motor*, triangle*, sharp_sensor_driver*);$/;"	p	class:task_rad	access:public	signature:(unsigned char, unsigned char, time_stamp*, nRF24L01_text*, rs232*, task_motor*, triangle*, sharp_sensor_driver*)
+task_rad::transmit_buffer	task_rad.h	/^	buffer transmit_buffer;		    \/\/ 8-character transmit buffer$/;"	m	class:task_rad	access:protected
+task_rad::x	task_rad.h	/^	char x;				\/\/3$/;"	m	class:task_rad	access:protected
+task_rad::y	task_rad.h	/^	char y;				\/\/4$/;"	m	class:task_rad	access:protected
+task_sensor	To harrison/task_sensor.h	/^        task_sensor(time_stamp*, sharp_sensor_driver*, task_motor*, base_text_serial*);$/;"	p	class:task_sensor	access:public	signature:(time_stamp*, sharp_sensor_driver*, task_motor*, base_text_serial*)
+task_sensor	To harrison/task_sensor.h	/^class task_sensor : public stl_task$/;"	c	inherits:stl_task
+task_sensor	task_sensor.h	/^        task_sensor(time_stamp*, sharp_sensor_driver*, task_motor*, base_text_serial*);$/;"	p	class:task_sensor	access:public	signature:(time_stamp*, sharp_sensor_driver*, task_motor*, base_text_serial*)
+task_sensor	task_sensor.h	/^class task_sensor : public stl_task$/;"	c	inherits:stl_task
+task_sensor::change_detected	To harrison/task_sensor.h	/^	bool change_detected(void);$/;"	p	class:task_sensor	access:public	signature:(void)
+task_sensor::change_detected	task_sensor.h	/^	bool change_detected(void);$/;"	p	class:task_sensor	access:public	signature:(void)
+task_sensor::change_detected_flag	To harrison/task_sensor.h	/^	bool change_detected_flag;$/;"	m	class:task_sensor	access:protected
+task_sensor::change_detected_flag	task_sensor.h	/^	bool change_detected_flag;$/;"	m	class:task_sensor	access:protected
+task_sensor::check_reading_taken	To harrison/task_sensor.h	/^	bool check_reading_taken(void);$/;"	p	class:task_sensor	access:public	signature:(void)
+task_sensor::check_reading_taken	task_sensor.h	/^	bool check_reading_taken(void);$/;"	p	class:task_sensor	access:public	signature:(void)
+task_sensor::init_sensor_values	To harrison/task_sensor.h	/^	void init_sensor_values(void);$/;"	p	class:task_sensor	access:public	signature:(void)
+task_sensor::init_sensor_values	task_sensor.h	/^	void init_sensor_values(void);$/;"	p	class:task_sensor	access:public	signature:(void)
+task_sensor::latest_reading	To harrison/task_sensor.h	/^	int latest_reading;     \/\/Variable to hold the latest value recorded from the sensor$/;"	m	class:task_sensor	access:protected
+task_sensor::latest_reading	task_sensor.h	/^	int latest_reading;     \/\/Variable to hold the latest value recorded from the sensor$/;"	m	class:task_sensor	access:protected
+task_sensor::ptr_serial	To harrison/task_sensor.h	/^        base_text_serial* ptr_serial;         	\/\/ Pointer to a serial port for messages$/;"	m	class:task_sensor	access:protected
+task_sensor::ptr_serial	task_sensor.h	/^        base_text_serial* ptr_serial;         	\/\/ Pointer to a serial port for messages$/;"	m	class:task_sensor	access:protected
+task_sensor::ptr_sharp_sensor_driver	To harrison/task_sensor.h	/^        sharp_sensor_driver* ptr_sharp_sensor_driver;                 \/\/ Pointer to solenoid object$/;"	m	class:task_sensor	access:protected
+task_sensor::ptr_sharp_sensor_driver	task_sensor.h	/^        sharp_sensor_driver* ptr_sharp_sensor_driver;                 \/\/ Pointer to solenoid object$/;"	m	class:task_sensor	access:protected
+task_sensor::ptr_task_motor	To harrison/task_sensor.h	/^	task_motor* ptr_task_motor;$/;"	m	class:task_sensor	access:protected
+task_sensor::ptr_task_motor	task_sensor.h	/^	task_motor* ptr_task_motor;$/;"	m	class:task_sensor	access:protected
+task_sensor::reading_taken	To harrison/task_sensor.h	/^	bool reading_taken(void);$/;"	p	class:task_sensor	access:public	signature:(void)
+task_sensor::reading_taken	task_sensor.h	/^	bool reading_taken(void);$/;"	p	class:task_sensor	access:public	signature:(void)
+task_sensor::reading_taken_flag	To harrison/task_sensor.h	/^	bool reading_taken_flag;$/;"	m	class:task_sensor	access:protected
+task_sensor::reading_taken_flag	task_sensor.h	/^	bool reading_taken_flag;$/;"	m	class:task_sensor	access:protected
+task_sensor::run	To harrison/task_sensor.h	/^        char run(char);$/;"	p	class:task_sensor	access:public	signature:(char)
+task_sensor::run	task_sensor.h	/^        char run(char);$/;"	p	class:task_sensor	access:public	signature:(char)
+task_sensor::take_initial_reading_flag	To harrison/task_sensor.h	/^	bool take_initial_reading_flag;$/;"	m	class:task_sensor	access:protected
+task_sensor::take_initial_reading_flag	task_sensor.h	/^	bool take_initial_reading_flag;$/;"	m	class:task_sensor	access:protected
+task_sensor::take_reading	To harrison/task_sensor.h	/^	void take_reading(void);$/;"	p	class:task_sensor	access:public	signature:(void)
+task_sensor::take_reading	task_sensor.h	/^	void take_reading(void);$/;"	p	class:task_sensor	access:public	signature:(void)
+task_sensor::take_reading_flag	To harrison/task_sensor.h	/^	bool take_reading_flag;$/;"	m	class:task_sensor	access:protected
+task_sensor::take_reading_flag	task_sensor.h	/^	bool take_reading_flag;$/;"	m	class:task_sensor	access:protected
+task_sensor::task_sensor	To harrison/task_sensor.h	/^        task_sensor(time_stamp*, sharp_sensor_driver*, task_motor*, base_text_serial*);$/;"	p	class:task_sensor	access:public	signature:(time_stamp*, sharp_sensor_driver*, task_motor*, base_text_serial*)
+task_sensor::task_sensor	task_sensor.h	/^        task_sensor(time_stamp*, sharp_sensor_driver*, task_motor*, base_text_serial*);$/;"	p	class:task_sensor	access:public	signature:(time_stamp*, sharp_sensor_driver*, task_motor*, base_text_serial*)
+task_solenoid	To harrison/task_solenoid.cc	/^task_solenoid::task_solenoid (time_stamp* t_stamp, solenoid* p_solenoid, base_text_serial* p_ser)$/;"	f	class:task_solenoid	signature:(time_stamp* t_stamp, solenoid* p_solenoid, base_text_serial* p_ser)
+task_solenoid	To harrison/task_solenoid.h	/^        task_solenoid(time_stamp*, solenoid*, base_text_serial*);$/;"	p	class:task_solenoid	access:public	signature:(time_stamp*, solenoid*, base_text_serial*)
+task_solenoid	To harrison/task_solenoid.h	/^class task_solenoid : public stl_task$/;"	c	inherits:stl_task
+task_solenoid	task_solenoid.cc	/^task_solenoid::task_solenoid (time_stamp* t_stamp, solenoid* p_solenoid, base_text_serial* p_ser)$/;"	f	class:task_solenoid	signature:(time_stamp* t_stamp, solenoid* p_solenoid, base_text_serial* p_ser)
+task_solenoid	task_solenoid.h	/^        task_solenoid(time_stamp*, solenoid*, base_text_serial*);$/;"	p	class:task_solenoid	access:public	signature:(time_stamp*, solenoid*, base_text_serial*)
+task_solenoid	task_solenoid.h	/^class task_solenoid : public stl_task$/;"	c	inherits:stl_task
+task_solenoid::picture_done	task_solenoid.cc	/^bool task_solenoid::picture_done(void){$/;"	f	class:task_solenoid	signature:(void)
+task_solenoid::picture_done	task_solenoid.h	/^	bool picture_done(void);$/;"	p	class:task_solenoid	access:public	signature:(void)
+task_solenoid::picture_done_flag	task_solenoid.h	/^	bool picture_done_flag;$/;"	m	class:task_solenoid	access:protected
+task_solenoid::ptr_serial	To harrison/task_solenoid.h	/^        base_text_serial* ptr_serial;         	\/\/ Pointer to a serial port for messages$/;"	m	class:task_solenoid	access:protected
+task_solenoid::ptr_serial	task_solenoid.h	/^        base_text_serial* ptr_serial;         	\/\/ Pointer to a serial port for messages$/;"	m	class:task_solenoid	access:protected
+task_solenoid::ptr_solenoid	To harrison/task_solenoid.h	/^        solenoid* ptr_solenoid;                 \/\/ Pointer to solenoid object$/;"	m	class:task_solenoid	access:protected
+task_solenoid::ptr_solenoid	task_solenoid.h	/^        solenoid* ptr_solenoid;                 \/\/ Pointer to solenoid object$/;"	m	class:task_solenoid	access:protected
+task_solenoid::run	To harrison/task_comm.cc	/^char task_solenoid::run (char state)$/;"	f	class:task_solenoid	signature:(char state)
+task_solenoid::run	To harrison/task_solenoid.cc	/^char task_solenoid::run (char state)$/;"	f	class:task_solenoid	signature:(char state)
+task_solenoid::run	To harrison/task_solenoid.h	/^        char run(char);$/;"	p	class:task_solenoid	access:public	signature:(char)
+task_solenoid::run	task_solenoid.cc	/^char task_solenoid::run (char state)$/;"	f	class:task_solenoid	signature:(char state)
+task_solenoid::run	task_solenoid.h	/^        char run(char);$/;"	p	class:task_solenoid	access:public	signature:(char)
+task_solenoid::take_picture	To harrison/task_comm.cc	/^void task_solenoid::take_picture (void)$/;"	f	class:task_solenoid	signature:(void)
+task_solenoid::take_picture	To harrison/task_solenoid.cc	/^void task_solenoid::take_picture (void)$/;"	f	class:task_solenoid	signature:(void)
+task_solenoid::take_picture	To harrison/task_solenoid.h	/^	void take_picture(void);$/;"	p	class:task_solenoid	access:public	signature:(void)
+task_solenoid::take_picture	task_comm.cc	/^void task_solenoid::take_picture (void)$/;"	f	class:task_solenoid	signature:(void)
+task_solenoid::take_picture	task_solenoid.cc	/^void task_solenoid::take_picture (void)$/;"	f	class:task_solenoid	signature:(void)
+task_solenoid::take_picture	task_solenoid.h	/^	void take_picture(void);$/;"	p	class:task_solenoid	access:public	signature:(void)
+task_solenoid::take_picture_flag	To harrison/task_solenoid.h	/^	bool take_picture_flag;$/;"	m	class:task_solenoid	access:protected
+task_solenoid::take_picture_flag	task_solenoid.h	/^	bool take_picture_flag;$/;"	m	class:task_solenoid	access:protected
+task_solenoid::task_solenoid	To harrison/task_solenoid.cc	/^task_solenoid::task_solenoid (time_stamp* t_stamp, solenoid* p_solenoid, base_text_serial* p_ser)$/;"	f	class:task_solenoid	signature:(time_stamp* t_stamp, solenoid* p_solenoid, base_text_serial* p_ser)
+task_solenoid::task_solenoid	To harrison/task_solenoid.h	/^        task_solenoid(time_stamp*, solenoid*, base_text_serial*);$/;"	p	class:task_solenoid	access:public	signature:(time_stamp*, solenoid*, base_text_serial*)
+task_solenoid::task_solenoid	task_solenoid.cc	/^task_solenoid::task_solenoid (time_stamp* t_stamp, solenoid* p_solenoid, base_text_serial* p_ser)$/;"	f	class:task_solenoid	signature:(time_stamp* t_stamp, solenoid* p_solenoid, base_text_serial* p_ser)
+task_solenoid::task_solenoid	task_solenoid.h	/^        task_solenoid(time_stamp*, solenoid*, base_text_serial*);$/;"	p	class:task_solenoid	access:public	signature:(time_stamp*, solenoid*, base_text_serial*)
+task_timer	To harrison/stl_us_timer.cc	/^task_timer::task_timer (void)$/;"	f	class:task_timer	signature:(void)
+task_timer	To harrison/stl_us_timer.h	/^        task_timer (void);                  \/\/\/ Constructor creates an empty timer$/;"	p	class:task_timer	access:public	signature:(void)
+task_timer	To harrison/stl_us_timer.h	/^class task_timer$/;"	c
 task_timer	stl_us_timer.cc	/^task_timer::task_timer (void)$/;"	f	class:task_timer	signature:(void)
 task_timer	stl_us_timer.h	/^        task_timer (void);                  \/\/\/ Constructor creates an empty timer$/;"	p	class:task_timer	access:public	signature:(void)
 task_timer	stl_us_timer.h	/^class task_timer$/;"	c
+task_timer::get_time_now	To harrison/stl_us_timer.cc	/^time_stamp& task_timer::get_time_now (void)$/;"	f	class:task_timer	signature:(void)
+task_timer::get_time_now	To harrison/stl_us_timer.h	/^        time_stamp& get_time_now (void);    \/\/\/ Get the current time$/;"	p	class:task_timer	access:public	signature:(void)
 task_timer::get_time_now	stl_us_timer.cc	/^time_stamp& task_timer::get_time_now (void)$/;"	f	class:task_timer	signature:(void)
 task_timer::get_time_now	stl_us_timer.h	/^        time_stamp& get_time_now (void);    \/\/\/ Get the current time$/;"	p	class:task_timer	access:public	signature:(void)
+task_timer::now_time	To harrison/stl_us_timer.h	/^        time_stamp now_time;$/;"	m	class:task_timer	access:protected
 task_timer::now_time	stl_us_timer.h	/^        time_stamp now_time;$/;"	m	class:task_timer	access:protected
+task_timer::save_time_stamp	To harrison/stl_us_timer.cc	/^void task_timer::save_time_stamp (time_stamp& the_stamp)$/;"	f	class:task_timer	signature:(time_stamp& the_stamp)
+task_timer::save_time_stamp	To harrison/stl_us_timer.h	/^        void save_time_stamp (time_stamp&); \/\/\/ Save current time in a timestamp$/;"	p	class:task_timer	access:public	signature:(time_stamp&)
 task_timer::save_time_stamp	stl_us_timer.cc	/^void task_timer::save_time_stamp (time_stamp& the_stamp)$/;"	f	class:task_timer	signature:(time_stamp& the_stamp)
 task_timer::save_time_stamp	stl_us_timer.h	/^        void save_time_stamp (time_stamp&); \/\/\/ Save current time in a timestamp$/;"	p	class:task_timer	access:public	signature:(time_stamp&)
+task_timer::set_time	To harrison/stl_us_timer.cc	/^bool task_timer::set_time (time_stamp& t_stamp)$/;"	f	class:task_timer	signature:(time_stamp& t_stamp)
+task_timer::set_time	To harrison/stl_us_timer.h	/^        bool set_time (time_stamp&);$/;"	p	class:task_timer	access:public	signature:(time_stamp&)
 task_timer::set_time	stl_us_timer.cc	/^bool task_timer::set_time (time_stamp& t_stamp)$/;"	f	class:task_timer	signature:(time_stamp& t_stamp)
 task_timer::set_time	stl_us_timer.h	/^        bool set_time (time_stamp&);$/;"	p	class:task_timer	access:public	signature:(time_stamp&)
+task_timer::task_timer	To harrison/stl_us_timer.cc	/^task_timer::task_timer (void)$/;"	f	class:task_timer	signature:(void)
+task_timer::task_timer	To harrison/stl_us_timer.h	/^        task_timer (void);                  \/\/\/ Constructor creates an empty timer$/;"	p	class:task_timer	access:public	signature:(void)
 task_timer::task_timer	stl_us_timer.cc	/^task_timer::task_timer (void)$/;"	f	class:task_timer	signature:(void)
 task_timer::task_timer	stl_us_timer.h	/^        task_timer (void);                  \/\/\/ Constructor creates an empty timer$/;"	p	class:task_timer	access:public	signature:(void)
-time_data_32	stl_us_timer.h	/^    } time_data_32;$/;"	t	typeref:union:__anon2
+time_data_32	To harrison/stl_us_timer.h	/^    } time_data_32;$/;"	t	typeref:union:__anon2
+time_data_32	stl_us_timer.h	/^    } time_data_32;$/;"	t	typeref:union:__anon3
+time_for_focus	To harrison/solenoid.h	/^    int time_for_focus;$/;"	m	class:solenoid	access:protected
+time_for_focus	solenoid.h	/^    int time_for_focus;$/;"	m	class:solenoid	access:protected
+time_for_pic	To harrison/solenoid.h	/^    int time_for_pic;$/;"	m	class:solenoid	access:protected
+time_for_pic	solenoid.h	/^    int time_for_pic;$/;"	m	class:solenoid	access:protected
+time_stamp	To harrison/stl_us_timer.cc	/^time_stamp::time_stamp (int sec, long microsec)$/;"	f	class:time_stamp	signature:(int sec, long microsec)
+time_stamp	To harrison/stl_us_timer.cc	/^time_stamp::time_stamp (long a_time)$/;"	f	class:time_stamp	signature:(long a_time)
+time_stamp	To harrison/stl_us_timer.cc	/^time_stamp::time_stamp (void)$/;"	f	class:time_stamp	signature:(void)
+time_stamp	To harrison/stl_us_timer.h	/^        time_stamp (int, long);$/;"	p	class:time_stamp	access:public	signature:(int, long)
+time_stamp	To harrison/stl_us_timer.h	/^        time_stamp (long);$/;"	p	class:time_stamp	access:public	signature:(long)
+time_stamp	To harrison/stl_us_timer.h	/^        time_stamp (void);$/;"	p	class:time_stamp	access:public	signature:(void)
+time_stamp	To harrison/stl_us_timer.h	/^class time_stamp$/;"	c
 time_stamp	stl_us_timer.cc	/^time_stamp::time_stamp (int sec, long microsec)$/;"	f	class:time_stamp	signature:(int sec, long microsec)
 time_stamp	stl_us_timer.cc	/^time_stamp::time_stamp (long a_time)$/;"	f	class:time_stamp	signature:(long a_time)
 time_stamp	stl_us_timer.cc	/^time_stamp::time_stamp (void)$/;"	f	class:time_stamp	signature:(void)
@@ -379,41 +1453,134 @@ time_stamp	stl_us_timer.h	/^        time_stamp (int, long);$/;"	p	class:time_sta
 time_stamp	stl_us_timer.h	/^        time_stamp (long);$/;"	p	class:time_stamp	access:public	signature:(long)
 time_stamp	stl_us_timer.h	/^        time_stamp (void);$/;"	p	class:time_stamp	access:public	signature:(void)
 time_stamp	stl_us_timer.h	/^class time_stamp$/;"	c
+time_stamp::data	To harrison/stl_us_timer.h	/^        time_data_32 data;$/;"	m	class:time_stamp	access:protected
 time_stamp::data	stl_us_timer.h	/^        time_data_32 data;$/;"	m	class:time_stamp	access:protected
+time_stamp::get_microsec	To harrison/stl_us_timer.cc	/^long time_stamp::get_microsec (void)$/;"	f	class:time_stamp	signature:(void)
+time_stamp::get_microsec	To harrison/stl_us_timer.h	/^        long get_microsec (void);$/;"	p	class:time_stamp	access:public	signature:(void)
 time_stamp::get_microsec	stl_us_timer.cc	/^long time_stamp::get_microsec (void)$/;"	f	class:time_stamp	signature:(void)
 time_stamp::get_microsec	stl_us_timer.h	/^        long get_microsec (void);$/;"	p	class:time_stamp	access:public	signature:(void)
+time_stamp::get_seconds	To harrison/stl_us_timer.cc	/^int time_stamp::get_seconds (void)$/;"	f	class:time_stamp	signature:(void)
+time_stamp::get_seconds	To harrison/stl_us_timer.h	/^        int get_seconds (void);$/;"	p	class:time_stamp	access:public	signature:(void)
 time_stamp::get_seconds	stl_us_timer.cc	/^int time_stamp::get_seconds (void)$/;"	f	class:time_stamp	signature:(void)
 time_stamp::get_seconds	stl_us_timer.h	/^        int get_seconds (void);$/;"	p	class:time_stamp	access:public	signature:(void)
+time_stamp::get_time	To harrison/stl_us_timer.cc	/^void time_stamp::get_time (long& an_item)$/;"	f	class:time_stamp	signature:(long& an_item)
+time_stamp::get_time	To harrison/stl_us_timer.h	/^        void get_time (long&);$/;"	p	class:time_stamp	access:public	signature:(long&)
 time_stamp::get_time	stl_us_timer.cc	/^void time_stamp::get_time (long& an_item)$/;"	f	class:time_stamp	signature:(long& an_item)
 time_stamp::get_time	stl_us_timer.h	/^        void get_time (long&);$/;"	p	class:time_stamp	access:public	signature:(long&)
+time_stamp::operator +	To harrison/stl_us_timer.cc	/^time_stamp time_stamp::operator + (const time_stamp& addend)$/;"	f	class:time_stamp	signature:(const time_stamp& addend)
+time_stamp::operator +	To harrison/stl_us_timer.h	/^        time_stamp operator + (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
 time_stamp::operator +	stl_us_timer.cc	/^time_stamp time_stamp::operator + (const time_stamp& addend)$/;"	f	class:time_stamp	signature:(const time_stamp& addend)
 time_stamp::operator +	stl_us_timer.h	/^        time_stamp operator + (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
+time_stamp::operator +=	To harrison/stl_us_timer.cc	/^void time_stamp::operator += (const time_stamp& addend)$/;"	f	class:time_stamp	signature:(const time_stamp& addend)
+time_stamp::operator +=	To harrison/stl_us_timer.h	/^        void operator += (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
 time_stamp::operator +=	stl_us_timer.cc	/^void time_stamp::operator += (const time_stamp& addend)$/;"	f	class:time_stamp	signature:(const time_stamp& addend)
 time_stamp::operator +=	stl_us_timer.h	/^        void operator += (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
+time_stamp::operator -	To harrison/stl_us_timer.cc	/^time_stamp time_stamp::operator - (const time_stamp& previous)$/;"	f	class:time_stamp	signature:(const time_stamp& previous)
+time_stamp::operator -	To harrison/stl_us_timer.h	/^        time_stamp operator - (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
 time_stamp::operator -	stl_us_timer.cc	/^time_stamp time_stamp::operator - (const time_stamp& previous)$/;"	f	class:time_stamp	signature:(const time_stamp& previous)
 time_stamp::operator -	stl_us_timer.h	/^        time_stamp operator - (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
+time_stamp::operator -=	To harrison/stl_us_timer.cc	/^void time_stamp::operator -= (const time_stamp& previous)$/;"	f	class:time_stamp	signature:(const time_stamp& previous)
+time_stamp::operator -=	To harrison/stl_us_timer.h	/^        void operator -= (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
 time_stamp::operator -=	stl_us_timer.cc	/^void time_stamp::operator -= (const time_stamp& previous)$/;"	f	class:time_stamp	signature:(const time_stamp& previous)
 time_stamp::operator -=	stl_us_timer.h	/^        void operator -= (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
+time_stamp::operator ==	To harrison/stl_us_timer.cc	/^bool time_stamp::operator == (const time_stamp& other)$/;"	f	class:time_stamp	signature:(const time_stamp& other)
+time_stamp::operator ==	To harrison/stl_us_timer.h	/^        bool operator == (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
 time_stamp::operator ==	stl_us_timer.cc	/^bool time_stamp::operator == (const time_stamp& other)$/;"	f	class:time_stamp	signature:(const time_stamp& other)
 time_stamp::operator ==	stl_us_timer.h	/^        bool operator == (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
+time_stamp::operator >=	To harrison/stl_us_timer.cc	/^bool time_stamp::operator >= (const time_stamp& other)$/;"	f	class:time_stamp	signature:(const time_stamp& other)
+time_stamp::operator >=	To harrison/stl_us_timer.h	/^        bool operator >= (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
 time_stamp::operator >=	stl_us_timer.cc	/^bool time_stamp::operator >= (const time_stamp& other)$/;"	f	class:time_stamp	signature:(const time_stamp& other)
 time_stamp::operator >=	stl_us_timer.h	/^        bool operator >= (const time_stamp&);$/;"	p	class:time_stamp	access:public	signature:(const time_stamp&)
+time_stamp::set_time	To harrison/stl_us_timer.cc	/^void time_stamp::set_time (int sec, long microsec)$/;"	f	class:time_stamp	signature:(int sec, long microsec)
+time_stamp::set_time	To harrison/stl_us_timer.cc	/^void time_stamp::set_time (long a_time)$/;"	f	class:time_stamp	signature:(long a_time)
+time_stamp::set_time	To harrison/stl_us_timer.h	/^        void set_time (int, long);$/;"	p	class:time_stamp	access:public	signature:(int, long)
+time_stamp::set_time	To harrison/stl_us_timer.h	/^        void set_time (long);$/;"	p	class:time_stamp	access:public	signature:(long)
 time_stamp::set_time	stl_us_timer.cc	/^void time_stamp::set_time (int sec, long microsec)$/;"	f	class:time_stamp	signature:(int sec, long microsec)
 time_stamp::set_time	stl_us_timer.cc	/^void time_stamp::set_time (long a_time)$/;"	f	class:time_stamp	signature:(long a_time)
 time_stamp::set_time	stl_us_timer.h	/^        void set_time (int, long);$/;"	p	class:time_stamp	access:public	signature:(int, long)
 time_stamp::set_time	stl_us_timer.h	/^        void set_time (long);$/;"	p	class:time_stamp	access:public	signature:(long)
+time_stamp::time_stamp	To harrison/stl_us_timer.cc	/^time_stamp::time_stamp (int sec, long microsec)$/;"	f	class:time_stamp	signature:(int sec, long microsec)
+time_stamp::time_stamp	To harrison/stl_us_timer.cc	/^time_stamp::time_stamp (long a_time)$/;"	f	class:time_stamp	signature:(long a_time)
+time_stamp::time_stamp	To harrison/stl_us_timer.cc	/^time_stamp::time_stamp (void)$/;"	f	class:time_stamp	signature:(void)
+time_stamp::time_stamp	To harrison/stl_us_timer.h	/^        time_stamp (int, long);$/;"	p	class:time_stamp	access:public	signature:(int, long)
+time_stamp::time_stamp	To harrison/stl_us_timer.h	/^        time_stamp (long);$/;"	p	class:time_stamp	access:public	signature:(long)
+time_stamp::time_stamp	To harrison/stl_us_timer.h	/^        time_stamp (void);$/;"	p	class:time_stamp	access:public	signature:(void)
 time_stamp::time_stamp	stl_us_timer.cc	/^time_stamp::time_stamp (int sec, long microsec)$/;"	f	class:time_stamp	signature:(int sec, long microsec)
 time_stamp::time_stamp	stl_us_timer.cc	/^time_stamp::time_stamp (long a_time)$/;"	f	class:time_stamp	signature:(long a_time)
 time_stamp::time_stamp	stl_us_timer.cc	/^time_stamp::time_stamp (void)$/;"	f	class:time_stamp	signature:(void)
 time_stamp::time_stamp	stl_us_timer.h	/^        time_stamp (int, long);$/;"	p	class:time_stamp	access:public	signature:(int, long)
 time_stamp::time_stamp	stl_us_timer.h	/^        time_stamp (long);$/;"	p	class:time_stamp	access:public	signature:(long)
 time_stamp::time_stamp	stl_us_timer.h	/^        time_stamp (void);$/;"	p	class:time_stamp	access:public	signature:(void)
+time_stamp::to_string	To harrison/stl_us_timer.cc	/^void time_stamp::to_string (char* str, unsigned char digits)$/;"	f	class:time_stamp	signature:(char* str, unsigned char digits)
+time_stamp::to_string	To harrison/stl_us_timer.h	/^        void to_string (char*, unsigned char = 5);$/;"	p	class:time_stamp	access:public	signature:(char*, unsigned char = 5)
 time_stamp::to_string	stl_us_timer.cc	/^void time_stamp::to_string (char* str, unsigned char digits)$/;"	f	class:time_stamp	signature:(char* str, unsigned char digits)
 time_stamp::to_string	stl_us_timer.h	/^        void to_string (char*, unsigned char = 5);$/;"	p	class:time_stamp	access:public	signature:(char*, unsigned char = 5)
+time_to_take_pic	To harrison/task_solenoid.cc	/^int time_to_take_pic = 10; \/\/10 * .01 = 0.1sec$/;"	v
+time_to_take_pic	task_solenoid.cc	/^int time_to_take_pic = 20; \/\/200 * .01 = 2 sec$/;"	v
+time_to_wake_up	To harrison/task_solenoid.cc	/^int time_to_wake_up = 27000; \/\/27000 * .01 = 270 seconds = 4 min 30 sec$/;"	v
+time_to_wake_up	task_solenoid.cc	/^int time_to_wake_up = 27000; \/\/27000 * .01 = 270 seconds = 4 min 30 sec$/;"	v
+timer	To harrison/task_solenoid.cc	/^unsigned int timer = 0;$/;"	v
+timer	task_solenoid.cc	/^unsigned int timer = 0;$/;"	v
+to_string	To harrison/stl_us_timer.cc	/^void time_stamp::to_string (char* str, unsigned char digits)$/;"	f	class:time_stamp	signature:(char* str, unsigned char digits)
+to_string	To harrison/stl_us_timer.h	/^        void to_string (char*, unsigned char = 5);$/;"	p	class:time_stamp	access:public	signature:(char*, unsigned char = 5)
 to_string	stl_us_timer.cc	/^void time_stamp::to_string (char* str, unsigned char digits)$/;"	f	class:time_stamp	signature:(char* str, unsigned char digits)
 to_string	stl_us_timer.h	/^        void to_string (char*, unsigned char = 5);$/;"	p	class:time_stamp	access:public	signature:(char*, unsigned char = 5)
+traing_tbl	To harrison/triangle.cc	/^int traing_tbl[45][2]  ={{88,2863},$/;"	v
+traing_tbl	triangle.cc	/^int traing_tbl[45][2]  ={{88,2863},$/;"	v
+transfer	To harrison/spi_bb.cc	/^void spi_bb_port::transfer (unsigned char* bytes, char size, unsigned char slave_mask)$/;"	f	class:spi_bb_port	signature:(unsigned char* bytes, char size, unsigned char slave_mask)
+transfer	To harrison/spi_bb.h	/^        void transfer (unsigned char*, char, unsigned char);$/;"	p	class:spi_bb_port	access:public	signature:(unsigned char*, char, unsigned char)
+transfer	spi_bb.cc	/^void spi_bb_port::transfer (unsigned char* bytes, char size, unsigned char slave_mask)$/;"	f	class:spi_bb_port	signature:(unsigned char* bytes, char size, unsigned char slave_mask)
+transfer	spi_bb.h	/^        void transfer (unsigned char*, char, unsigned char);$/;"	p	class:spi_bb_port	access:public	signature:(unsigned char*, char, unsigned char)
+transmit	nRF24L01_base.cc	/^bool nRF24L01_base::transmit (unsigned char* buffer)$/;"	f	class:nRF24L01_base	signature:(unsigned char* buffer)
+transmit	nRF24L01_base.h	/^        bool transmit (unsigned char*);$/;"	p	class:nRF24L01_base	access:public	signature:(unsigned char*)
+transmit_buffer	task_rad.h	/^	buffer transmit_buffer;		    \/\/ 8-character transmit buffer$/;"	m	class:task_rad	access:protected
 transmit_now	base_text_serial.cc	/^void base_text_serial::transmit_now (void)$/;"	f	class:base_text_serial	signature:(void)
 transmit_now	base_text_serial.h	/^        virtual void transmit_now (void);   \/\/ Immediately transmit any buffered data$/;"	p	class:base_text_serial	access:public	signature:(void)
+triangle	To harrison/triangle.cc	/^triangle::triangle (base_text_serial* p_serial_port){$/;"	f	class:triangle	signature:(base_text_serial* p_serial_port)
+triangle	To harrison/triangle.h	/^        triangle (base_text_serial*);$/;"	p	class:triangle	access:public	signature:(base_text_serial*)
+triangle	To harrison/triangle.h	/^class triangle$/;"	c
+triangle	triangle.cc	/^triangle::triangle (base_text_serial* p_serial_port){$/;"	f	class:triangle	signature:(base_text_serial* p_serial_port)
+triangle	triangle.h	/^        triangle (base_text_serial*);$/;"	p	class:triangle	access:public	signature:(base_text_serial*)
+triangle	triangle.h	/^class triangle$/;"	c
+triangle::angle_to_global	To harrison/triangle.h	/^        void angle_to_global (signed int);$/;"	p	class:triangle	access:public	signature:(signed int)
+triangle::angle_to_global	triangle.cc	/^int triangle::angle_to_global (bool vector, signed int loc_angle, signed int distance)$/;"	f	class:triangle	signature:(bool vector, signed int loc_angle, signed int distance)
+triangle::angle_to_global	triangle.h	/^	int angle_to_global (bool, signed int, signed int);$/;"	p	class:triangle	access:public	signature:(bool, signed int, signed int)
+triangle::cam_init_angle	To harrison/triangle.h	/^	int cam_init_angle;			\/\/ the angle the camera is facing at initialization$/;"	m	class:triangle	access:protected
+triangle::cam_init_angle	triangle.h	/^	int cam_init_angle;		\/\/ the angle the camera is facing at initialization$/;"	m	class:triangle	access:protected
+triangle::cam_pos_x	To harrison/triangle.h	/^	int cam_pos_x;				\/\/ x-value of global position of camera standard$/;"	m	class:triangle	access:protected
+triangle::cam_pos_x	triangle.h	/^	int cam_pos_x;			\/\/ x-value of global position of camera standard$/;"	m	class:triangle	access:protected
+triangle::cam_pos_y	To harrison/triangle.h	/^	int cam_pos_y;				\/\/ y-value of global position of camera standard$/;"	m	class:triangle	access:protected
+triangle::cam_pos_y	triangle.h	/^	int cam_pos_y;			\/\/ y-value of global position of camera standard$/;"	m	class:triangle	access:protected
+triangle::get_position	triangle.cc	/^int triangle::get_position(bool vector){$/;"	f	class:triangle	signature:(bool vector)
+triangle::get_position	triangle.h	/^	int get_position(bool);$/;"	p	class:triangle	access:public	signature:(bool)
+triangle::global_to_angle	To harrison/triangle.cc	/^int triangle::global_to_angle (signed int x_global, signed int y_global)$/;"	f	class:triangle	signature:(signed int x_global, signed int y_global)
+triangle::global_to_angle	To harrison/triangle.h	/^        int global_to_angle (signed int, signed int);$/;"	p	class:triangle	access:public	signature:(signed int, signed int)
+triangle::global_to_angle	triangle.cc	/^int triangle::global_to_angle (signed int x_global, signed int y_global)$/;"	f	class:triangle	signature:(signed int x_global, signed int y_global)
+triangle::global_to_angle	triangle.h	/^        int global_to_angle (signed int, signed int);$/;"	p	class:triangle	access:public	signature:(signed int, signed int)
+triangle::obj_pos_x	To harrison/triangle.h	/^	int obj_pos_x;				\/\/ detected object by the camera, to be calculated by angle_to_global$/;"	m	class:triangle	access:protected
+triangle::obj_pos_y	To harrison/triangle.h	/^	int obj_pos_y;$/;"	m	class:triangle	access:protected
+triangle::ptr_to_serial	To harrison/triangle.h	/^        base_text_serial* ptr_to_serial;$/;"	m	class:triangle	access:protected
+triangle::ptr_to_serial	triangle.h	/^        base_text_serial* ptr_to_serial;$/;"	m	class:triangle	access:protected
+triangle::set_position	To harrison/triangle.cc	/^void triangle::set_position(int pos_x, int pos_y, int init_a){$/;"	f	class:triangle	signature:(int pos_x, int pos_y, int init_a)
+triangle::set_position	To harrison/triangle.h	/^	void set_position(int, int, int);$/;"	p	class:triangle	access:public	signature:(int, int, int)
+triangle::set_position	triangle.cc	/^void triangle::set_position(int pos_x, int pos_y, int init_a){$/;"	f	class:triangle	signature:(int pos_x, int pos_y, int init_a)
+triangle::set_position	triangle.h	/^	void set_position(int, int, int);$/;"	p	class:triangle	access:public	signature:(int, int, int)
+triangle::triangle	To harrison/triangle.cc	/^triangle::triangle (base_text_serial* p_serial_port){$/;"	f	class:triangle	signature:(base_text_serial* p_serial_port)
+triangle::triangle	To harrison/triangle.h	/^        triangle (base_text_serial*);$/;"	p	class:triangle	access:public	signature:(base_text_serial*)
+triangle::triangle	triangle.cc	/^triangle::triangle (base_text_serial* p_serial_port){$/;"	f	class:triangle	signature:(base_text_serial* p_serial_port)
+triangle::triangle	triangle.h	/^        triangle (base_text_serial*);$/;"	p	class:triangle	access:public	signature:(base_text_serial*)
+turn_off	To harrison/solenoid.cc	/^void solenoid::turn_off (void)$/;"	f	class:solenoid	signature:(void)
+turn_off	To harrison/solenoid.h	/^    void turn_off (void);$/;"	p	class:solenoid	access:public	signature:(void)
+turn_off	solenoid.cc	/^void solenoid::turn_off (void)$/;"	f	class:solenoid	signature:(void)
+turn_off	solenoid.h	/^    void turn_off (void);$/;"	p	class:solenoid	access:public	signature:(void)
+turn_on	To harrison/solenoid.cc	/^void solenoid::turn_on (void)$/;"	f	class:solenoid	signature:(void)
+turn_on	To harrison/solenoid.h	/^    void turn_on (void);$/;"	p	class:solenoid	access:public	signature:(void)
+turn_on	solenoid.cc	/^void solenoid::turn_on (void)$/;"	f	class:solenoid	signature:(void)
+turn_on	solenoid.h	/^    void turn_on (void);$/;"	p	class:solenoid	access:public	signature:(void)
+turning_positive	To harrison/task_logic.cc	/^bool turning_positive = true;$/;"	v
+turning_positive	task_logic.cc	/^bool turning_positive = true;$/;"	v
+type	packet_n.h	/^        pkt_type type;$/;"	m	class:packet_n	access:protected
+unit_tbl	triangle.cc	/^int unit_tbl[49][3]   ={{0,1000,0},$/;"	v
 update_ISR_values	controls.cc	/^void controls::update_ISR_values(){$/;"	f	class:controls	signature:()
 update_ISR_values	controls.h	/^		void update_ISR_values(void);$/;"	p	class:controls	access:public	signature:(void)
 update_geared_position_control	controls.cc	/^void controls::update_geared_position_control(void){$/;"	f	class:controls	signature:(void)
@@ -421,8 +1588,12 @@ update_geared_position_control	controls.h	/^		void update_geared_position_contro
 update_position_control	controls.cc	/^void controls::update_position_control(void){$/;"	f	class:controls	signature:(void)
 update_position_control	controls.h	/^		void update_position_control(void);$/;"	p	class:controls	access:public	signature:(void)
 update_velocity_control	controls.h	/^		void update_velocity_control(void);$/;"	p	class:controls	access:public	signature:(void)
+ust_overflows	To harrison/stl_us_timer.cc	/^unsigned int ust_overflows = 0;$/;"	v
 ust_overflows	stl_us_timer.cc	/^unsigned int ust_overflows = 0;$/;"	v
 velocity_error	controls.h	/^		int position_error, velocity_error;$/;"	m	class:controls	access:protected
 velocity_error_sum	controls.h	/^		int position_error_sum, velocity_error_sum;$/;"	m	class:controls	access:protected
-whole	stl_us_timer.h	/^    long whole;                             \/\/\/< All the data as one 32-bit number$/;"	m	union:__anon2	access:public
+whole	To harrison/stl_us_timer.h	/^    long whole;                             \/\/\/< All the data as one 32-bit number$/;"	m	union:__anon2	access:public
+whole	stl_us_timer.h	/^    long whole;                             \/\/\/< All the data as one 32-bit number$/;"	m	union:__anon3	access:public
 word	adc_driver.cc	/^	int word;                               \/\/ The whole 16-bit number$/;"	m	union:ADC_result	file:	access:public
+x	task_rad.h	/^	char x;				\/\/3$/;"	m	class:task_rad	access:protected
+y	task_rad.h	/^	char y;				\/\/4$/;"	m	class:task_rad	access:protected

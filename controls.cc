@@ -252,7 +252,7 @@ void controls::update_geared_position_control(void){
 	}
 	sei();
 
-	// Attempt to deal with crossing zero degrees
+	//Deals with crossing zero degrees
 	if(gear_position_error > 180){
 		gear_position_error -= 360;
 	}
