@@ -39,7 +39,7 @@ int ISR_gear_position_degrees;
 /** ISR's for updating the encoder position. Increments or decrements position based upon previous state of the encoder pins
 */
 ISR(INT4_vect){
-	if( (PINE & 0b00010000) == 0b00010000 ){
+	if( (PINE & 0x10) == 0x10 ){
 		if(ISR_encoder_pin_A == false && ISR_encoder_pin_B == true){
 			ISR_motor_position == ISR_encoder_max_value ? (ISR_motor_position = 0) : (ISR_motor_position += 1);
 			ISR_gear_position == ISR_encoder_gear_max_value ? (ISR_gear_position = 0) : (ISR_gear_position += 1);
@@ -70,7 +70,7 @@ ISR(INT4_vect){
 }
 
 ISR(INT5_vect){
-	if( (PINE & 0b00100000) == 0b00100000 ){
+	if( (PINE & 0x20) == 0x20 ){
 		if(ISR_encoder_pin_A == false && ISR_encoder_pin_B == false){
 			ISR_motor_position == ISR_encoder_max_value ? (ISR_motor_position = 0) : (ISR_motor_position += 1);
 			ISR_gear_position == ISR_encoder_gear_max_value ? (ISR_gear_position = 0) : (ISR_gear_position += 1);
@@ -141,8 +141,8 @@ controls::controls (base_text_serial* p_serial_port) : motor_driver(p_serial_por
 	ISR_encoder_gear_max_value = encoder_gear_max_value;
 	ISR_motor_position = motor_position;
 	ISR_gear_position = gear_position;
-	ISR_encoder_pin_A = (PORTE & 0b00010000);
-	ISR_encoder_pin_B = (PORTE & 0b00100000);
+	ISR_encoder_pin_A = (PORTE & 0x10);
+	ISR_encoder_pin_B = (PORTE & 0x20);
 
 
 	// Enable interrupts

@@ -1,5 +1,5 @@
 //======================================================================================
-/** \file  task_solenoid.cc
+/** \file  task_solenoid.h
  *  Task which controls the solenoid to keep the camera awake and take pictures when
  *  flagged
  *

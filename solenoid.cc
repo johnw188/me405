@@ -23,9 +23,9 @@ solenoid::solenoid (base_text_serial* p_serial_port)
   ptr_to_serial = p_serial_port;
   *ptr_to_serial << "Setting up solenid controller" << endl;
   //Sets up the data direction register to open the relevant bit of Port C
-  DDRC = 0b00000001;
+  DDRC = 0x01;
   //Sets the output to zero at the beginning
-  PORTC = 0b00000000;
+  PORTC = 0x00;
 }
 
 bool solenoid::set_pic_time (int time)
@@ -43,11 +43,11 @@ return true;
 void solenoid::turn_on (void)
 {
 *ptr_to_serial << "Turning on solenoid" << endl;
-    PORTC |= 0b00000001;
+    PORTC |= 0x01;
 }
 
 void solenoid::turn_off (void)
 {
 *ptr_to_serial << "Turning off solenoid" << endl;
-    PORTC &= 0b00000000;
+    PORTC &= 0x00;
 }

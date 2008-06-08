@@ -45,14 +45,14 @@ motor_driver::motor_driver (base_text_serial* p_serial_port)
 	brake_on = false;
 	// Initializes the timer 2 control register with prescalers to get a PWM running
 	//at 120Hz
-	TCCR2 = 0b01101100;
+	TCCR2 = 0x6c;
 	// Initializes the duty cycle to 0%
-	OCR2 = 0b00000000;
+	OCR2 = 0x00;
 	// Sets up data direction registers to open the relevent bits of port D and B
-	DDRB = 0b10000000;
-	DDRD = 0b10100000;
+	DDRB = 0x80;
+	DDRD = 0xa0;
 	// Initializes motor to brake mode with zero input
-	PORTD = 0b11100000;
+	PORTD = 0xe0;
 }
 
 
@@ -86,12 +86,12 @@ bool motor_driver::set_power (int power)
 	}
 
 	OCR2 = OCR2_value;
-	PORTD &= 0b01011111;
+	PORTD &= 0x5f;
 	if(direction_of_motor){
-		PORTD |= 0b10000000;
+		PORTD |= 0x80;
 	}
 	else{
-		PORTD |= 0b00100000;
+		PORTD |= 0x20;
 	}
 	
 	// Motor set
@@ -126,7 +126,7 @@ bool motor_driver::set_brake (bool brake)
 {
 	if(brake){
 		brake_on = true;
-		PORTD = 0b11100000;
+		PORTD = 0xE0;
 		return true;
 	}
 	else{

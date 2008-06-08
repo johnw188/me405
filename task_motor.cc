@@ -25,8 +25,8 @@ bool move_to_target_flag = false;
 /** This constructor creates a motor task object. The motor object needs pointers to
  *  a solenoid controller in order to do its thing. 
  *  @param t_stamp A timestamp which contains the time between runs of this task
- *  @param p_mot   A pointer to a solenoid controller object
  *  @param p_ser   A pointer to a serial port for sending messages if required
+ *  @param p_controls   A pointer to a controls object
  */
 
 task_motor::task_motor (time_stamp* t_stamp, base_text_serial* p_ser, controls* p_controls) : stl_task (*t_stamp, p_ser){
@@ -42,7 +42,9 @@ task_motor::task_motor (time_stamp* t_stamp, base_text_serial* p_ser, controls* 
 
 //-------------------------------------------------------------------------------------
 /** This is the function which runs when it is called by the task scheduler. It causes
- *  the solenoid to go up and down, having several states to cause such motion. 
+ *  the motor to scan from side to side when in SCANNING mode, but when it gets put in
+ *  MOVING_TO_TARGET mode it starts up a pi controller to move to a set angle. BRAKE
+ *  simply sets and releases the bakes
  *  @param state The state of the task when this run method begins running
  *  @return The state to which the task will transition, or STL_NO_TRANSITION if no
  *      transition is called for at this time

@@ -96,8 +96,6 @@ int y_temp;
 		case(SCANNING_POSITIVE):
 			//ptr_serial->puts("SCANNING_POSITIVE\n\r");
 			in_sensor_reading_range = (ptr_task_motor->get_current_position() % 10 < 2 || ptr_task_motor->get_current_position() % 10 > 8);
-			if(in_sensor_reading_range)
-			//	ptr_serial->puts("In Range!\n\r");
 			if(enable_sensor_reading && in_sensor_reading_range){
 				enable_sensor_reading = false;
 				return(GETTING_READING);
@@ -149,12 +147,11 @@ int y_temp;
 		case(FROM_RADIO):
 	
 			ptr_task_motor->change_position(ptr_triangle->global_to_angle(ptr_task_radio->get_coords(1),ptr_task_radio->get_coords(0)));
-			ptr_task_motor->enable_brake();
-			ptr_task_solenoid->take_picture();
+			if(ptr_task_motor->position_stable()){
+				ptr_task_solenoid->take_picture();
+			}
 			//*ptr_serial << "after take picture from radio" << endl;
 			if(ptr_task_solenoid->picture_done()){
-			//	*ptr_serial << "inside if statement" << endl;
-				ptr_task_motor->disable_brake();
 				return(SCANNING_POSITIVE);
 			}
 			return(FROM_RADIO);

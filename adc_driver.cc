@@ -59,11 +59,11 @@ adc_driver::adc_driver (base_text_serial* p_serial_port)
 
 	// Turns on A/D converter without interrupts and in single sample mode,
 	// with prescaler set to 64
-	ADCSRA = 0b10000010;
+	ADCSRA = 0x82;
 
 	// Sets ADC result to right adjust, selects AVCChannel as Vref, and selects
 	// single-ended conversion on PF0
-	ADMUX = 0b01000000;
+	ADMUX = 0x40;
 }
 
 
@@ -76,12 +76,12 @@ adc_driver::adc_driver (base_text_serial* p_serial_port)
 
 unsigned int adc_driver::read_once (unsigned char channel)
 {
-	ADMUX = ((ADMUX & 0b11100000) | channel);
+	ADMUX = ((ADMUX & 0xe0) | channel);
 	sbi(ADCSRA,ADSC); // start a conversion by writing a one to the ADSC bit (bit 6)
 
 	ADC_result result;
 
-	while(ADCSRA & 0b01000000); // wait for conversion to complete (bit 6 will change to 0)
+	while(ADCSRA & 0x40); // wait for conversion to complete (bit 6 will change to 0)
 	result.bytes[0] = ADCL;
 	result.bytes[1] = ADCH;
 

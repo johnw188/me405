@@ -1,7 +1,6 @@
 //======================================================================================
-/** \file  task_solenoid.cc
- *  Task which controls the solenoid to keep the camera awake and take pictures when
- *  flagged
+/** \file  task_logic.h
+ *  Task which controls the high level flow of our application
  *
  *  Revisions:
  *    \li  05-31-08  Created file
