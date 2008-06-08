@@ -2,17 +2,21 @@ filename = ARGV[0]
 
 file = File.open(filename){|file| file.readlines}
 
-re1='.*?'	# Non-greedy match on filler
-re2='(?:[a-z][a-z]*[0-9]+[a-z]*)'	# Uninteresting: alphanum
-re3='.*?'	# Non-greedy match on filler
-re4='((?:[a-z][a-z]*[0-9]+[a-z]*))'	# Alphanum 1
-
-re=(re1+re2+re3+re4)
-m=Regexp.new(re,Regexp::IGNORECASE);
+re='([01]{8})'
+binRegex = Regexp.new(re,Regexp::IGNORECASE);
+fullRegex = Regexp.new('(0b[01]{8})')
 
 file.each{|line|
-  if m.match(line)
-      alphanum1=m.match(line)[1];
-      puts "("<<alphanum1<<")"<< "\n"
+  if binRegex.match(line)
+      number = binRegex.match(line)[1].to_i(2).to_s(16)
+      if number.length == 1
+        number = "0" + number
+      end
+      line.sub!(/0b[01]{8}/, "0x#{number}")
+      puts line
   end
+}
+
+File.open(ARGV[0] + ".out", "wb"){|newfile|
+  newfile.puts file
 }

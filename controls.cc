@@ -14,30 +14,24 @@
 
 #include "controls.h"
 
+#define BV(bit) (1<<(bit)) //!< Byte Value => sets bit'th bit to 1
+#define cbi(reg, bit) reg &= ~(BV(bit)) //!< Clears the corresponding bit in register reg
+#define sbi(reg, bit) reg |= (BV(bit))  //!< Sets the corresponding bit in register reg
 
-/** These defines make it easier for us to manipulate the bits of our registers, by
- * creating two new commands - cbi for clear bit i and sbi for set bit i
+
+bool ISR_encoder_pin_A; //!< Status of encoder pin A
+bool ISR_encoder_pin_B; //!< Status of encoder pin B
+int ISR_error_count; //!< Number of encoder reading errors encountered
+int ISR_encoder_max_value; //!< Number of pulses per revolution of encoder
+long ISR_encoder_gear_max_value; //!< Number of pulses per revolution of geartrain
+unsigned int ISR_motor_position; //!< Current position of the motor shaft, in encoder pulses
+unsigned long ISR_gear_position; //!< Current position of the output of the geartrain, in encoder pulses
+int ISR_gear_position_degrees; //!< Current position of the output of the geartrain, in degrees
+
+
+/** ISR for encoder pins picked up on pin four. Increments/decrements position based on
+ * the Gray code
  */
-
-#define BV(bit) (1<<(bit)) // Byte Value => sets bit'th bit to 1
-#define cbi(reg, bit) reg &= ~(BV(bit)) // Clears the corresponding bit in register reg
-#define sbi(reg, bit) reg |= (BV(bit))  // Sets the corresponding bit in register reg
-
-// Status of the encoder pins
-bool ISR_encoder_pin_A, ISR_encoder_pin_B;
-// Variable to hold the number of errors encountered by the encoder
-int ISR_error_count;
-int ISR_encoder_max_value;
-long ISR_encoder_gear_max_value;
-// Position of the motor (from 0-255)
-unsigned int ISR_motor_position;
-// Position of the ouput of the geartrain
-unsigned long ISR_gear_position;
-int ISR_gear_position_degrees;
-
-
-/** ISR's for updating the encoder position. Increments or decrements position based upon previous state of the encoder pins
-*/
 ISR(INT4_vect){
 	if( (PINE & 0x10) == 0x10 ){
 		if(ISR_encoder_pin_A == false && ISR_encoder_pin_B == true){
@@ -69,6 +63,9 @@ ISR(INT4_vect){
 	}
 }
 
+/** ISR for encoder pins picked up on pin five. Increments/decrements position based on
+ * the Gray code
+ */
 ISR(INT5_vect){
 	if( (PINE & 0x20) == 0x20 ){
 		if(ISR_encoder_pin_A == false && ISR_encoder_pin_B == false){
@@ -101,8 +98,12 @@ ISR(INT5_vect){
 }
 
 //-------------------------------------------------------------------------------------
-/** This constructor initializes the data members of the controls class, and also
- *  calls the motor driver constructor to set up the motor driver variables
+/** \brief Constructor which initializes interrupts
+ *
+ * Sets interrupts to trigger on any logical change on port E, pins 4 and 5. Also passes
+ * a serial port pointer to the motor_driver constructor, and initializes data
+ * members.
+ * \param p_serial_port Pointer to a serial port object for debugging
  */
 
 controls::controls (base_text_serial* p_serial_port) : motor_driver(p_serial_port)
@@ -152,6 +153,7 @@ controls::controls (base_text_serial* p_serial_port) : motor_driver(p_serial_por
 //-------------------------------------------------------------------------------------
 /** This method sets the current position as the new reference state for angle 
  *  measurements passed to the controller
+ * \brief Sets current motor position as zero degrees
  */
 
 void controls::set_reference_position(){
@@ -165,7 +167,10 @@ void controls::set_reference_position(){
 }
 
 //-------------------------------------------------------------------------------------
-/** This method updates the class member variables with those used by the ISR
+/** \brief Syncs class member data with ISR values
+ *
+ *  As the ISR can't access class data members directly, this method synchronizes
+ *  the set of variables used by the ISR with the corresponding class variables
  */
 
 void controls::update_ISR_values(){
@@ -185,14 +190,11 @@ void controls::update_ISR_values(){
 	sei();
 }
 
-int controls::get_motor_gear_position(){
-	return (long)(ISR_gear_position * 360) / encoder_gear_max_value;
-}
 //-------------------------------------------------------------------------------------
 /** Starts a position controller to tell the motor to move to a position desired_position
  *  degrees from the reference position.
  *
- *  Methods incomplete as of now, as all motor controls for this project are done via
+ *  Methods incomplete as of now, as all of the motor control for this project are done via
  *  the geared_position_control methods
  */
 
@@ -222,8 +224,8 @@ void controls::update_position_control(void){
 }
 
 //-------------------------------------------------------------------------------------
-/** Starts a gear position controller to tell the end of the geartrain with a predefined
- *  gear ratio to move to a position
+/** \brief Initializes positional control
+ *  \param desired_position_degrees The position to be held by the output shaft of the geartrain
  */
 
 void controls::start_geared_position_control(int desired_position_degrees){
@@ -231,6 +233,12 @@ void controls::start_geared_position_control(int desired_position_degrees){
 	gear_position_error_sum = 0;
 }
 
+//-------------------------------------------------------------------------------------
+/** \brief Initializes positional control
+ *  \param desired_position_degrees The position to be held by the output shaft of the geartrain
+ *  \param kp_val Desired proportional gain
+ *  \param ki_val Desired integral gain 
+*/
 void controls::start_geared_position_control(int desired_position_degrees, int kp_val, int ki_val){
 	desired_gear_position = desired_position_degrees;
 	gear_position_error_sum = 0;
@@ -238,6 +246,14 @@ void controls::start_geared_position_control(int desired_position_degrees, int k
 	ki = ki_val;
 }
 
+/** \brief Recalculates motor power
+ *
+ *  This method first calculates the error between current and desired position.
+ *  Once that value is found, it's added to the gear_position_error_sum variable
+ *  in order to numerically integrate the error. These two values are multiplied
+ *  by the gains kp and ki, respectively, to output a value to send to the set_power
+ *  method
+ */
 void controls::update_geared_position_control(void){
 	//Get position in degrees
 	cli();
@@ -281,13 +297,15 @@ void controls::update_geared_position_control(void){
 	set_power(motor_setting);
 }
 
+/** \brief Changes the desired gear position to a new value
+ *  \param new_position New position to be held by the geartrain output shaft
+ */
 void controls::change_gear_position(int new_position){
 	// Changes gear position to a new position
 	desired_gear_position = new_position;
 }
 //--------------------------------------------------------------------------------------
-/** This overloaded operator allows information about the motor to be printed
- *  easily to the terminal
+/** \brief Outputs a debug string
  */
 
 base_text_serial& operator<< (base_text_serial& serial, controls& controller)

@@ -17,20 +17,21 @@
 
 
 //-------------------------------------------------------------------------------------
-/** Header for the motor_driver class. This class controls the motor driver chip on the
+/** This class %controls the motor driver chip on the
  *  ME405 board, by implementing a PWM via one of the ATMEGA128 timer channels
+ *  \brief Implements the VNH3SP30 motor driver chip
  */
 
 class motor_driver
     {
     protected:
-        // Pointer to serial port
-        base_text_serial* ptr_to_serial;
-	// Char to hold the current power level of the motor
-	unsigned char power_level;
-	// Bool to hold the current direction of the motor.
-	bool direction_of_motor, brake_on;
+        base_text_serial* ptr_to_serial; //!< Pointer to serial port
 
+	unsigned char power_level;	//!< Char to hold the current power level of the motor
+	
+	bool direction_of_motor; //!< Bool to hold the current direction of the motor.
+	bool brake_on; //!< Holds the state of the brake
+	
     public:
 	// Initializes member variables
         motor_driver (base_text_serial*);
@@ -44,13 +45,6 @@ class motor_driver
 
 	bool set_brake (bool);
     };
-
-
-//--------------------------------------------------------------------------------------
-/// This operator allows status information about the motor to be written to serial
-/// ports easily
-
-//base_text_serial& operator<< (base_text_serial&, motor_driver&);
 
 
 #endif // _MOTOR_DRIVER_H_

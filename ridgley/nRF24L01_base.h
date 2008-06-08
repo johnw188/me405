@@ -26,58 +26,58 @@
 #define nRF24_MAX_PKT_SZ    32              // Maximum packet size for the radio
 #define nRF24_SPI_TIMEOUT   1000            // Retries until timeout for SPI port
 
-#define nRF24_TRANSMIT      0b00000000
-#define nRF24_RECEIVE       0b00000001
+#define nRF24_TRANSMIT      0x00
+#define nRF24_RECEIVE       0x01
 
 //Define interrupt types for use in virtual interrupt handler
-#define nRF24_INT_RX        0b01000000      // Mask (stop) RX data arrived interrupt
-#define nRF24_INT_TX        0b00100000      // Mask data successfully send interrupt
-#define nRF24_INT_M_RT      0b00010000      // Mask send-has-failed interrupt
+#define nRF24_INT_RX        0x40      // Mask (stop) RX data arrived interrupt
+#define nRF24_INT_TX        0x20      // Mask data successfully send interrupt
+#define nRF24_INT_M_RT      0x10      // Mask send-has-failed interrupt
 
 //Define interrupt ON/ OFF (interrupt reflected on IRQ pin)
 #define nRF24_IRQ_ON        1
 #define nRF24_IRQ_OFF       0
 
 //Define CRC ON/OFF
-#define nRF24_CRC_ON        0b00001000
-#define nRF24_CRC_OFF       0b00000000
-#define nRF24_CRC_1_BYTE    0b00000000 
-#define nRF24_CRC_2_BYTE    0b00000100
+#define nRF24_CRC_ON        0x08
+#define nRF24_CRC_OFF       0x00
+#define nRF24_CRC_1_BYTE    0x00 
+#define nRF24_CRC_2_BYTE    0x04
 
 //Define auto_ack on/off
-#define nRF24_A_ACK_ON      0b00111111
-#define nRF24_A_ACK_OFF     0b00000000
+#define nRF24_A_ACK_ON      0x3f
+#define nRF24_A_ACK_OFF     0x00
 
 //Define address width.
-#define nRF24_AW_3          0b00000001
-#define nRF24_AW_4          0b00000010
-#define nRF24_AW_5          0b00000011
+#define nRF24_AW_3          0x01
+#define nRF24_AW_4          0x02
+#define nRF24_AW_5          0x03
 
 //Define data rate and power output
-#define nRF24_DR_1M         0b00000001
-#define nRF24_DR_2M         0b00001001
-#define nRF24_RF_POW_0      0b00000111
-#define nRF24_RF_POW_N6     0b00000101
-#define nRF24_RF_POW_N12    0b00000011
-#define nRF24_RF_POW_N18    0b00000001
+#define nRF24_DR_1M         0x01
+#define nRF24_DR_2M         0x09
+#define nRF24_RF_POW_0      0x07
+#define nRF24_RF_POW_N6     0x05
+#define nRF24_RF_POW_N12    0x03
+#define nRF24_RF_POW_N18    0x01
 
 //Define data pipes
-#define nRF24_PIPE_0        0b00000001
-#define nRF24_PIPE_1        0b00000010
-#define nRF24_PIPE_2        0b00000100
-#define nRF24_PIPE_3        0b00001000
-#define nRF24_PIPE_4        0b00010000
-#define nRF24_PIPE_5        0b00100000
+#define nRF24_PIPE_0        0x01
+#define nRF24_PIPE_1        0x02
+#define nRF24_PIPE_2        0x04
+#define nRF24_PIPE_3        0x08
+#define nRF24_PIPE_4        0x10
+#define nRF24_PIPE_5        0x20
 
 // These are commands to be sent to the radio
-#define nRF24_RD_REG        0b00000000
-#define nRF24_WR_REG        0b00100000
-#define nRF24_RD_PLD        0b01100001
-#define nRF24_WR_PLD        0b10100000
-#define nRF24_FLUSH_TX      0b11100001
-#define nRF24_FLUSH_RX      0b11100010
-#define nRF24_REUSE_TX_PLD  0b11100011
-#define nRF24_NOP           0b11111111
+#define nRF24_RD_REG        0x00
+#define nRF24_WR_REG        0x20
+#define nRF24_RD_PLD        0x61
+#define nRF24_WR_PLD        0xa0
+#define nRF24_FLUSH_TX      0xe1
+#define nRF24_FLUSH_RX      0xe2
+#define nRF24_REUSE_TX_PLD  0xe3
+#define nRF24_NOP           0xff
 
 //REG_ADDR - Address of registers to send commands to.
 #define nRF24_REG_CONF        0x00    // Configuration register
@@ -108,17 +108,17 @@
 #define nRF24_REG_FIFO_STATUS 0x17    // Status register (shifted to MISO as things 
                                       // read out to MOSI)
 // Bits in the status register
-#define nRF24_RX_DR         0b01000000
-#define nRF24_TX_DS         0b00100000
-#define nRF24_MAX_RT        0b00010000
-#define nRF24_RX_P_NO       0b00001110
-#define nRF24_TX_FULL       0b00000001
+#define nRF24_RX_DR         0x40
+#define nRF24_TX_DS         0x20
+#define nRF24_MAX_RT        0x10
+#define nRF24_RX_P_NO       0x0e
+#define nRF24_TX_FULL       0x01
 
 // Bits in the configuration register (use RX_DR, TX_DS, MAX_RT above for masking)
-#define nRF24_EN_CRC        0b00001000
-#define nRF24_CRCO          0b00000100
-#define nRF24_PWR_UP        0b00000010
-#define nRF24_PRIM_RX       0b00000001
+#define nRF24_EN_CRC        0x08
+#define nRF24_CRCO          0x04
+#define nRF24_PWR_UP        0x02
+#define nRF24_PRIM_RX       0x01
 
 // Standard configurations for transmit, receive, and owl stretching time
 #define nRF24_RECV_MODE     nRF24_EN_CRC | nRF24_PWR_UP | nRF24_PRIM_RX \

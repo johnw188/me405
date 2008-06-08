@@ -25,16 +25,19 @@
 #include "solenoid.h"
 
 //-------------------------------------------------------------------------------------
-/** This class contains a task which moves a motorized lever back and forth. 
+/** \brief Task which %controls the position of a %solenoid
+ *
+ *  This task allows a %solenoid to be used to take pictures, by pressing the
+ *  shutter button of a digital camera
  */
 
 class task_solenoid : public stl_task
     {
     protected:
-        solenoid* ptr_solenoid;                 // Pointer to solenoid object
-        base_text_serial* ptr_serial;         	// Pointer to a serial port for messages
-	bool take_picture_flag;
-	bool picture_done_flag;
+        solenoid* ptr_solenoid;                 //!< Pointer to solenoid object
+        base_text_serial* ptr_serial;         	//!< Pointer to a serial port for messages
+		bool take_picture_flag; //!< Flag set when a picture is to be taken
+		bool picture_done_flag; //!< Flag set when the picture is finished
 
     public:
         // The constructor creates a new task object

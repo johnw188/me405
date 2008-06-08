@@ -14,31 +14,31 @@
 #include "task_logic.h"
 
 // S T A T E S:
-const char GETTING_INIT_READING = 0;
-const char INIT = 1;
-const char SCANNING_POSITIVE = 2;
-const char SCANNING_NEGATIVE = 3;
-const char GETTING_READING = 4;
-const char CHANGE_DETECTED = 5;
-const char FROM_RADIO = 6;
+const char GETTING_INIT_READING = 0; //!< Taking an initialization reading
+const char INIT = 1; //!< Moving to take the next initialization reading
+const char SCANNING_POSITIVE = 2; //!< Motor scanning in the positive direction
+const char SCANNING_NEGATIVE = 3; //!< Motor scanning in the negative direction
+const char GETTING_READING = 4; //!< Requesting a reading from the sensor
+const char CHANGE_DETECTED = 5; //!< Change was detected, taking picture and radioing coordinates
+const char FROM_RADIO = 6; //!< Recieves target coordinates from radio
+
+bool turning_positive = true; //!< Direction motor is turning
+bool reading_requested = false; //!< Prevents an infinite loop when taking readings
+bool in_sensor_reading_range; //!< Flag set when the turntable enters the range when a reading should be taken
+bool enable_sensor_reading = true; //!< Flag to prevent more than one reading from being taken at each location
+
 
 //-------------------------------------------------------------------------------------
-/** This constructor creates a logic task object. It controls the logic steps in our program
+/** \brief This constructor creates a logic task object and initializes pointers to other tasks
  *  @param t_stamp A timestamp which contains the time between runs of this task
  *  @param p_task_solenoid A pointer to the solenoid task object
- *  @param p_task_sensor A pointer to the sensor task object
- *  @param p_task_motor A pointer to the motor task object
- *  @param p_task_radio A pointer to the radio task object
+ *  @param p_task_sensor A pointer to the task_sensor object
+ *  @param p_task_motor A pointer to the task_motor object
+ *  @param p_task_radio A pointer to the task_radio object
  *  @param p_triangle A pointer to the triangle class
  *  @param p_ser   A pointer to a serial port for sending messages if required
  */
 
-// Flags to assist with logic. Ideally these would be initialized in the class, but I ran out of time and wasn't able to refactor
-// all the code
-bool turning_positive = true;
-bool reading_requested = false;
-bool in_sensor_reading_range;
-bool enable_sensor_reading = true;
 
 task_logic::task_logic(time_stamp* t_stamp, task_solenoid* p_task_solenoid, task_sensor* p_task_sensor,
 		task_motor* p_task_motor, task_rad* p_task_radio, triangle* p_triangle, base_text_serial* p_ser) : stl_task (*t_stamp, p_ser){
@@ -51,11 +51,6 @@ task_logic::task_logic(time_stamp* t_stamp, task_solenoid* p_task_solenoid, task
 	ptr_serial->puts("Logic task constructor\r\n");
 }
 
-char task_logic::run(char state){
-
-int x_temp;
-int y_temp;
-
 //-------------------------------------------------------------------------------------
 /** The logic of this task is fairly straightforward. When initialized, the camera does
  *  a full sweep of the area, storing that data in the sensor object's initial position
@@ -63,10 +58,16 @@ int y_temp;
  *  room state. If it finds a change, it proceeds to take a picture of whatever it saw,
  *  as well as flagging the radio to send out new coordinates. If it detects new info
  *  from the radio, it reads in that information and moves to the new position
- *
- *  I've left all the debug strings in, but commented them out.
  *  
+ *  \brief Logic control state machine
+ *  @param state The state of the task when this run method begins running
+ *  @return The state to which the task will transition, or STL_NO_TRANSITION if no
+ *      transition is called for at this time
  */
+char task_logic::run(char state){
+
+int x_temp;
+int y_temp;
 	switch(state){
 		// Initialization state to get base room readings
 		case(GETTING_INIT_READING):

@@ -1,12 +1,9 @@
 //======================================================================================
-/** \file mototest.cc
- *      This file contains a program to test the ME 405 board's motor driver. It makes
- *      a motor move in different directions based on the value read from a 
- *      potentiometer connected to analog channel 0. 
+/** \file me405project.cc
+ *      This file pulls everything together to run our camera project
  *
  *  Revisions
- *    \li  01-05-08  JRR  Original file
- *    \li  02-03-08  JRR  Various cleanup, tested on new ME 405 boards
+ *    \li  04-05-08  36 hours straight in lab is no fun :(
  *
  *  License:
  *    This file released under the Lesser GNU Public License, version 2. This program
@@ -30,7 +27,7 @@
 #include "stl_task.h"				// Base class for all task classes
 #include "task_solenoid.h"			// The task that runs the motor around
 #include "task_logic.h"				// The task that makes some logic
-#include "task_motor.h"				// The task controls the motor
+#include "task_motor.h"				// The task that controls the motor
 #include "task_sensor.h"			// The task that runs the sensor
 #include "triangle.h"				// Triangulation class converts local coords to global and the other way
 #include "task_rad.h"
@@ -41,9 +38,11 @@
 
 
 //--------------------------------------------------------------------------------------
-/** The main function is the "entry point" of every C program, the one which runs first
- *  (after standard setup code has finished). For mechatronics programs, main() runs an
- *  infinite loop and never exits. 
+/** \brief Main function of the project
+ *
+ *  This function first initializes all of the objects required to run our system, and
+ *  then enters an infinite loop which schedules the tasks one after the other in
+ *  a round robin fashion
  */
 
 int main ()

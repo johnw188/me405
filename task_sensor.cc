@@ -13,16 +13,16 @@
 #include "task_sensor.h"
 
 // S T A T E S:
-const char WAITING = 0;                  		// Is waiting for change of state
-const char TAKE_READING = 1;                    	// Is taking a reading from ADC-Port
-const char TAKE_INITIAL_READING = 2;			// Writes initial values to array
+const char WAITING = 0;                  		//!< Is waiting for change of state
+const char TAKE_READING = 1;                    	//!< Is taking a reading from ADC-Port
+const char TAKE_INITIAL_READING = 2;			//!< Writes initial values to array
 
 //-------------------------------------------------------------------------------------
 /** Creates a sensor task object. This object interfaces with the sensor class to allow
  *  readings to be taken in a multitasking fashion
  *  @param t_stamp A timestamp which contains the time between runs of this task
- *  @param p_sharp_sensor_driver A pointer to a sensor driver object
- *  @param p_task_motor   A pointer to a motor task object
+ *  @param p_sharp_sensor_driver A pointer to a sharp_sensor_driver object
+ *  @param p_task_motor   A pointer to a task_motor object
  *  @param p_ser   A pointer to a serial port for sending messages if required
  */
 
@@ -40,7 +40,8 @@ task_sensor::task_sensor (time_stamp* t_stamp, sharp_sensor_driver* p_sharp_sens
 }
 
 //-------------------------------------------------------------------------------------
-/** This is the function which runs when it is called by the task scheduler. If a reading
+/** \brief Run method for the sensor task
+ *  This is the function which runs when it is called by the task scheduler. If a reading
  *  is requested, it transitions into one of the two "take reading" states, one if the
  *  reading asked for was an initialization reading and the other if it was a normal reading
  *  @param state The state of the task when this run method begins running
@@ -88,8 +89,9 @@ char task_sensor::run (char state)
 	return (STL_NO_TRANSITION);
 }
 
-/** This method is called to tell the sensor to take a reading
-*/
+/** \brief This method is called to check if a change was detected
+ *  \return True if there was a change, false if not
+ */
 
 bool task_sensor::change_detected(void){
 	if(change_detected_flag){
@@ -101,16 +103,26 @@ bool task_sensor::change_detected(void){
 	}
 }
 
+/** \brief This method is called to tell the sensor to take a reading */
 void task_sensor::take_reading (void)
 {
 	ptr_serial->puts ("Take reading\r\n");
 	take_reading_flag = true;
 }
 
+/** \brief This method is called to check if a reading has been taken
+ *  \return True if reading is complete, false if not
+ */
 bool task_sensor::check_reading_taken(void){
 	return reading_taken_flag;
 }
 
+/** \brief Checks if a reading has been taken
+ *
+ *  This method differs from take_reading in that it clears the reading_taken_flag
+ *  as well as returning its value. This functionality is used a lot by task_logic
+ *  \return True if reading is complete, false if not
+ */
 bool task_sensor::reading_taken(void){
 	if(reading_taken_flag){
 		reading_taken_flag = false;
@@ -121,8 +133,7 @@ bool task_sensor::reading_taken(void){
 	}
 }
 
-/** This method is called to tell the sensor to take a the initial reading
-*/
+/** This method is called to tell the sensor to take an initial reading*/
 
 void task_sensor::init_sensor_values (void)
 {

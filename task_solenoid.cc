@@ -15,19 +15,21 @@
 #include "task_solenoid.h"
 
 // S T A T E S:
-const char WAITING = 0;                  		// Is waiting for change of state
-const char TAKE_PIC = 1;                    		// Is taking a pic
+const char WAITING = 0;  //!< Waiting for change of state
+const char TAKE_PIC = 1; //!< Taking a picture
 
-unsigned int timer = 0;
+unsigned int timer = 0; //!< Timer counter
 
-int time_to_wake_up = 27000; //27000 * .01 = 270 seconds = 4 min 30 sec
-int time_to_take_pic = 20; //200 * .01 = 2 sec
+int time_to_wake_up = 27000; //!< Number of times the task needs to be called before waking the camera,
+                             //!< to prevent the camera from sleeping (task runs every 10ms)
+int time_to_take_pic = 20; //!< Number of times the task needs to be called to take a picture
 
 //-------------------------------------------------------------------------------------
-/** This constructor creates a motor task object. The motor object needs pointers to
- *  a solenoid controller in order to do its thing. 
+/** \brief This constructor creates a %solenoid task object. 
+ *
+ *  The object needs pointers to a solenoid controller in order to operate
  *  @param t_stamp A timestamp which contains the time between runs of this task
- *  @param p_mot   A pointer to a solenoid controller object
+ *  @param p_solenoid   A pointer to a solenoid controller object
  *  @param p_ser   A pointer to a serial port for sending messages if required
  */
 
@@ -43,7 +45,9 @@ task_solenoid::task_solenoid (time_stamp* t_stamp, solenoid* p_solenoid, base_te
     }
 
 //-------------------------------------------------------------------------------------
-/** This is the function which runs when it is called by the task scheduler. It causes
+/** \brief Run function for the %solenoid task 
+ *
+ *  This is the function which runs when it is called by the task scheduler. It causes
  *  the solenoid to go up and down, having several states to cause such motion. 
  *  @param state The state of the task when this run method begins running
  *  @return The state to which the task will transition, or STL_NO_TRANSITION if no
@@ -103,7 +107,7 @@ char task_solenoid::run (char state)
 	return (STL_NO_TRANSITION);
 }
 
-/** This method is called to tell the solenoid to take a picture
+/** \brief This method is called to tell the solenoid to take a picture
 */
 
 void task_solenoid::take_picture (void)
@@ -112,10 +116,13 @@ void task_solenoid::take_picture (void)
 	take_picture_flag = true;
 }
 
+/** \brief Checks if a picture has been taken.
+ *
+ *  Also clears the picture_done_flag, a functionality required by the
+ *  layout of task_logic
+ *  \return True if picture has been taken, false if it hasn't
+ */
 bool task_solenoid::picture_done(void){
-	//*ptr_serial << "picture done?" << endl;
-	//if(picture_done_flag)
-	//*ptr_serial << "yes" << endl;
 	if(picture_done_flag){
 		*ptr_serial << "picture done flag being cleared" << endl;
 		picture_done_flag = false;

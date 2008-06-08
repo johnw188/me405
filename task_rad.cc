@@ -31,19 +31,21 @@
 #include "sharp_sensor_driver.h"
 #include "task_motor.h"
 
-#define IDLE 0
-#define SEND 1
-#define RECEIVE 2
+#define IDLE 0 //!< Radio is idle
+#define SEND 1 //!< Sending data
+#define RECEIVE 2 //!< Receiving data
 
 //-------------------------------------------------------------------------------------
 /** This constructor creates a radio task class. The radio needs pointers to the base
  *  class and the serial port for debugging.
- *  @param cameraID 	the ID of the camera
- *  @param packetType	the type of packet to be sent
+ *  @param cameraID 	The ID of the camera
+ *  @param packetType	The type of packet to be sent
  *  @param t_stamp 	A timestamp which contains the time between runs of this task
  *  @param p_rad   	A pointer to a radio controller object
  *  @param p_ser   	A pointer to a serial port for sending messages if required
- *  @param p_tria  	A pointer to a triangulator object
+ *  @param p_task_motor  A pointer to a task_motor object
+ *  @param p_triangle  	A pointer to a triangulator object
+ *  @param p_sharp_sensor_driver  A pointer to a sharp_sensor_driver object
  */
 
 task_rad::task_rad (unsigned char cameraID, unsigned char packetType, 
@@ -80,6 +82,7 @@ task_rad::task_rad (unsigned char cameraID, unsigned char packetType,
  *  @param state The state of the task when this run method begins running
  *  @return The state to which the task will transition, or STL_NO_TRANSITION if no
  *      transition is called for at this time
+ *  \brief Run method
  */
 
 char task_rad::run (char state)
@@ -174,6 +177,12 @@ char task_rad::run (char state)
    	}
    }
 
+/** \brief Loads the current position into the send %buffer
+ *
+ *  This method calls triangulation methods to calculate a coordinate position
+ *  to broadcast, loads that position into the send %buffer, and then sets a
+ *  flag to send out the coordinate the next time the radio task is called
+ */
 void task_rad::setCoords (void)
 	{
     	x = ptr_triangle->angle_to_global (1, ptr_task_motor->get_current_position(), ptr_sharp_sensor_driver->get_distance());
@@ -184,6 +193,10 @@ void task_rad::setCoords (void)
 	send = true;
 	}
 
+/** \brief Sets angles directly, with no distance
+ *  \param new_i i component of angle
+ *  \param new_j j component of angle
+ */
 void task_rad::setAngles (char new_i, char new_j)
 	{
     	a_i = new_i;
@@ -192,11 +205,13 @@ void task_rad::setAngles (char new_i, char new_j)
 	send = true;
 	}
 
+/** \brief Generates a checksum for the package */
 void task_rad::checkSum()
 	{
 	checksum = (int)x + (int)y;
 	}
 
+/** \brief Checks if data has been received */
 bool task_rad::check(void)
 {
 if (sth_received)
@@ -204,7 +219,10 @@ if (sth_received)
 else
 	return(false);
 }
-
+/** \brief Method to access x and y coordinates
+ *  \param vector Pass true to get x coordinate, false to get y coordinate
+ *  \return Value of desired coordinate
+ */
 int task_rad::get_coords(bool vector){
 
 if (vector)

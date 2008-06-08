@@ -1,8 +1,7 @@
 //======================================================================================
-/** \file  motor_driver.cc
+/** \file  sharp_sensor_driver.cc
  *  This class interfaces with a sharp GP2Y0A700K IR rangefinder to return both the
  *  distance to the object being pointed at as well as a straight, unprocessed number.
- *  The rangefindercan 
  *
  *
  *  Revisions:
@@ -17,20 +16,19 @@
 
 #include "sharp_sensor_driver.h"
 
-#define SENSORPORT 0
+#define SENSORPORT 0 //!< Pin that the sensor is connected to
 
 
-/** These defines make it easier for us to manipulate the bits of our registers, by
- * creating two new commands - cbi for clear bit i and sbi for set bit i
- */
-
-#define BV(bit) (1<<(bit)) // Byte Value => sets bit'th bit to 1
-#define cbi(reg, bit) reg &= ~(BV(bit)) // Clears the corresponding bit in register reg
-#define sbi(reg, bit) reg |= (BV(bit))  // Sets the corresponding bit in register reg
+#define BV(bit) (1<<(bit)) //!< Byte Value => sets bit'th bit to 1
+#define cbi(reg, bit) reg &= ~(BV(bit)) //!< Clears the corresponding bit in register reg
+#define sbi(reg, bit) reg |= (BV(bit))  //!< Sets the corresponding bit in register reg
 
 //		int lookupt_cm[14][2];		// this is the lookuptable for getting a distance from an analog value IN CM
 //		int lookupt_tile[14][2];	// this is the lookuptable for getting a distance from an analog value IN Tiles
 
+/** Lookup table for converting sensor readings into distances, with the distances
+ *  listed in centimeters
+ */
 int lookupt_cm[14][2] ={{75,632},
 			{100,545},
 			{125,444},
@@ -46,10 +44,13 @@ int lookupt_cm[14][2] ={{75,632},
 			{375,160},
 			{400,142}};
 
-int sensor_distances[36]; 		// Initial Values for each 10 degrees
+int initial_distances[36]; //!< Array to hold the initialization sensor readings
 
 //--------------------------------------------------------------------------------------
-/** Constructor
+/** \brief Constructor
+ * 
+ *  Stores the serial port pointer in class member data
+ *  @param p_serial_port Pointer to a serial port object
 */
 
 sharp_sensor_driver::sharp_sensor_driver(base_text_serial* p_serial_port) : adc_driver(p_serial_port){
@@ -58,7 +59,7 @@ sharp_sensor_driver::sharp_sensor_driver(base_text_serial* p_serial_port) : adc_
 }
 
 //--------------------------------------------------------------------------------------
-/** Gets a raw reading from the sensor
+/** \brief Gets a raw reading from the sensor
 */
 
 int sharp_sensor_driver::get_reading(void){
@@ -66,13 +67,16 @@ int sharp_sensor_driver::get_reading(void){
 }
 
 //--------------------------------------------------------------------------------------
-/** Uses a lookup table to convert reading to distance
+/** \brief Uses a lookup table to convert reading to distance
+ *
+ *  Searches through the lookup table to find the closest match
+ *  \return Distance to whatever the sensor is pointing at, in centimeters
 */
 
 int sharp_sensor_driver::get_distance(void){
 
 	int analog_value;					// Value from get reading
-	int min_diff = 1000;					// Value initialized very high
+	int min_diff = 1000;				// Value initialized very high
 	int current_diff;					// value between comparison
 	int distance;						// looked up value
 
@@ -95,16 +99,27 @@ int sharp_sensor_driver::get_distance(void){
 
 }
 
+/** \brief Takes an initialization reading
+ *
+ *  Takes a reading, then places it into the initial_distances array in the correct
+ *  position.
+ *  @param angle The current angle of the turntable
+ */
+
 void sharp_sensor_driver::init_sensor_values(int angle){
-
-	sensor_distances[angle/10] = get_distance();
-	*ptr_to_serial << "angle: "<< angle <<"    distance: " << get_distance() << endl;
-
+	initial_distances[angle/10] = get_distance();
 }
 
-bool sharp_sensor_driver::something_changed(int angle, int previous_reading){
+/** \brief Checks for a change
+ *
+ *  Checks a sensor reading, passed to the function as an angle and a distance
+ *  value, against the initial_distances array.
+ *  @param angle The angle the turntable was set to when the reading was taken
+ *  @param reading The reading to be checked
+ */
+bool sharp_sensor_driver::something_changed(int angle, int reading){
 
-	if (sensor_distances[angle/10] == previous_reading)
+	if (initial_distances[angle/10] == reading)
 		return(false);
 	else 
 		return(true);

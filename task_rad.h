@@ -4,11 +4,10 @@
  *      AVR board. It allows sending and receiving of data to and from other boards in
  *      the class.
  *
- *  Written by:		Ron Sloat
- *  			Justin Williams
+ *  \author		Ron Sloat
+ *  \author		Justin Williams
  *
  *  Revisions:
- *      \li 02-06-08  JRR  Original file
  *      \li 05-28-08  Modified for use with the radio
  *	\li 06-03-08  Changed state structure, added checksum, header information
  *	\li 06-03-08  added pointer to triangulator object
@@ -31,38 +30,43 @@
 #include "sharp_sensor_driver.h"
 #include "task_motor.h"
 
-typedef union buffer
+/** \brief A %buffer datatype to hold a packet of radio information
+ */
+typedef union rad_buffer
     {
-    long int quad_word;                     // The whole 64-bit number
-    char bytes[8];                          // The bytes in the number
+    long int quad_word;                     //!< The whole 64-bit number
+    char bytes[8];                          //!< The bytes in the number
     };
 
 //-------------------------------------------------------------------------------------
-/** This class contains a task which moves a motorized lever back and forth.
+/** \brief Task which sends and recieves data over the radio
+ *
+ *  This task implements the radio on the ME405 boards, which allows sending
+ *  and receiving of data
  */
 
 class task_rad : public stl_task
     {
     protected:
-        base_text_serial* p_serial;         // Pointer to a serial port for messages
-        nRF24L01_text* p_radio;             // Pointer to a radio object
-	task_motor* ptr_task_motor;
-	sharp_sensor_driver* ptr_sharp_sensor_driver;
-	triangle* ptr_triangle;
-	unsigned char count;		    // Count for receive/transmit array
-        bool send;		    // True if radio is transmitting
-	bool receive;		    // True if data has been received
-	buffer transmit_buffer;		    // 8-character transmit buffer
-	buffer receive_buffer;		    // 8-character receive buffer
-	char ID;			//1
-	char packet_type;		//2
-	char x;				//3
-	char y;				//4
-	char a_i;			//5
-	char a_j;			//6
-	char checksum;			//7
-	char end_of_packet;		//8
-	bool sth_received;		// tells that sth was received!	
+        base_text_serial* p_serial;         //!< Pointer to a serial port for messages
+        nRF24L01_text* p_radio;             //!< Pointer to a radio object
+	task_motor* ptr_task_motor;  //!< Pointer to a task_motor object
+	sharp_sensor_driver* ptr_sharp_sensor_driver; //!< Pointer to a sharp_sensor_driver object
+	triangle* ptr_triangle; //!< Pointer to a triangle object
+	unsigned char count;		    //!< Count for receive/transmit array
+        bool send;		    //!< True if radio is transmitting
+	bool receive;		    //!< True if data has been received
+	rad_buffer transmit_buffer;		    //!< 8-character transmit %buffer
+	rad_buffer receive_buffer;		    //!< 8-character receive %buffer
+	char ID;			//!< 1
+	char packet_type;		//!< 2
+	char x;				//!< 3
+	char y;				//!< 4
+	char a_i;			//!< 5
+	char a_j;			//!< 6
+	char checksum;			//!< 7
+	char end_of_packet;		//!< 8
+	bool sth_received;		//!< Flags that something was received	
 
     public:
         // The constructor creates a new task object

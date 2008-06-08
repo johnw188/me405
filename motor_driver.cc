@@ -21,16 +21,14 @@
 #include "motor_driver.h"                        // Include header for the A/D class
 
 
-/** These defines make it easier for us to manipulate the bits of our registers, by
- * creating two new commands - cbi for clear bit i and sbi for set bit i
- */
-
-#define BV(bit) (1<<(bit)) // Byte Value => sets bit'th bit to 1
-#define cbi(reg, bit) reg &= ~(BV(bit)) // Clears the corresponding bit in register reg
-#define sbi(reg, bit) reg |= (BV(bit))  // Sets the corresponding bit in register reg
+#define BV(bit) (1<<(bit)) //!< Byte Value => sets bit'th bit to 1
+#define cbi(reg, bit) reg &= ~(BV(bit)) //!< Clears the corresponding bit in register reg
+#define sbi(reg, bit) reg |= (BV(bit))  //!< Sets the corresponding bit in register reg
 
 //-------------------------------------------------------------------------------------
-/** This constructor initializes the timer registers in order to implement the PWM pin
+/** \brief Initializes a motor driver object
+ *
+ *  This constructor initializes the timer registers in order to implement the PWM pin
  *  which drives the motor controller. It also sets the initial power level to zero
  *  and the initial direction to true, and sets up a serial port for debugging
  */
@@ -57,11 +55,14 @@ motor_driver::motor_driver (base_text_serial* p_serial_port)
 
 
 //-------------------------------------------------------------------------------------
-/** This method sets the power level of the motor, taking a number from -255 to 255 and
+/** \brief This method sets the power level of the motor
+ *
+ *   taking a number from -255 to 255 and
  *  setting the duty cycle of the PWM based upon that value. The negative flag is used
  *  to set the registers of the motor control chip to turn the motor one way or another
  *  \param  power The power level that you want to set the motor to
  *  \return True if motor is set, false if it isn't
+ *  \brief Sets motor power
  */
 
 bool motor_driver::set_power (int power)
@@ -99,10 +100,11 @@ bool motor_driver::set_power (int power)
 }
 
 //-------------------------------------------------------------------------------------
-/** This method sets the power to a percentage of max power.
- *  \param  power The power level that you want to set the motor to, with -100 <= power
+/** \brief This method sets the power to a percentage of max power.
+ *  \param  power_pct The power level that you want to set the motor to, with -100 <= power
  *  <= 100 as it's a percentage value. 
  *  \return True if motor was set correctly, false if it wasn't
+ *  \brief Sets motor power
  */
 
 bool motor_driver::set_power_pct (int power_pct)
@@ -118,9 +120,10 @@ bool motor_driver::set_power_pct (int power_pct)
 }
 
 //-------------------------------------------------------------------------------------
-/** This method turns the brake of the motor on/off
+/** \brief This method turns the brake of the motor on/off
  *  \param  brake True to set brake on, false to turn brake off
  *  \return True if brake was set, false if it was turned off
+ *  \brief Sets brake
  */
 bool motor_driver::set_brake (bool brake)
 {
@@ -135,18 +138,3 @@ bool motor_driver::set_brake (bool brake)
 		return false;
 	}
 }
-		
-
-
-//--------------------------------------------------------------------------------------
-/** This overloaded operator allows information about the motor to be printed
- *  easily to the terminal
- */
-
-//base_text_serial& operator<< (base_text_serial& serial, motor_driver& my_motor)
-//{
-	// Outputs to the serial port
-//	serial << "stuff goes here" << endl;
-
-//	return (serial);
-//}

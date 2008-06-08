@@ -1,20 +1,34 @@
-
+//======================================================================================
+/** \file  solenoid.h
+ *  Header for sharp sensor driver class
+ *
+ *  Revisions:
+ *    \li  06-01-08  Created files
+ *
+ *  License:
+ *    This file released under the Lesser GNU Public License. The program is intended
+ *    for educational use only, but its use is not restricted thereto. 
+ */
+//======================================================================================
 
 #ifndef _SOLENOID_H_                         // To prevent *.h file from being included
 #define _SOLENOID_H_                         // in a source file more than once
 
 
+/** \brief Implements a %solenoid for taking pictures with the camera
+ *  
+ *  Controls a %solenoid by setting an output pin high, which is connected to
+ *  a transistor, allowing current to flow through the %solenoid
+ */
 class solenoid
   {
   protected:
-    // Pointer to serial port
-    base_text_serial* ptr_to_serial;
-    //still not needed variable
-    bool solenoid_on;
-    //Constant for time in milliseconds to take a pic
-    int time_for_pic;
-    //Constant for time in milliseconds to hit the focus of the camera (that the camera not turns off after 5min)
-    int time_for_focus;
+    
+    base_text_serial* ptr_to_serial; //!< Pointer to serial port
+
+    int time_for_pic; //!< Time in milliseconds to take a picture
+    int time_for_focus; //!< Time in milliseconds to hit the focus of the camera, preventing it from shutting down
+    
    public:
     // for debugging use a serial output
     solenoid (base_text_serial*);

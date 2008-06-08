@@ -16,15 +16,16 @@
 
 
 //-------------------------------------------------------------------------------------
-/** This class should run the A/D converter on an AVR processor. It should have some
- *  better comments. Handing in a Doxygen file with only this would not look good. 
+/** \brief Implements A/D converters
+ * 
+ *  This class runs the analog to digital converter on an AVR processer
  */
 
 class adc_driver
     {
     protected:
         // The ADC class needs a pointer to the serial port used to say hello
-        base_text_serial* ptr_to_serial;
+        base_text_serial* ptr_to_serial; ///< Pointer to a serial port
 
     public:
         // The constructor just says hello at the moment, using the serial port which

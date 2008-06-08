@@ -22,13 +22,15 @@
 
 
 //-------------------------------------------------------------------------------------
-/** Sensor driver implements getReading and getDistance methods
+/** \brief Provides methods for reading sensor data
+ * 
+ *  This class provides methods for reading data from our Sharp IR rangefinder,
+ *  converting that data into useful distance information, and comparing it against
+ *  a set of initial readings to see if anything in the surrounding area has changed
  */
 
 class sharp_sensor_driver : public adc_driver {
 	protected:
-		int sensor_value;		// Returns raw sensor data
-		int sensor_distance;		// Returns distance in centimeters
 	public:
 		sharp_sensor_driver(base_text_serial*);
 		int get_reading(void);			// Get analog reading

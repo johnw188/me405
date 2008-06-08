@@ -30,19 +30,19 @@
 #include "triangle.h"
 
 //-------------------------------------------------------------------------------------
-/** This class contains a task which moves a motorized lever back and forth. 
+/** \brief Class which implements a finite state machine to control the main logical flow of our application 
  */
 
 class task_logic : public stl_task
     {
     protected:
-        task_solenoid* ptr_task_solenoid;                 // Pointer to solenoid object
-	task_sensor* ptr_task_sensor;
-	task_motor* ptr_task_motor;
-	triangle* ptr_triangle;
-	task_rad* ptr_task_radio;
-        base_text_serial* ptr_serial;         	// Pointer to a serial port for messages
-	bool take_picture_flag;
+        task_solenoid* ptr_task_solenoid; //!< Pointer to task_solenoid
+		task_sensor* ptr_task_sensor; //!< Pointer to task_sensor
+		task_motor* ptr_task_motor; //!< Pointer to task_motor
+		triangle* ptr_triangle; //!< Pointer to triangle
+		task_rad* ptr_task_radio; //!< Pointer to task_rad
+        base_text_serial* ptr_serial; //!< Pointer to a serial port for messages
+		bool take_picture_flag; //!< Flag set when a picture is desired
 
     public:
         // The constructor creates a new task object

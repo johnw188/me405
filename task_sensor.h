@@ -27,20 +27,23 @@
 #include "task_motor.h"
 
 //-------------------------------------------------------------------------------------
-/** This class contains a task which moves a motorized lever back and forth. 
+/** \brief Task dealing with sensor readings
+ *  
+ *  This task is in charge of taking sensor readings and checking them against the
+ *  initial readings to determine if someone moved in the sensor's field of view
  */
 
 class task_sensor : public stl_task
     {
     protected:
-        sharp_sensor_driver* ptr_sharp_sensor_driver;                 // Pointer to solenoid object
-	task_motor* ptr_task_motor;
-        base_text_serial* ptr_serial;         	// Pointer to a serial port for messages
-	bool take_reading_flag;
-	bool reading_taken_flag;
-	bool take_initial_reading_flag;
-	bool change_detected_flag;
-	int latest_reading;     //Variable to hold the latest value recorded from the sensor
+        sharp_sensor_driver* ptr_sharp_sensor_driver;    //!< Pointer to a sharp_sensor_driver object
+		task_motor* ptr_task_motor; //!< Pointer to a task_motor object
+        base_text_serial* ptr_serial; //!< Pointer to a serial port for messages
+		bool take_reading_flag; //!< Flag set when a reading is required
+		bool reading_taken_flag; //!< Flag set when that reading is taken
+		bool take_initial_reading_flag; //!< Flag set when an initialization reading is required
+		bool change_detected_flag; //!< Flag set if a change was detected
+		int latest_reading;     //!< Variable to hold the latest value recorded from the sensor
     public:
         // The constructor creates a sharp_sensor_driver task object
         task_sensor(time_stamp*, sharp_sensor_driver*, task_motor*, base_text_serial*);

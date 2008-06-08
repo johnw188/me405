@@ -7,6 +7,10 @@
  *    \li  6-01-08  BC&MR  created constructor and methods
  *    \li  6-01-08  BC&MR  tested and finished methods
  *    \li  6-04-08  BC     debuged methods
+ *
+ *    \author Markus Richter
+ *    \author Justin Bagley
+ *
  *  License:
  *    This file released under the Lesser GNU Public License. The program is intended
  *    for educational use only, but its use is not restricted thereto. 
@@ -15,8 +19,8 @@
 
 #include "triangle.h"    // Include header for this class
 
-// First Column: angle, Second column: invers tangent
-int traing_tbl[45][2]  ={{88,2863},
+/** First Column: angle, Second column: inverse tangent of that angle */
+int traing_tbl[45][2]  = {{88,2863},
 			 {86,1430},
 			 {84,951},
 			 {82,711},
@@ -62,8 +66,9 @@ int traing_tbl[45][2]  ={{88,2863},
 			 {2,3},
 			 {0,0}};
 
-// First Column: angle, Second column: unit x distance scaled to 1000,  Third column unit y
-// distance scaled to 1000.
+/** First Column: angle, Second column: unit x distance scaled to 1000,  Third column: unit y
+ * distance scaled to 1000.
+ */
 
 int unit_tbl[49][3]   ={{0,1000,0},
 			{1,999,17},
@@ -116,7 +121,9 @@ int unit_tbl[49][3]   ={{0,1000,0},
 			{88,35,999}};
 
 //-------------------------------------------------------------------------------------
-/** This constructor sets up the triangulation. The constructor is passed the serial port 
+/** \brief Constructor to initialize object
+ *
+ *  This constructor sets up the triangulation. The constructor is passed the serial port 
  *  to the serial for debugging purposes the camera position
  *  
  *  @param p_serial_port A pointer to the serial port which writes debugging info.
@@ -129,7 +136,10 @@ triangle::triangle (base_text_serial* p_serial_port){
 
     }
 
-/** This sets the position of the camera into member data
+/** \brief Sets the initial position of the camera into member data
+ *  \param pos_x X position of camera
+ *  \param pos_y Y position of camera
+ *  \param init_a Initial angle of camera, in degrees
  */
 
 void triangle::set_position(int pos_x, int pos_y, int init_a){
@@ -140,8 +150,9 @@ cam_init_angle = init_a;
 
 }
 
-/** With this you can get the local position of the cam entered in the set_position method
-  * set the bool variable true to get the x-value, false for y
+/** \brief Returns coordinates of initial camera position
+  * \param vector True to get the x coordinate, false for y coordinate
+  * \return Desired coordinate of camera position
  */
 
 int triangle::get_position(bool vector){
@@ -154,10 +165,13 @@ else
 }
 
 //-------------------------------------------------------------------------------------
-/** This method takes a global position and converts the information to an angle from
+/** \brief Converts a coordinate target into an angle for the camera to turn to.
+ * 
+ *  This method takes a global position and converts the information to an angle from
  *  the camera's zero angle.
- *  @param x_global
- *  @param y_global
+ *  @param x_global X coordinate of target position
+ *  @param y_global Y coordinate of target position
+ *  \return Angle for camera to turn to, in order to point at given target coordinate
  */
 
 int triangle::global_to_angle (signed int x_global, signed int y_global)
@@ -214,12 +228,13 @@ int triangle::global_to_angle (signed int x_global, signed int y_global)
 
 //-------------------------------------------------------------------------------------
 
- /**  @param point_angle desired angle in degree
- ** This method takes a local angle and distance and converts the information to a global
+ /**
+ * \brief Takes a local angle and distance and converts the information to a global
  *  x (if vector is true) and y (if vector is false)
- *  @param vector
- *  @param loc_angle
- *  @param distance
+ *  @param vector Controls which component of the overall result will be calculated
+ *  @param loc_angle Angle the camera is pointing at
+ *  @param distance Distance to whatever the camera wants to send coordinates of
+ *  \return Desired global coordinate
  */
 
 int triangle::angle_to_global (bool vector, signed int loc_angle, signed int distance)

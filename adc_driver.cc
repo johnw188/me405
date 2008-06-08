@@ -20,33 +20,33 @@
 #include "adc_driver.h"                        // Include header for the A/D class
 
 
-#define ADC_RETRIES      10000              // Retries before giving up on conversion
+#define ADC_RETRIES      10000              //!< Retries before giving up on conversion
 
-/** These defines make it easier for us to manipulate the bits of our registers, by
- * creating two new commands - cbi for clear bit i and sbi for set bit i
- */
-
-#define BV(bit) (1<<(bit)) // Byte Value => sets bit'th bit to 1
-#define cbi(reg, bit) reg &= ~(BV(bit)) // Clears the corresponding bit in register reg
-#define sbi(reg, bit) reg |= (BV(bit))  // Sets the corresponding bit in register reg
+#define BV(bit) (1<<(bit)) //!< Byte Value => sets bit'th bit to 1
+#define cbi(reg, bit) reg &= ~(BV(bit)) //!< Clears the corresponding bit in register reg
+#define sbi(reg, bit) reg |= (BV(bit))  //!< Sets the corresponding bit in register reg
 
 
 //-------------------------------------------------------------------------------------
 /** This union holds two bytes, making them accessable as both a two char array and
  *  a single 16 bit word
+ *  \brief Union to hold the result of an A/D conversion
  */
 
 typedef union ADC_result
 {
-	int word;                               // The whole 16-bit number
-	char bytes[2];                          // The bytes in the number
+	int word;                               //!< The whole 16-bit number
+	char bytes[2];                          //!< The bytes in the number
 };
 
 
 //-------------------------------------------------------------------------------------
-/** This constructor sets up an A/D converter. It does so by storing a pointer to
+/** \brief Constructor 
+ *
+ *  This constructor sets up an A/D converter. It does so by storing a pointer to
  *  the serial port that the user wishes to view data on in ptr_to_serial, and then
- *  
+ *
+ *  @param p_serial_port Pointer to a serial port object for debugging
  */
 
 adc_driver::adc_driver (base_text_serial* p_serial_port)
@@ -70,6 +70,8 @@ adc_driver::adc_driver (base_text_serial* p_serial_port)
 //-------------------------------------------------------------------------------------
 /** This method takes one A/D reading from the given channel, and returns it as a
  *  16 bit value.
+ *
+ *  \brief Takes an A/D reading
  *  \param  channel The A/D channel which is being read must be from 0 to 7
  *  \return The result of the A/D conversion, or 0xFFFF if there was a timeout
  */
@@ -89,12 +91,14 @@ unsigned int adc_driver::read_once (unsigned char channel)
 }
 
 //--------------------------------------------------------------------------------------
-/** This overloaded operator allows information about or from an A/D converter to be 
+/** This operator allows information about or from an A/D converter to be 
  *  printed on a serial device such as a regular serial port or radio module in text 
  *  mode, which is extremely convenient for debugging. It outputs a list of all available
  *  channels along with their respective voltages, in millivolts.
+ *  
+ *  \brief Overloaded insertion operator
  *  @param serial A reference to the serial-type object to which to print
- *  @param stamp A reference to the time stamp to be displayed
+ *  @param my_adc A reference to the adc_driver object to display data for
  */
 
 base_text_serial& operator<< (base_text_serial& serial, adc_driver& my_adc)

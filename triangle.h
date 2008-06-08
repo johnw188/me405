@@ -19,7 +19,9 @@
 #include "rs232.h"      // Include header for serial port class
 
 //-------------------------------------------------------------------------------------
-/** This class converts local coords and angle to global x-y-coords and the other way with the help of lookuptables.
+/** \brief Converts local coordinates and angles to global coordinates, and vice versa.
+ *
+ *  This class converts local coords and angle to global x-y-coords and the other way with the help of lookuptables.
  *  Just pass global_to_angle the x-y- coords and receive an angle in degrees. Or:
  *  Pass angle_to_global a boolean variable (true for receiving the x-coord and false for receiving the y-coord) and 
  *  an angle in degrees and a distance (e.g. in tiles)
@@ -28,11 +30,10 @@
 class triangle
     {
     protected:
-        // The triangulation class needs a pointer to the serial port used to say hello
-        base_text_serial* ptr_to_serial;
-	int cam_pos_x;			// x-value of global position of camera standard
-	int cam_pos_y;			// y-value of global position of camera standard
-	int cam_init_angle;		// the angle the camera is facing at initialization
+        base_text_serial* ptr_to_serial; //!< Debug serial port
+		int cam_pos_x;			//!< x-value of global position of camera standard
+		int cam_pos_y;			//!< y-value of global position of camera standard
+		int cam_init_angle;		//!< the angle the camera is facing at initialization
 
     public:
         // This constructor sets up the triangulation. The constructor is passed the serial port

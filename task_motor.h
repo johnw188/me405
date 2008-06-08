@@ -24,17 +24,17 @@
 #include "controls.h"
 
 //-------------------------------------------------------------------------------------
-/** This class contains a task which moves a motorized lever back and forth. 
+/** \brief Defines a state machine to control the position of the motor
  */
 
 class task_motor : public stl_task
     {
     protected:
-        base_text_serial* ptr_serial;         	// Pointer to a serial port for messages
-	controls* ptr_controls;
-	int target_position;
-	int previous_position;
-	int current_position;
+        base_text_serial* ptr_serial; //!< Pointer to a serial port for messages
+		controls* ptr_controls; //!< Pointer to a controls object
+		int target_position; //!< Holds target position
+		int previous_position; //!< Holds the position the system was last in
+		int current_position; //!< Holds the position the system is in now
     public:
         // The constructor creates a sharp_sensor_driver task object
         task_motor(time_stamp*, base_text_serial*, controls*);
