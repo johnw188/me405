@@ -31,6 +31,7 @@
 /** This union holds two bytes, making them accessable as both a two char array and
  *  a single 16 bit word
  *  \brief Union to hold the result of an A/D conversion
+ * lol comments	
  */
 
 typedef union ADC_result
