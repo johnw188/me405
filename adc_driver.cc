@@ -99,7 +99,7 @@ unsigned int adc_driver::read_once (unsigned char channel)
  *  \brief Overloaded insertion operator
  *  @param serial A reference to the serial-type object to which to print
  *  @param my_adc A reference to the adc_driver object to display data for
- * test
+ *  test
  */
 
 base_text_serial& operator<< (base_text_serial& serial, adc_driver& my_adc)
