@@ -31,7 +31,6 @@
 /** This union holds two bytes, making them accessable as both a two char array and
  *  a single 16 bit word
  *  \brief Union to hold the result of an A/D conversion
- * lol comments	
  */
 
 typedef union ADC_result
@@ -100,6 +99,7 @@ unsigned int adc_driver::read_once (unsigned char channel)
  *  \brief Overloaded insertion operator
  *  @param serial A reference to the serial-type object to which to print
  *  @param my_adc A reference to the adc_driver object to display data for
+ *  test
  */
 
 base_text_serial& operator<< (base_text_serial& serial, adc_driver& my_adc)
